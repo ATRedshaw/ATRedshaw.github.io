@@ -153,10 +153,10 @@ if __name__ == '__main__':
     else:
       draw += 1
 
-# Print the results.
-print('Team A Wins:', a_win)
-print('Team B Wins:', b_win)
-print('Draws:', draw)
+  # Print the results.
+  print('Team A Wins:', a_win)
+  print('Team B Wins:', b_win)
+  print('Draws:', draw)
 ```
 #### Results
 For 100,000 simulations, an example code run produces the following results:
