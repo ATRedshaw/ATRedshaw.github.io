@@ -64,7 +64,7 @@ for shot in team_b_shots:
 print(str(home_goals) + ' - ' + str(away_goals))
 ```
 #### Results
-Running this code fragment provides a random result, looking like the following:
+A shot is simulated to be a goal if the random number generated for the shot is less than or equal to the shot xG. This ensures the probability of generating the goal remains consistent with the xG value. A random run for this code fragment produced the following:
 
 $$
 \begin{array}{|c|c|c|c|}
