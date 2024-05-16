@@ -1,5 +1,5 @@
 ---
-title: "The xPts Don't Lie: Why the xG Naysayers Need to Open their Arms to Modern Model Metrics"
+title: "The xPts Don't Lie: Why Football's xG Naysayers Need to Open their Arms to Modern Model Metrics"
 date: 2024-05-16 15:00:00 BST
 categories: [Football Analytics]
 tags: [xG (expected goals), machine learning, data, analytics, statistics, football]
