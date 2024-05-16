@@ -189,7 +189,7 @@ $$
 
 Despite Team A taking more shots, the overall higher quality of shots taken by Team B is likely to yield more points in the average game featuring these shots. 
 
-It's all well and good being able to generate these values, but given the resistance of many football fans to using xG in the first place, it is key to pinpoint the underlying correlations. 
+It's all well and good being able to generate these values, but given the resistance of many football fans to using xG in the first place, it is key to pinpoint the wider correlations. 
 
 ## The Overarching Correlations
 In order to test this approach, real-game football data was simulated using a custom xG model on **3 seasons worth of data** (16-17, 18-19 and 21-22). This was **done for each of the 'big 5 European Leagues'**, i.e. the Premier League, Serie A, Ligue 1, La Liga and Bundesliga. This ultimately provided **seasonal data for $\approx{300}$ teams**. After simulating all of the shots in all of the matches for theses seasons, comparisons could then be drawn between a team's actual points and expected points. This could also be done in relation to their actual league finishing position vs their finishing position based on an expected points league table. The overall results were damning.
