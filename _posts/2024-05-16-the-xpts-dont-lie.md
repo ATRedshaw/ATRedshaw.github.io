@@ -86,7 +86,7 @@ $$
 \end{array}
 $$
 
-This gives an overall result of 1-1, and so in this instance, we would expect both teams to earn a single point. But what if we simulate this many times over, generating new random numbers each time. Repetition of this process should reduce the high levels of variance seen in a single simulation, therein allowing for the calculation of an expected points (xPts value). The above code can be minorly adapted in order to accomplish this:
+This gives an overall result of 1-1, and so in this instance, we would expect both teams to earn a single point. But what if we simulate this many times over, generating new random numbers each time? Repetition of this process should reduce the high levels of variance seen in a single simulation, therein allowing for the calculation of an expected points (xPts value). The above code can be minorly adapted in order to accomplish this:
 
 ### Repeated Match Simulation
 #### Code
@@ -100,6 +100,10 @@ def simulate_game(team_a_shots, team_b_shots):
   Args: 
     - team_a_shots (list): List of xG values for shots by Team A
     - team_b_shots (list): List of xG values for shots by Team B
+
+  Return
+    - home_goals (int): Goals scored by Team A for the simulation
+    - away_goals (int): Goals scored by Team B for the simulation
   """
   # Simulate the home shots (Team A)
   home_goals = 0
@@ -189,14 +193,14 @@ $$
 
 Despite Team A taking more shots, the overall higher quality of shots taken by Team B is likely to yield more points in the average game featuring these shots. 
 
-It's all well and good being able to generate these values, but given the resistance of many football fans to using xG in the first place, it is key to pinpoint the wider correlations. 
+Whilst it is all well and good being able to generate these values, the resistance of many football fans to using xG in the first place necessitates a pinpointed understanding of the wider correlations and implications.
 
 ## The Overarching Correlations
 In order to test this approach, real-game football data was simulated using a custom xG model on **3 seasons worth of data** (16-17, 18-19 and 21-22). This was **done for each of the 'big 5 European Leagues'**, i.e. the Premier League, Serie A, Ligue 1, La Liga and Bundesliga. This ultimately provided **seasonal data for $\approx{300}$ teams**. After simulating all of the shots in all of the matches for theses seasons, comparisons could then be drawn between a team's actual points and expected points. This could also be done in relation to their actual league finishing position vs their finishing position based on an expected points league table. The overall results were damning.
 
-The average (absolute) deviation of a teams actual points value from their xPts value was a **mere 6.95 points across an entire season**, equal to **approximately 0.18 - 0.2 xPts per game** (depending on the size of the league). This translated to an approximate (absolute) deviation between actual and expected finishing position of **2.44 positions**.
+The average (absolute) deviation of a teams actual points value from their xPts value was a **mere 6.95 points across an entire season**, equal to **approximately 0.18 - 0.2 xPts per game** (depending on the size of the league). This translated to an approximate (absolute) deviation between actual and expected finishing positions of **2.44 positions**.
 
-Pearson's Correlation Coefficient confirms the strength of these positive correlations, with a correlation of 0.88 between points and xPts, and 0.83 between finishing position and expected finishing position. Given both p-values tend incredibly close to 0 (and given a threshold of 0.05), the null hypothesis that xPts do not correlate with actual team performance when considering a season-long scope can be confidently rejected. 
+Pearson's Correlation Coefficient confirms the strength of these positive correlations, with a correlation of 0.88 between points and xPts, and 0.83 between finishing position and expected finishing position respectively. Given both p-values tend incredibly close to 0 (and given a threshold of 0.05), the null hypothesis that xPts do not correlate with actual team performance when considering a season-long scope can be confidently rejected. 
 
 ## Conclusions
 The long run performance of this style of expected points simulation is **hugely correlative**, and **massively statistically significant**. Given this is founded purely on the outputs of xG models, it is clear the benefits that can be reaped from these data-based approaches is monumental. Widespread adoption allows for a more nuanced representation of the game, supporting decision-making processes and enabling more precise quantifiable metrics. For these reasons it is clear that these probabilistic styles of machine learning models are here to stay in football. Embracing them now will only be beneficial in improving long-term performance in relation to any footballing context, from player scouting to Fantasy Football.
