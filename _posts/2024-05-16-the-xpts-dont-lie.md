@@ -28,7 +28,7 @@ Team A has 3 shots and Team B has 2 shots respectively. Now lets consider simula
 import random
 
 # Initialise the shots
-team_a_shots = [0.08, 0.03, 0.16]
+team_a_shots = [0.08, 0.32, 0.05]
 team_b_shots = [0.46, 0.28]
 
 # Simulate the home shots (Team A)
