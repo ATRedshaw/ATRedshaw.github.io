@@ -6,7 +6,6 @@ tags: [darts, data, analytics, statistics]
 math: true
 ---
 <!-- HTML TABLE CONTENT STARTS HERE -->
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,11 +17,13 @@ math: true
             margin: 0;
             padding: 20px;
         }
+
         .dropdown-container {
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
         }
+
         #daySelect {
             padding: 10px;
             font-size: 16px;
@@ -30,34 +31,59 @@ math: true
             border-radius: 5px;
             background-color: #f9f9f9;
             width: 250px;
+            color: #333; /* added color property */
         }
+
         #daySelect:hover {
             background-color: #f2f2f2;
             cursor: pointer;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
+
         th, td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: center;
         }
+
         th {
             background-color: #f2f2f2;
             font-weight: bold;
+            color: #333; /* added color property */
         }
+
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
         .highlight-green {
             background-color: #C8E6C9;
             color: black;
         }
+
         .highlight-red {
             background-color: #FFCDD2;
             color: black;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark-mode #daySelect {
+            background-color: #444;
+            color: #fff;
+        }
+
+        body.dark-mode th {
+            background-color: #444;
+            color: #fff;
         }
     </style>
 </head>
