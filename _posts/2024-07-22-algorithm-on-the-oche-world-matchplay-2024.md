@@ -1,123 +1,15 @@
 ---
-title: "Algorithm on the Oche: World Matchplay 2024"
+title: "Algorithm on the Oche: Darts World Matchplay 2024"
 date: 2024-07-22 17:30:00 BST
 categories: [Darts Analytics]
-tags: [darts, data, analytics, statistics]
+tags: [darts, data, analytics, statistics, modelling, algorithms, machine learning]
 math: true
 ---
-<!-- HTML TABLE CONTENT STARTS HERE -->
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player Stats</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
 
-        .dropdown-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
+## Interactive Tournament Probabilities Table
 
-        #daySelect {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            width: 250px;
-            color: #333; /* added color property */
-        }
-
-        #daySelect:hover {
-            background-color: #f2f2f2;
-            cursor: pointer;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-            font-weight: bold;
-            color: #333; /* added color property */
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .highlight-green {
-            background-color: #C8E6C9;
-            color: black;
-        }
-
-        .highlight-red {
-            background-color: #FFCDD2;
-            color: black;
-        }
-
-        /* Dark mode styles */
-        body.dark-mode {
-            background-color: #333;
-            color: #fff;
-        }
-
-        body.dark-mode #daySelect {
-            background-color: #444;
-            color: #fff;
-        }
-
-        body.dark-mode th {
-            background-color: #444;
-            color: #fff;
-        }
-    </style>
-</head>
-<body>
-    <div class="dropdown-container">
-        <select id="daySelect" onchange="updateTable()">
-<option value="Start of Day 1 (2024-07-13)">Start of Day 1 (2024-07-13)</option>
-<option value="Start of Day 2 (2024-07-14)">Start of Day 2 (2024-07-14)</option>
-<option value="Start of Day 3 (2024-07-15)">Start of Day 3 (2024-07-15)</option>
-<option value="Start of Day 4 (2024-07-16)">Start of Day 4 (2024-07-16)</option>
-<option value="Start of Day 5 (2024-07-17)">Start of Day 5 (2024-07-17)</option>
-<option value="Start of Day 6 (2024-07-18)">Start of Day 6 (2024-07-18)</option>
-<option value="Start of Day 7 (2024-07-19)">Start of Day 7 (2024-07-19)</option>
-<option value="Start of Day 8 (2024-07-20)">Start of Day 8 (2024-07-20)</option>
-<option value="Start of Day 9 (2024-07-21)">Start of Day 9 (2024-07-21)</option>
-
-        </select>
-    </div>
-    <table id="statsTable">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Last 32</th>
-                <th>Last 16</th>
-                <th>Quarter Final</th>
-                <th>Semi Final</th>
-                <th>Final</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <script>
-        const data = {
+<!-- HTML PROBABILITY TABLE CONTENT STARTS HERE -->
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Player Stats</title><style>body{font-family:Arial,sans-serif;margin:0;padding:20px}.dropdown-container{display:flex;justify-content:center;margin-bottom:20px}#daySelect{padding:10px;font-size:16px;border:1px solid #ddd;border-radius:5px;background-color:#f9f9f9;width:250px;color:#333}#daySelect:hover{background-color:#f2f2f2;cursor:pointer}table{width:100%;border-collapse:collapse}td,th{border:1px solid #ddd;padding:10px;text-align:center}th{background-color:#f2f2f2;font-weight:700;color:#333}tr:nth-child(even){background-color:#f9f9f9}.highlight-green{background-color:#c8e6c9;color:#000}.highlight-red{background-color:#ffcdd2;color:#000}body.dark-mode{background-color:#333;color:#fff}body.dark-mode #daySelect{background-color:#444;color:#fff}body.dark-mode th{background-color:#444;color:#fff}</style></head><body><div class="dropdown-container"><select id="daySelect" onchange="updateTable()"><option value="Start of Day 1 (2024-07-13)">Start of Day 1 (2024-07-13)</option><option value="Start of Day 2 (2024-07-14)">Start of Day 2 (2024-07-14)</option><option value="Start of Day 3 (2024-07-15)">Start of Day 3 (2024-07-15)</option><option value="Start of Day 4 (2024-07-16)">Start of Day 4 (2024-07-16)</option><option value="Start of Day 5 (2024-07-17)">Start of Day 5 (2024-07-17)</option><option value="Start of Day 6 (2024-07-18)">Start of Day 6 (2024-07-18)</option><option value="Start of Day 7 (2024-07-19)">Start of Day 7 (2024-07-19)</option><option value="Start of Day 8 (2024-07-20)">Start of Day 8 (2024-07-20)</option><option value="Start of Day 9 (2024-07-21)">Start of Day 9 (2024-07-21)</option></select></div><table id="statsTable"><thead><tr><th>Name</th><th>Last 32</th><th>Last 16</th><th>Quarter Final</th><th>Semi Final</th><th>Final</th></tr></thead><tbody></tbody></table><script>const data = {
 'Start of Day 1 (2024-07-13)': [{'Name': 'LUKE LITTLER', 'Last 32': '65.7', 'Last 16': '53.8', 'Quarter Final': '41.1', 'Semi Final': '26.1', 'Final': '16.8'}, {'Name': 'LUKE HUMPHRIES', 'Last 32': '83.1', 'Last 16': '54.1', 'Quarter Final': '32.4', 'Semi Final': '20.5', 'Final': '11.3'}, {'Name': 'ROB CROSS', 'Last 32': '68.1', 'Last 16': '45.3', 'Quarter Final': '29.1', 'Semi Final': '17.8', 'Final': '11.0'}, {'Name': 'JONNY CLAYTON', 'Last 32': '65.9', 'Last 16': '44.6', 'Quarter Final': '25.6', 'Semi Final': '16.0', 'Final': '8.7'}, {'Name': 'ROSS SMITH', 'Last 32': '64.1', 'Last 16': '39.9', 'Quarter Final': '26.6', 'Semi Final': '14.5', 'Final': '7.6'}, {'Name': 'GARY ANDERSON', 'Last 32': '51.1', 'Last 16': '33.1', 'Quarter Final': '16.8', 'Semi Final': '8.8', 'Final': '4.7'}, {'Name': 'MICHAEL SMITH', 'Last 32': '48.9', 'Last 16': '31.2', 'Quarter Final': '15.5', 'Semi Final': '8.0', 'Final': '4.1'}, {'Name': 'DAVE CHISNALL', 'Last 32': '65.7', 'Last 16': '43.7', 'Quarter Final': '18.2', 'Semi Final': '8.0', 'Final': '3.6'}, {'Name': 'MICHAEL VAN GERWEN', 'Last 32': '34.3', 'Last 16': '24.1', 'Quarter Final': '15.2', 'Semi Final': '7.3', 'Final': '3.6'}, {'Name': 'GERWYN PRICE', 'Last 32': '57.2', 'Last 16': '26.1', 'Quarter Final': '15.1', 'Semi Final': '6.9', 'Final': '3.0'}, {'Name': 'DANNY NOPPERT', 'Last 32': '59.2', 'Last 16': '34.1', 'Quarter Final': '15.6', 'Semi Final': '6.7', 'Final': '2.7'}, {'Name': 'DAMON HETA', 'Last 32': '51.9', 'Last 16': '20.8', 'Quarter Final': '10.1', 'Semi Final': '4.7', 'Final': '2.2'}, {'Name': 'MARTIN SCHINDLER', 'Last 32': '59.2', 'Last 16': '24.4', 'Quarter Final': '10.5', 'Semi Final': '5.0', 'Final': '2.0'}, {'Name': 'RYAN JOYCE', 'Last 32': '51.6', 'Last 16': '21.6', 'Quarter Final': '9.8', 'Semi Final': '4.8', 'Final': '2.0'}, {'Name': 'NATHAN ASPINALL', 'Last 32': '58.2', 'Last 16': '28.8', 'Quarter Final': '12.0', 'Semi Final': '4.6', 'Final': '1.7'}, {'Name': 'RYAN SEARLE', 'Last 32': '48.1', 'Last 16': '18.4', 'Quarter Final': '8.6', 'Semi Final': '3.8', 'Final': '1.7'}, {'Name': 'STEPHEN BUNTING', 'Last 32': '48.4', 'Last 16': '19.6', 'Quarter Final': '8.6', 'Semi Final': '4.1', 'Final': '1.6'}, {'Name': 'JOSH ROCK', 'Last 32': '35.9', 'Last 16': '17.3', 'Quarter Final': '9.2', 'Semi Final': '3.7', 'Final': '1.5'}, {'Name': 'GIAN VAN VEEN', 'Last 32': '31.9', 'Last 16': '15.4', 'Quarter Final': '7.1', 'Semi Final': '3.1', 'Final': '1.4'}, {'Name': 'RAYMOND VAN BARNEVELD', 'Last 32': '34.1', 'Last 16': '17.7', 'Quarter Final': '7.3', 'Semi Final': '3.4', 'Final': '1.3'}, {'Name': 'DARYL GURNEY', 'Last 32': '42.8', 'Last 16': '16.7', 'Quarter Final': '8.5', 'Semi Final': '3.3', 'Final': '1.2'}, {'Name': 'CHRIS DOBEY', 'Last 32': '52.3', 'Last 16': '19.2', 'Quarter Final': '7.1', 'Semi Final': '2.8', 'Final': '1.1'}, {'Name': 'BRENDAN DOLAN', 'Last 32': '67.4', 'Last 16': '17.4', 'Quarter Final': '8.2', 'Semi Final': '2.7', 'Final': '0.9'}, {'Name': 'JAMES WADE', 'Last 32': '40.8', 'Last 16': '19.7', 'Quarter Final': '7.3', 'Semi Final': '2.5', 'Final': '0.8'}, {'Name': 'RITCHIE EDHOUSE', 'Last 32': '47.7', 'Last 16': '16.5', 'Quarter Final': '5.8', 'Semi Final': '2.2', 'Final': '0.8'}, {'Name': 'LUKE WOODHOUSE', 'Last 32': '41.8', 'Last 16': '17.3', 'Quarter Final': '5.9', 'Semi Final': '1.9', 'Final': '0.6'}, {'Name': 'DIMITRI VAN DEN BERGH', 'Last 32': '40.8', 'Last 16': '13.2', 'Quarter Final': '4.6', 'Semi Final': '1.8', 'Final': '0.6'}, {'Name': 'ANDREW GILDING', 'Last 32': '52.4', 'Last 16': '20.9', 'Quarter Final': '6.0', 'Semi Final': '1.8', 'Final': '0.5'}, {'Name': 'KRZYSZTOF RATAJSKI', 'Last 32': '34.3', 'Last 16': '17.3', 'Quarter Final': '4.9', 'Semi Final': '1.4', 'Final': '0.4'}, {'Name': 'PETER WRIGHT', 'Last 32': '47.6', 'Last 16': '18.1', 'Quarter Final': '4.8', 'Semi Final': '1.3', 'Final': '0.4'}, {'Name': 'JOE CULLEN', 'Last 32': '32.6', 'Last 16': '4.7', 'Quarter Final': '1.4', 'Semi Final': '0.3', 'Final': '0.1'}, {'Name': 'RICARDO PIETRECZKO', 'Last 32': '16.9', 'Last 16': '4.7', 'Quarter Final': '1.1', 'Semi Final': '0.3', 'Final': '0.1'}],
 'Start of Day 2 (2024-07-14)': [{'Name': 'LUKE LITTLER', 'Last 32': '65.7', 'Last 16': '53.7', 'Quarter Final': '40.9', 'Semi Final': '26.1', 'Final': '16.2'}, {'Name': 'JONNY CLAYTON', 'Last 32': '100.0', 'Last 16': '68.9', 'Quarter Final': '38.4', 'Semi Final': '24.0', 'Final': '13.4'}, {'Name': 'LUKE HUMPHRIES', 'Last 32': '100.0', 'Last 16': '65.7', 'Quarter Final': '36.3', 'Semi Final': '22.7', 'Final': '12.6'}, {'Name': 'ROB CROSS', 'Last 32': '68.0', 'Last 16': '45.1', 'Quarter Final': '29.0', 'Semi Final': '17.7', 'Final': '10.6'}, {'Name': 'ROSS SMITH', 'Last 32': '64.2', 'Last 16': '36.9', 'Quarter Final': '23.7', 'Semi Final': '11.9', 'Final': '6.3'}, {'Name': 'GERWYN PRICE', 'Last 32': '100.0', 'Last 16': '47.5', 'Quarter Final': '27.4', 'Semi Final': '11.9', 'Final': '5.4'}, {'Name': 'GARY ANDERSON', 'Last 32': '51.1', 'Last 16': '33.1', 'Quarter Final': '16.8', 'Semi Final': '8.9', 'Final': '4.5'}, {'Name': 'MICHAEL SMITH', 'Last 32': '48.9', 'Last 16': '31.4', 'Quarter Final': '15.5', 'Semi Final': '8.0', 'Final': '3.9'}, {'Name': 'DAVE CHISNALL', 'Last 32': '65.9', 'Last 16': '43.8', 'Quarter Final': '18.4', 'Semi Final': '7.9', 'Final': '3.4'}, {'Name': 'MICHAEL VAN GERWEN', 'Last 32': '34.3', 'Last 16': '24.0', 'Quarter Final': '15.1', 'Semi Final': '7.2', 'Final': '3.4'}, {'Name': 'NATHAN ASPINALL', 'Last 32': '100.0', 'Last 16': '51.4', 'Quarter Final': '21.5', 'Semi Final': '8.0', 'Final': '3.1'}, {'Name': 'DANNY NOPPERT', 'Last 32': '59.5', 'Last 16': '31.2', 'Quarter Final': '13.5', 'Semi Final': '5.3', 'Final': '2.2'}, {'Name': 'DAMON HETA', 'Last 32': '51.9', 'Last 16': '20.9', 'Quarter Final': '10.1', 'Semi Final': '4.7', 'Final': '2.0'}, {'Name': 'RYAN SEARLE', 'Last 32': '48.1', 'Last 16': '18.6', 'Quarter Final': '8.7', 'Semi Final': '3.9', 'Final': '1.6'}, {'Name': 'MARTIN SCHINDLER', 'Last 32': '59.0', 'Last 16': '20.2', 'Quarter Final': '8.1', 'Semi Final': '3.8', 'Final': '1.5'}, {'Name': 'RYAN JOYCE', 'Last 32': '51.5', 'Last 16': '18.0', 'Quarter Final': '7.4', 'Semi Final': '3.5', 'Final': '1.4'}, {'Name': 'GIAN VAN VEEN', 'Last 32': '32.0', 'Last 16': '15.4', 'Quarter Final': '7.1', 'Semi Final': '3.1', 'Final': '1.3'}, {'Name': 'STEPHEN BUNTING', 'Last 32': '48.5', 'Last 16': '16.3', 'Quarter Final': '6.3', 'Semi Final': '2.9', 'Final': '1.1'}, {'Name': 'JOSH ROCK', 'Last 32': '35.8', 'Last 16': '15.5', 'Quarter Final': '7.8', 'Semi Final': '2.8', 'Final': '1.1'}, {'Name': 'CHRIS DOBEY', 'Last 32': '52.4', 'Last 16': '19.1', 'Quarter Final': '7.1', 'Semi Final': '2.8', 'Final': '1.0'}, {'Name': 'BRENDAN DOLAN', 'Last 32': '67.7', 'Last 16': '17.7', 'Quarter Final': '8.4', 'Semi Final': '2.7', 'Final': '0.9'}, {'Name': 'RITCHIE EDHOUSE', 'Last 32': '47.6', 'Last 16': '16.4', 'Quarter Final': '5.7', 'Semi Final': '2.2', 'Final': '0.7'}, {'Name': 'JAMES WADE', 'Last 32': '40.5', 'Last 16': '17.4', 'Quarter Final': '6.1', 'Semi Final': '1.8', 'Final': '0.6'}, {'Name': 'ANDREW GILDING', 'Last 32': '52.4', 'Last 16': '20.9', 'Quarter Final': '6.0', 'Semi Final': '1.8', 'Final': '0.5'}, {'Name': 'KRZYSZTOF RATAJSKI', 'Last 32': '34.1', 'Last 16': '17.4', 'Quarter Final': '5.0', 'Semi Final': '1.5', 'Final': '0.4'}, {'Name': 'PETER WRIGHT', 'Last 32': '47.6', 'Last 16': '17.9', 'Quarter Final': '4.9', 'Semi Final': '1.3', 'Final': '0.4'}, {'Name': 'DIMITRI VAN DEN BERGH', 'Last 32': '41.0', 'Last 16': '10.9', 'Quarter Final': '3.4', 'Semi Final': '1.3', 'Final': '0.4'}, {'Name': 'JOE CULLEN', 'Last 32': '32.3', 'Last 16': '4.7', 'Quarter Final': '1.4', 'Semi Final': '0.3', 'Final': '0.1'}, {'Name': 'RICARDO PIETRECZKO', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'RAYMOND VAN BARNEVELD', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'DARYL GURNEY', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'LUKE WOODHOUSE', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}],
 'Start of Day 3 (2024-07-15)': [{'Name': 'LUKE LITTLER', 'Last 32': '65.6', 'Last 16': '57.0', 'Quarter Final': '45.3', 'Semi Final': '27.5', 'Final': '16.9'}, {'Name': 'ROB CROSS', 'Last 32': '100.0', 'Last 16': '67.9', 'Quarter Final': '44.4', 'Semi Final': '27.7', 'Final': '16.4'}, {'Name': 'JONNY CLAYTON', 'Last 32': '100.0', 'Last 16': '71.5', 'Quarter Final': '39.5', 'Semi Final': '24.0', 'Final': '12.9'}, {'Name': 'LUKE HUMPHRIES', 'Last 32': '100.0', 'Last 16': '64.3', 'Quarter Final': '36.0', 'Semi Final': '21.7', 'Final': '11.6'}, {'Name': 'ROSS SMITH', 'Last 32': '100.0', 'Last 16': '59.0', 'Quarter Final': '39.7', 'Semi Final': '20.7', 'Final': '10.9'}, {'Name': 'GERWYN PRICE', 'Last 32': '100.0', 'Last 16': '41.0', 'Quarter Final': '24.1', 'Semi Final': '10.5', 'Final': '4.6'}, {'Name': 'GARY ANDERSON', 'Last 32': '51.2', 'Last 16': '33.2', 'Quarter Final': '15.0', 'Semi Final': '8.0', 'Final': '3.9'}, {'Name': 'MICHAEL VAN GERWEN', 'Last 32': '34.4', 'Last 16': '26.9', 'Quarter Final': '17.9', 'Semi Final': '8.0', 'Final': '3.6'}, {'Name': 'MICHAEL SMITH', 'Last 32': '48.8', 'Last 16': '31.2', 'Quarter Final': '13.8', 'Semi Final': '7.3', 'Final': '3.4'}, {'Name': 'NATHAN ASPINALL', 'Last 32': '100.0', 'Last 16': '54.2', 'Quarter Final': '20.5', 'Semi Final': '7.5', 'Final': '2.8'}, {'Name': 'STEPHEN BUNTING', 'Last 32': '100.0', 'Last 16': '35.7', 'Quarter Final': '15.0', 'Semi Final': '6.8', 'Final': '2.7'}, {'Name': 'JAMES WADE', 'Last 32': '100.0', 'Last 16': '45.8', 'Quarter Final': '15.7', 'Semi Final': '5.2', 'Final': '1.7'}, {'Name': 'DAMON HETA', 'Last 32': '51.8', 'Last 16': '16.9', 'Quarter Final': '8.3', 'Semi Final': '3.8', 'Final': '1.6'}, {'Name': 'KRZYSZTOF RATAJSKI', 'Last 32': '100.0', 'Last 16': '50.3', 'Quarter Final': '15.8', 'Semi Final': '4.6', 'Final': '1.4'}, {'Name': 'RYAN SEARLE', 'Last 32': '48.2', 'Last 16': '15.2', 'Quarter Final': '7.1', 'Semi Final': '3.3', 'Final': '1.3'}, {'Name': 'ANDREW GILDING', 'Last 32': '100.0', 'Last 16': '49.7', 'Quarter Final': '15.1', 'Semi Final': '4.4', 'Final': '1.2'}, {'Name': 'DIMITRI VAN DEN BERGH', 'Last 32': '100.0', 'Last 16': '28.5', 'Quarter Final': '9.5', 'Semi Final': '3.6', 'Final': '1.2'}, {'Name': 'CHRIS DOBEY', 'Last 32': '52.4', 'Last 16': '19.2', 'Quarter Final': '6.3', 'Semi Final': '2.5', 'Final': '0.9'}, {'Name': 'RITCHIE EDHOUSE', 'Last 32': '47.6', 'Last 16': '16.5', 'Quarter Final': '5.0', 'Semi Final': '1.9', 'Final': '0.6'}, {'Name': 'JOE CULLEN', 'Last 32': '100.0', 'Last 16': '16.1', 'Quarter Final': '5.9', 'Semi Final': '1.1', 'Final': '0.2'}, {'Name': 'RICARDO PIETRECZKO', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'RYAN JOYCE', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'RAYMOND VAN BARNEVELD', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'MARTIN SCHINDLER', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'DARYL GURNEY', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'JOSH ROCK', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'LUKE WOODHOUSE', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'DANNY NOPPERT', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'BRENDAN DOLAN', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'DAVE CHISNALL', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'PETER WRIGHT', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}, {'Name': 'GIAN VAN VEEN', 'Last 32': '0.0', 'Last 16': '0.0', 'Quarter Final': '0.0', 'Semi Final': '0.0', 'Final': '0.0'}],
@@ -154,9 +46,13 @@ math: true
             });
         }
 
-        // Initialize the table with the first day's data
-        updateTable();
-    </script>
-</body>
-</html>
-<!-- HTML TABLE CONTENT ENDS HERE -->
+        // Initialize the table with the first day's data. The first day is selected by default.
+        document.getElementById('daySelect').selectedIndex = 0;
+        updateTable();</script></body></html>
+<!-- HTML PROBABILITY TABLE CONTENT ENDS HERE -->
+
+
+## Results
+<!-- HTML RESULTS TABLE CONTENT STARTS HERE -->
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head><body><div class="container mt-5"><div class="accordion" id="matchplayAccordion"><div class="accordion-item"><h3 class="accordion-header" id="heading-2024-07-13"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2024-07-13" aria-expanded="false" aria-controls="collapse-2024-07-13" data-bs-parent="#matchplayAccordion">2024-07-13 (Last 32)</button></h3><div id="collapse-2024-07-13" class="accordion-collapse collapse" aria-labelledby="heading-2024-07-13"><div class="accordion-body"><table class="table table-striped"><thead><tr><th>Player</th><th>Win Probability</th><th>Score</th><th>Win Probability</th><th>Player</th></tr></thead><tbody><tr><td>Gerwyn Price</td><td>57.2%</td><td>10-4</td><td>42.8%</td><td>Daryl Gurney</td></tr><tr><td>Jonny Clayton</td><td>65.9%</td><td>10-7</td><td>34.1%</td><td>Raymond van Barneveld</td></tr><tr><td>Luke Humphries</td><td>83.1%</td><td>10-4</td><td>16.9%</td><td>Ricardo Pietreczko</td></tr><tr><td>Nathan Aspinall</td><td>58.2%</td><td>10-8</td><td>41.8%</td><td>Luke Woodhouse</td></tr></tbody></table></div></div></div><div class="accordion-item"><h3 class="accordion-header" id="heading-2024-07-14"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2024-07-14" aria-expanded="false" aria-controls="collapse-2024-07-14" data-bs-parent="#matchplayAccordion">2024-07-14 (Last 32)</button></h3><div id="collapse-2024-07-14" class="accordion-collapse collapse" aria-labelledby="heading-2024-07-14"><div class="accordion-body"><table class="table table-striped"><thead><tr><th>Player</th><th>Win Probability</th><th>Score</th><th>Win Probability</th><th>Player</th></tr></thead><tbody><tr><td>Ross Smith</td><td>64.2%</td><td>10-4</td><td>35.8%</td><td>Josh Rock</td></tr><tr><td>Danny Noppert</td><td>59.5%</td><td>5-10</td><td>40.5%</td><td>James Wade</td></tr><tr><td>D. Van den Bergh</td><td>41.0%</td><td>10-6</td><td>59.0%</td><td>Martin Schindler</td></tr><tr><td>Stephen Bunting</td><td>48.5%</td><td>12-10</td><td>51.5%</td><td>Ryan Joyce</td></tr><tr><td>Rob Cross</td><td>68.0%</td><td>13-12</td><td>32.0%</td><td>Gian van Veen</td></tr><tr><td>Joe Cullen</td><td>32.3%</td><td>10-4</td><td>67.7%</td><td>Brendan Dolan</td></tr><tr><td>Peter Wright</td><td>47.6%</td><td>5-10</td><td>52.4%</td><td>Andrew Gilding</td></tr><tr><td>Dave Chisnall</td><td>65.9%</td><td>2-10</td><td>34.1%</td><td>Krzysztof Ratajski</td></tr></tbody></table></div></div></div><div class="accordion-item"><h3 class="accordion-header" id="heading-2024-07-15"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2024-07-15" aria-expanded="false" aria-controls="collapse-2024-07-15" data-bs-parent="#matchplayAccordion">2024-07-15 (Last 32)</button></h3><div id="collapse-2024-07-15" class="accordion-collapse collapse" aria-labelledby="heading-2024-07-15"><div class="accordion-body"><table class="table table-striped"><thead><tr><th>Player</th><th>Win Probability</th><th>Score</th><th>Win Probability</th><th>Player</th></tr></thead><tbody><tr><td>Damon Heta</td><td>51.8%</td><td>4-10</td><td>48.2%</td><td>Ryan Searle</td></tr><tr><td>Michael Smith</td><td>48.8%</td><td>10-5</td><td>51.2%</td><td>Gary Anderson</td></tr><tr><td>Michael van Gerwen</td><td>34.4%</td><td>10-6</td><td>65.6%</td><td>Luke Littler</td></tr><tr><td>Chris Dobey</td><td>52.4%</td><td>10-7</td><td>47.6%</td><td>Ritchie Edhouse</td></tr></tbody></table></div></div></div><div class="accordion-item"><h3 class="accordion-header" id="heading-2024-07-16"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2024-07-16" aria-expanded="false" aria-controls="collapse-2024-07-16" data-bs-parent="#matchplayAccordion">2024-07-16 (Last 16)</button></h3><div id="collapse-2024-07-16" class="accordion-collapse collapse" aria-labelledby="heading-2024-07-16"><div class="accordion-body"><table class="table table-striped"><thead><tr><th>Player</th><th>Win Probability</th><th>Score</th><th>Win Probability</th><th>Player</th></tr></thead><tbody><tr><td>Gerwyn Price</td><td>41.1%</td><td>9-11</td><td>58.9%</td><td>Ross Smith</td></tr><tr><td>Nathan Aspinall</td><td>54.4%</td><td>8-11</td><td>45.6%</td><td>James Wade</td></tr><tr><td>Luke Humphries</td><td>64.4%</td><td>11-7</td><td>35.6%</td><td>Stephen Bunting</td></tr><tr><td>Jonny Clayton</td><td>71.4%</td><td>5-11</td><td>28.6%</td><td>D. Van den Bergh</td></tr></tbody></table></div></div></div><div class="accordion-item"><h3 class="accordion-header" id="heading-2024-07-17"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2024-07-17" aria-expanded="false" aria-controls="collapse-2024-07-17" data-bs-parent="#matchplayAccordion">2024-07-17 (Last 16)</button></h3><div id="collapse-2024-07-17" class="accordion-collapse collapse" aria-labelledby="heading-2024-07-17"><div class="accordion-body"><table class="table table-striped"><thead><tr><th>Player</th><th>Win Probability</th><th>Score</th><th>Win Probability</th><th>Player</th></tr></thead><tbody><tr><td>Krzysztof Ratajski</td><td>50.8%</td><td>5-11</td><td>49.2%</td><td>Andrew Gilding</td></tr><tr><td>Rob Cross</td><td>66.4%</td><td>11-6</td><td>33.6%</td><td>Ryan Searle</td></tr><tr><td>Michael van Gerwen</td><td>79.9%</td><td>11-8</td><td>20.1%</td><td>Joe Cullen</td></tr><tr><td>Michael Smith</td><td>62.8%</td><td>11-9</td><td>37.2%</td><td>Chris Dobey</td></tr></tbody></table></div></div></div><div class="accordion-item"><h3 class="accordion-header" id="heading-2024-07-18"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2024-07-18" aria-expanded="false" aria-controls="collapse-2024-07-18" data-bs-parent="#matchplayAccordion">2024-07-18 (Quarter Final)</button></h3><div id="collapse-2024-07-18" class="accordion-collapse collapse" aria-labelledby="heading-2024-07-18"><div class="accordion-body"><table class="table table-striped"><thead><tr><th>Player</th><th>Win Probability</th><th>Score</th><th>Win Probability</th><th>Player</th></tr></thead><tbody><tr><td>Ross Smith</td><td>68.7%</td><td>10-16</td><td>31.3%</td><td>James Wade</td></tr><tr><td>Luke Humphries</td><td>70.3%</td><td>16-10</td><td>29.7%</td><td>D. Van den Bergh</td></tr></tbody></table></div></div></div><div class="accordion-item"><h3 class="accordion-header" id="heading-2024-07-19"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2024-07-19" aria-expanded="false" aria-controls="collapse-2024-07-19" data-bs-parent="#matchplayAccordion">2024-07-19 (Quarter Final)</button></h3><div id="collapse-2024-07-19" class="accordion-collapse collapse" aria-labelledby="heading-2024-07-19"><div class="accordion-body"><table class="table table-striped"><thead><tr><th>Player</th><th>Win Probability</th><th>Score</th><th>Win Probability</th><th>Player</th></tr></thead><tbody><tr><td>Michael van Gerwen</td><td>68.6%</td><td>16-10</td><td>31.4%</td><td>Andrew Gilding</td></tr><tr><td>Michael Smith</td><td>41.1%</td><td>16-7</td><td>58.9%</td><td>Rob Cross</td></tr></tbody></table></div></div></div><div class="accordion-item"><h3 class="accordion-header" id="heading-2024-07-20"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2024-07-20" aria-expanded="false" aria-controls="collapse-2024-07-20" data-bs-parent="#matchplayAccordion">2024-07-20 (Semi Final)</button></h3><div id="collapse-2024-07-20" class="accordion-collapse collapse" aria-labelledby="heading-2024-07-20"><div class="accordion-body"><table class="table table-striped"><thead><tr><th>Player</th><th>Win Probability</th><th>Score</th><th>Win Probability</th><th>Player</th></tr></thead><tbody><tr><td>Luke Humphries</td><td>68.5%</td><td>17-10</td><td>31.5%</td><td>James Wade</td></tr><tr><td>Michael van Gerwen</td><td>45.9%</td><td>17-13</td><td>54.1%</td><td>Michael Smith</td></tr></tbody></table></div></div></div><div class="accordion-item"><h3 class="accordion-header" id="heading-2024-07-21"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2024-07-21" aria-expanded="false" aria-controls="collapse-2024-07-21" data-bs-parent="#matchplayAccordion">2024-07-21 (Final)</button></h3><div id="collapse-2024-07-21" class="accordion-collapse collapse" aria-labelledby="heading-2024-07-21"><div class="accordion-body"><table class="table table-striped"><thead><tr><th>Player</th><th>Win Probability</th><th>Score</th><th>Win Probability</th><th>Player</th></tr></thead><tbody><tr><td>Luke Humphries</td><td>56.9%</td><td>18-15</td><td>43.1%</td><td>Michael van Gerwen</td></tr></tbody></table></div></div></div></div></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script></body></html>
+<!-- HTML RESULTS TABLE CONTENT ENDS HERE -->
