@@ -330,7 +330,7 @@ I applied the model, as well as similar modelling techniques for high checkouts,
 | Semi-Finals                 | 608               | 45                 | 7.40%      |
 | Final                       | 569               | 171                | 30.10%      |
 
-This approach was hugely effective, allowing me to score, on average, in the top 29% of players in every single round. This included a first place finish, as well as a separate finish in the top 7.4%. Unfortunately there is no way to compare overall predictive performance against other players on a tournament-wide scale. But, considering the variability in finishing positions possible between rounds, it is highly likely to have performed ahead of the vast majority of other predictors, given the consistently good performance. 
+This approach was hugely effective, allowing me to score, on average, in the top 29% of players in every single round. The median finishing position, more robust to outliying results, usurped this at the top 20.35% in all rounds. This included a first place finish, as well as  separate finishes in the top 2.25% and 7.4% respectively. Unfortunately there is no way to compare overall predictive performance against other players on a tournament-wide scale. But, considering the variability in finishing positions possible between rounds, it is highly likely to have performed ahead of the vast majority of other predictors, given the consistently good performance. 
 
 ## Overall Tournament Analysis
 ![A scatter plot of average tournament 3 dart average against average checkout rate for all players in the 2024 World Matchplay](/assets/img/aote-matchplay-2024/three_dart_vs_checkout_percentage.png)
