@@ -1,10 +1,12 @@
 ---
 title: "Algorithm on the Oche: Darts World Matchplay 2024"
 date: 2024-07-22 17:30:00 BST
-categories: [Darts Analytics]
+categories: [Sports Analytics,  Darts]
 tags: [darts, data, analytics, statistics, modelling, algorithms, machine learning]
 math: true
 ---
+
+## World Matchplay 2024
 
 The 31st edition of the World Matchplay brought the heat to Blackpool's Winter Gardens last week, serving up nine days of enthralling darts action. When the dust settled, it was Luke Humphries who stood tall, clinching his first World Matchplay title in a thrilling 18-15 final against Michael van Gerwen. Humphries was on fire throughout the tournament, kicking things off with a blistering 108.76 average in his first-round match - the highest of the competition, and averaging over 100 against all five of his opponents.
 
@@ -65,6 +67,8 @@ _(Above) A function to that uses previous ELOs and the actual match outcomes to 
 # The completion of this process assumes:
 # - A darts_matches dataframe containing information about darts games and their results
 # - A players_elo dictionary containing the current ELO ratings of each player
+
+# For each result (row) in the df...
 for index, match in darts_matches.iterrows():
     home_elo = players_elo[match['home_team']]
     away_elo = players_elo[match['away_team']]
@@ -287,5 +291,53 @@ _[The table may not fit on your screen. If this is the case, scroll horizontally
 |-----------------|-----------------|-------|-----------------|-----------------|
 | Luke Humphries   | 56.9%           | 18-15 | 43.1%           | Michael van Gerwen | 
 
-## Model Evaluation & Tournament Analysis
-Coming soon...
+## Model Evaluation
+![Side-by-side bar showing differences in the success of model favourites within different probability win ranges](/assets/img/aote-matchplay-2024/model_differences_favourite_win_comparison.png)
+_Figure 1: Differences in the success of model favourites based on the gap in win probability between the two players._
+
+Analysing the performance of the predictive model in different win probability ranges, as illustrated in Figure 1, reveals several key insights into its strengths and limitations. 
+
+The model appears to demonstrate increasing reliability as the predicted probability difference between players grows, which aligns with the expected behavior of a well-calibrated predictive system. In matches where the model identified clear favorites (over 10% probability difference) 65% of matches correctly sided with the favourite. This suggests that the model effectively captures the impact of skill disparities in darts, where higher-ranked players tend to stamp home their advantage, particularly in longer game formats comprised of numerous legs (and possibly sets).
+
+However, the model's performance in very close matches (0-10% probability difference) indicates a potential area for improvement. In these instances, the model underestimated the likelihood of upsets, with underdogs winning more frequently than favorites. This discrepancy could be attributed to the inherent volatility of closely matched darts contests, where factors such as mental fortitude, crowd influence, and day-to-day form fluctuations play crucial roles that may be challenging to quantify in a predictive model. Additionally, the sample size here is relatively small, so it is also very plausible that the performance of the model conforms with variance, inevitable in competitions of this kind.
+
+The distribution of data points across the probability difference ranges also provides additional context about the nature of professional darts competitions. The concentration of matches in the 0-40% difference range (i.e. 50:50 to 70:30 range), with fewer instances of extreme mismatches, reflects the competitive balance typically observed in high-level darts tournaments. This distribution underlines the challenge of creating accurate predictions in a sport where skill levels among top competitors are often closely matched, and so results are by no means a certainty.
+
+In terms of the tournament-long predictive process, the two favourites from the outset were Luke Littler and Luke Humphries, accurately reflecting the competitiveness of the four quarters of the tournament draw. 
+
+![The tournament draw backet for the 2024 World Matchplay](/assets/img/aote-matchplay-2024/matchplay_fixtures.jpg)
+_Figure 2: The tournament draw backet for the 2024 World Matchplay._
+
+Whilst Luke Littler did not win in the first round, the man that defeated him, Michael Van Gerwen, did proceed to the final. Here, the model accurately reflected the overall lower quality of opponents along this section of the path to the final. After this 1st round victory over the in-form Littler, Michael Van Gerwen's tournament favourite odds drastically increased, nearly quadrupling from 3.6% to 12.6%. Humphries at this point held a very similar tournament winning probability, and although he would've been favoured in a head to head vs MvG, faced a tougher potential path through to the semis and the final. Figure 3 shows how the win probabilities of these two finalists changed across the tournament.
+![Win probabilities of Luke Humphries and Michael Van Gerwen across the 2024 World Matchplay](/assets/img/aote-matchplay-2024/finalist_tournament_winning_percentage_changes.png)
+_Figure 3: Win probabilities of Luke Humphries and Michael Van Gerwen (finalists) across the 2024 World Matchplay._
+
+Ultimately, there is always going to be variance, and that is half of what the model itself is trying to capture. It considers the likelihood of all results with respect of all the changing varaibles, and in that regard, was a success. It is not possible, nor will it ever be, to perfectly predict the outcome of a competition like this, and that is driving force behind why we it entices us. Future applications of the model will be interesting in highlighting whether the model's highly imbalanced performance in the 0-10% probability difference range was driven by variance, or a tunable weakness of the model.
+
+## Applied Modelling Approach to PDC Predictor
+I applied the model, as well as similar modelling techniques for high checkouts, 180s thrown and highest averages, to adopt a statistical approach to the PDC predictor. This light-hearted game involes predicting the various afformentioned aspects for all games across the tournament. My performance in each of the rounds is shown in the table below.
+
+| Session                   | Number of Entrants | My Finishing Position | Top x% |
+|---------------------------|--------------------|--------------------|------------|
+| Evening Session (13th July) | 2618              | 341                | 13.02%      |
+| Afternoon Session (14th July) | 2130           | 48                 | 2.25%      |
+| Evening Session (14th July)   | 2040           | 530                | 26.00%      |
+| Evening Session (15th July)   | 2068           | 1                  | 0.04%    |
+| Second Round A              | 891               | 730                | 82.00%      |
+| Second Round B              | 846               | 522                | 61.70%      |
+| Quarter Finals A            | 776               | 114                | 14.70%      |
+| Quarter Finals B            | 617               | 322                | 52.90%      |
+| Semi-Finals                 | 608               | 45                 | 7.40%      |
+| Final                       | 569               | 171                | 30.10%      |
+
+This approach was hugely effective, allowing me to score, on average, in the top 29% of players in every single round. This included a first place finish, as well as a separate finish in the top 7.4%. Unfortunately there is no way to compare overall predictive performance against other players on a tournament-wide scale. But, considering the variability in finishing positions possible between rounds, it is highly likely to have performed ahead of the vast majority of other predictors, given the consistently good performance. 
+
+## Overall Tournament Analysis
+![A scatter plot of average tournament 3 dart average against average checkout rate for all players in the 2024 World Matchplay](/assets/img/aote-matchplay-2024/three_dart_vs_checkout_percentage.png)
+_Figure 4: A scatter plot of average tournament 3 dart average against average checkout rate for all players in the 2024 World Matchplay. The upper right quadrant indicates good performance in both measures, and vice versa for the lower left quadrant._
+
+Humphries was ultimately a worth winner, continuing his tremendous form off the back of the 2023 season and victory at the World Championships in January. He posted the highest 3 dart average of the entire tournament, despite playing in the highest number of games. Four other players posted a 100 point average, with Rob Cross the only one of these not to exit the tournament in the first round. Of those to exit in round 1, Van Veen and Littler can count themselves particularly unlucky at losing out in their difficult first round ties, against the 3rd and 4th order of merit respectively. Pietreczko also put up a brave performance against Luke Humphries, but ultimately lacked the ruthlessness on the doubles to cause the eventual winners any trouble.
+
+Michael Van Gerwen's tendency closer towards the centre of the graphic also aligns with out understanding regarding the difficulty of opposition. Despite averaging numbers inferior to some of his competition, MvG did what was needed at the right time in order to make his way to the final. For me, another standout performer of the tournament was James Wade, who was given very little chance pre-tournament. Having only just scraped into the tournament in the first place, he managed to post an impressive 3 dart average, helped by a surge of 180s, as well as a very respectable checkout rate. It's great to see a player of his quality returning to form, and the run to the semi-final was fully deserved, and in no part down to luck or fortune.
+
+## Wrap-up
