@@ -2,7 +2,7 @@
 title: "Algorithm on the Oche: Darts World Matchplay 2024"
 date: 2024-07-22 17:30:00 BST
 categories: [Sports Analytics,  Darts]
-tags: [darts, data, analytics, statistics, modelling, algorithms, machine learning]
+tags: [darts, data, analytics, statistics, modelling, algorithms, machine learning, python, pandas, scikit-learn, numpy]
 math: true
 ---
 
