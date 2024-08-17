@@ -10,9 +10,9 @@ The start of a new Premier League season always brings a familiar wave of excite
 
 ## Understanding the Set-and-Forget Strategy
 
-That's where the intriguing concept of the "set-and-forget" team comes into play. Imagine this: you build your squad before the first whistle blows on Gameweek 1, and then...you walk away. No transfers, no agonizing over captaincy choices, no last-minute scrambles to field a full XI. It's the ultimate fantasy within a fantasy: achieving success through masterful inactivity.
+That's where the intriguing concept of the "set-and-forget" team comes into play. Imagine this: you build your squad before the first whistle blows on Gameweek 1, and then...you walk away. No transfers, no agonizing over captaincy choices, no last-minute scrambles to field a full XI. It's the most relaxing fantasy strategy: achieving success through masterful inactivity.
 
-Of course, the set-and-forget strategy is more of a thought experiment than a practical approach. Season-long FPL success hinges on adapting to the ever-changing landscape of player form, injuries, and fixtures. Yet, I found myself captivated by the "what if" scenario. What if, through a stroke of genius (or perhaps a healthy dose of luck), you could assemble a team capable of thriving in complete stasis? Just how effective could a perfectly optimized, completely ignored FPL team be?
+Of course, the set-and-forget strategy is more of a thought experiment than a practical approach. Season-long FPL success hinges on adapting to the ever-changing landscape of player form, injuries, and fixtures. Yet, I found myself captivated by the "what if" scenario. What if, through a stroke of genius (or perhaps a healthy dose of luck), you could assemble a team capable of thriving in complete stasis? Just how effective could a perfectly optimised, completely ignored FPL team be?
 
 This curiosity, coupled with my desire to explore the power of optimisation techniques using libraries like PuLP, set the stage for this project. I wanted to delve into the world of set-and-forget FPL optimisation, not as a blueprint for real-world management, but as a fascinating exercise in maximizing potential within seemingly absurd constraints. So this is exactly what I explored for the 23/24 season just gone - [the full GitHub repo for this, and future hindsight optimisations in the FPL sphere, can be found here.](https://github.com/ATRedshaw/fpl-hindsight-optimiser)
 
@@ -139,9 +139,9 @@ This function implements the core logic of our set-and-forget optimisation, but 
 | Captaincy | 1 captain and 1 vice-captain must be selected |
 | Player Uniqueness | A player can't be in both the starting lineup and on the bench, be C and VC, etc.|
 
-While these core rules formed the bedrock of our optimizer, FPL has a knack for throwing curveballs. To truly capture the essence of a season-long campaign, we needed to account for even more nuanced scenarios, leading to additional refinements in the code:
+While these core rules formed the bedrock of our optimiser, FPL has a knack for throwing curveballs. To truly capture the essence of a season-long campaign, we needed to account for even more nuanced scenarios, leading to additional refinements in the code:
 
-**The Art of the Auto-Sub**: When a starting player fails to grace the field, your bench players leap into action (or at least they do in the digital realm of FPL). The order in which they're chosen, however, depends on both their position and your existing formation. Our model carefully considers these substitution rules, optimizing bench order to maximize potential points from those unexpected cameos.
+**The Art of the Auto-Sub**: When a starting player fails to grace the field, your bench players leap into action (or at least they do in the digital realm of FPL). The order in which they're chosen, however, depends on both their position and your existing formation. Our model carefully considers these substitution rules, optimising bench order to maximize potential points from those unexpected cameos.
 
 **The Vice-Captain Conundrum**: We often think of the vice-captain as simply the player with the second-highest score. But in reality, their points are only doubled if the captain doesn't play. Our code factors in this subtle but crucial distinction, ensuring the selected vice-captain is truly the one best positioned to inherit the armband and deliver those sweet, sweet double points.
 
@@ -150,30 +150,30 @@ Handling this was pursued in a slightly different, and in hindsight not the most
 ## Results and Insights
 
 ### Points Scored & Overall Rank
-The moment of truth had arrived. After fine-tuning constraints, wrestling with substitutions, and letting the optimisation engine run its course, we had our answer. The fully optimized, meticulously crafted, and utterly ignored set-and-forget team achieved a staggering 2656 points.
+The moment of truth had arrived. After fine-tuning constraints, wrestling with substitutions, and letting the optimisation engine run its course, we had our answer. The fully optimised, meticulously crafted, and utterly ignored set-and-forget team achieved a staggering 2656 points.
 
 To put that into perspective, this dream team would have secured a top 250 finish in the world, outperforming the vast majority of the 11 million+ FPL managers globally. Let that sink in for a moment: a team selected once, untouched throughout the season, could theoretically achieve a level of success most active managers only dream of.
-Now, before we all resign ourselves to a future of FPL passivity, let's inject a dose of reality. This remarkable achievement was fueled by the unfair advantage of hindsight. Our optimizer had access to the entire season's data, a luxury no manager enjoys in the real world.
+Now, before we all resign ourselves to a future of FPL passivity, let's inject a dose of reality. This remarkable achievement was fueled by the unfair advantage of hindsight. Our optimiser had access to the entire season's data, a luxury no manager enjoys in the real world.
 
 ### Comparison to my Own Team
 
-Speaking of reality, let's just say my own FPL season played out in stark contrast to this optimized ideal. A disappointing 171,811th place finish served as a humbling reminder that real-world FPL involves a potent cocktail of skill, luck, and the occasional emotional breakdown. (My 1,326th place finish and triumphant Liverpool Cup victory the previous year feels like a distant memory).
+Speaking of reality, let's just say my own FPL season played out in stark contrast to this optimised ideal. A disappointing 171,811th place finish served as a humbling reminder that real-world FPL involves a potent cocktail of skill, luck, and the occasional emotional breakdown. (My 1,326th place finish and triumphant Liverpool Cup victory the previous year feels like a distant memory).
 
-Figure 1 below vividly illustrates the chasm between my season-long struggle and the optimized team's serene ascent:
+Figure 1 below vividly illustrates the chasm between my season-long struggle and the optimised team's serene ascent:
 
 ![image](/assets/img/lazy-managers-guide-to-fpl-success-202324/cummulative_points_own_vs_optimised.png)
 _Figure 1: The cumulative points scored by me vs. the optimal set-and-forget team._
 
 ### Comparison to the Average Team
 
-The optimized team's success wasn't just about a high overall score, it was about the *way* it achieved those points. This was a masterclass in consistency, steadily outperforming the average FPL manager week after week. 
+The optimised team's success wasn't just about a high overall score, it was about the *way* it achieved those points. This was a masterclass in consistency, steadily outperforming the average FPL manager week after week. 
 
 Figure 2 showcases this impressive consistency with remarkable clarity:
 
 ![image](/assets/img/lazy-managers-guide-to-fpl-success-202324/optimised_difference_to_average_by_gw.png)
-_Figure 2: The difference in points scored by the optimized set-and-forget team vs. the average per gameweek._
+_Figure 2: The difference in points scored by the optimised set-and-forget team vs. the average per gameweek._
 
-Throughout the entire 38-gameweek season, our static squad lost out to the average team only five times. And on all but one of those occasions (Gameweek 1's teething problems), the margin was razor-thin. On the flip side, the optimized team racked up a remarkable number of victories over the average player, particularly as the season wore on and those lucrative double gameweeks rolled around.
+Throughout the entire 38-gameweek season, our static squad lost out to the average team only five times. And on all but one of those occasions (Gameweek 1's teething problems), the margin was razor-thin. On the flip side, the optimised team racked up a remarkable number of victories over the average player, particularly as the season wore on and those lucrative double gameweeks rolled around.
 
 This trend of steady gains is further emphasized in the points distribution shown in Figure 3:
 
@@ -184,7 +184,7 @@ The bell curve centers around a sweet spot of 70-80 points per gameweek.  Breaki
 
 ### Individual Player Contributions to the Optimal Set-and-Forget Team
 
-While the optimized team's overall points tally is impressive, it's the individual player contributions that weave a compelling narrative about the dynamics of set-and-forget success. Figure 4, my personal favorite visualization from this project, beautifully captures this interplay:
+While the optimised team's overall points tally is impressive, it's the individual player contributions that weave a compelling narrative about the dynamics of set-and-forget success. Figure 4, my personal favorite visualization from this project, beautifully captures this interplay:
 
 ![image](/assets/img/lazy-managers-guide-to-fpl-success-202324/set_and_forget_player_point_breakdown.png)
 _Figure 4: The breakdown of players' contribution to the total points tally in the optimal set-and-forget team._
@@ -209,7 +209,7 @@ Mateta's performance serves as an ultimately powerful reminder: while a consiste
 
 ##  The Limits of Hindsight and the Quest for Forward-Looking Optimisation
 
-As much fun as it's been to bask in the glory of our optimized, hindsight-powered FPL team, it's essential to acknowledge the limitations inherent in this approach. Our journey into the world of set-and-forget optimisation has revealed some insightful, and slightly disheartening, truths:
+As much fun as it's been to bask in the glory of our optimised, hindsight-powered FPL team, it's essential to acknowledge the limitations inherent in this approach. Our journey into the world of set-and-forget optimisation has revealed some insightful, and slightly disheartening, truths:
 
 1. **The Hindsight Bias Conundrum:**  Our model benefitted from an unfair (and unrealistic) advantage: knowing exactly how every player would perform throughout the entire season. In the real world, FPL managers grapple with uncertainty, making educated guesses about player form, injuries, and the whims of Pep Guardiola.  Attempting to perfectly predict the optimal set-and-forget team at the start of the season is akin to finding a needle in an infinitely large haystack of player combinations, captaincy choices and bench orders. 
 
@@ -217,13 +217,13 @@ As much fun as it's been to bask in the glory of our optimized, hindsight-powere
 
 However, this exploration isn't meant to be the final word. Instead, it lays the groundwork for even more intriguing optimisation challenges to come:
 
-* **Embracing the Power of Prediction:**  My sights are firmly set on evolving this model from a hindsight-driven curiosity into a powerful predictive tool.  By incorporating historical data, pre-season analysis, and sophisticated statistical models, we can attempt to forecast player performance and optimize teams *before* a single ball is kicked. Imagine a tool that helps you map out your transfers and strategically deploy your chips for maximum impact. 
+* **Embracing the Power of Prediction:**  My sights are firmly set on evolving this model from a hindsight-driven curiosity into a powerful predictive tool.  By incorporating historical data, pre-season analysis, and sophisticated statistical models, we can attempt to forecast player performance and optimise teams *before* a single ball is kicked. Imagine a tool that helps you map out your transfers and strategically deploy your chips for maximum impact. 
 
 * **Unleashing the Rolling Optimisation Machine:** Another avenue ripe for exploration is the concept of "rolling optimisation."  Instead of a single, season-long optimisation, we could create a model that dynamically adjusts the team on a weekly basis, making transfer decisions based on the latest data and maximizing points within the constraints of FPL's budget and transfer rules. This wouldn't just be about finding a single "optimal" team, but about mapping out the theoretical upper limits of FPL success, revealing just how many points are truly attainable with perfect foresight and ruthless optimisation. 
 
 ## Conclusion
 The "Lazy Manager's Guide to FPL Success" might seem like an oxymoron. After all, the heart of FPL lies in the weekly tinkering, the transfer dilemmas, and the strategic deployment of chips. However, this exploration into set-and-forget optimisation reveals a surprising truth: even with zero in-season management, a shockingly competitive FPL score is attainable.
 
-While this experiment shouldn't be misconstrued as an endorsement for complete FPL apathy, it underscores the inherent volatility of the game and the significant role luck plays in determining the ultimate outcome. The optimized team's performance, while remarkable, is a product of hindsight. Replicating such success in a real-world scenario, where predicting the future is impossible, is simply not realistic.
+While this experiment shouldn't be misconstrued as an endorsement for complete FPL apathy, it underscores the inherent volatility of the game and the significant role luck plays in determining the ultimate outcome. The optimised team's performance, while remarkable, is a product of hindsight. Replicating such success in a real-world scenario, where predicting the future is impossible, is simply not realistic.
 
 Nevertheless, this project provides valuable insights for pragmatic FPL managers. By understanding the potential of a well-structured, albeit static, team, managers can gain a deeper appreciation for the importance of thoughtful pre-season planning. It also highlights the potential pitfalls of overthinking and over-managing your team throughout the season. Sometimes, a little bit of calculated laziness, combined with a dash of pre-season foresight, can go a long way in the unpredictable world of FPL.
