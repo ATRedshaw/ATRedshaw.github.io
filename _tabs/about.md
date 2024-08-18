@@ -47,13 +47,13 @@ I possess a diverse range of skills essential for effective data analysis and pr
 
 I graduated from the University of Leeds with a 2:1 BSc in Computer Science (Digital & Technology Solutions). During my studies, I developed a strong foundation in data visualisation, data analysis, machine learning, and cloud computing. I further enhanced my skills by completing a Masters Level module in Data Science, achieving a 1st class grade.
 
-My passion for sports analytics led me to write my dissertation on "Machine Learning Models for Probabilistic Football Analysis and Prediction," which also received a 1st class grade. This project allowed me to apply my data science and machine learning knowledge to a real-world challenge, developing predictive models to analyse and forecast football outcomes, as well as develop my own custom expected goals (xG) model.
+My passion for sports analytics led me to write my dissertation on "Machine Learning Models for Probabilistic Football Analysis and Prediction," which also received a 1st class grade. This project allowed me to apply my data science and machine learning knowledge to a real-world challenge, developing predictive models to analyse and forecast football outcomes, as well as developing my own custom expected goals (xG) model.
 
 ## Professional Experience
 
 Over the past 4 years, I have gained valuable professional experience at one of the Big 4 professional services firms, working in a range of areas in the Data & Analytics practice.
 
-Across this time, I have honed my skills in data visualisation (Tableau), database management (SQL), as well as interpesonal presentation and communication skills. This has been achieved through various projects, including development interactive client dashboards, implementation of complex SQL rule logic, and effective communication of technical data-insights to diverse audiences. More recently, I have focused on automating internal tracking processes using Python. I developed and deployed data management solutions that streamlined workflows and significantly reduced manual effort, saving the company valuable time and resources.
+Across this time, I have honed my skills in data visualisation (Tableau), database management (SQL), as well as interpesonal presentation and communication skills. This has been achieved through various projects, including development of interactive client dashboards, implementation of complex SQL rule logic, and effective communication of technical data-insights to diverse audiences. More recently, I have focused on automating internal tracking processes using Python. I developed and deployed data management solutions that streamlined workflows and significantly reduced manual effort, saving the company valuable time and resources.
 
 ## Personal Interests
 
