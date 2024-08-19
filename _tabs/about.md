@@ -29,25 +29,75 @@ I possess a diverse range of skills essential for effective data analysis and pr
     * Python (Scikit-learn): Implementing various machine learning algorithms for classification, regression, and clustering tasks.
     * Model Evaluation & Selection: Assessing model performance and choosing the best model for a given problem.
 
+* **Statistical Modeling:**  Building mathematical models to represent and analyse real-world phenomena.
+    * Python (PuLP): Implementing optimisation models for decision-making.
+    * Monte-Carlo Simulation:  Performing simulations to analyse risk and uncertainty.
+
+* **Front-End Development:** Proficient in building interactive and responsive user interfaces using modern web technologies.
+    * HTML, CSS, and JavaScript: Solid foundation in core web development languages.
+    * React: Experience with building dynamic and reusable UI components using the React framework.
+    * Tailwind CSS: Utilizing Tailwind CSS for efficient and customizable styling.
+    * Framer Motion: Implementing animations and transitions for enhanced user experience.
+
+* **Back-End Development:** Developing and maintaining server-side logic and APIs for web applications.
+    * Python (Flask): Building RESTful API web services using the Flask framework.
+    * Firebase Authentication and Databases: Integrating Firebase for user authentication and data management.
+
 * **Database Management:**  Working with relational databases to store, retrieve, and manage data.
     * SQL:  Querying and manipulating data in relational database systems.
     * MS SQL Server: Experience with Microsoft SQL Server database management system.
-    * Azure Dynamo DB & Azure SQL DB: Familiarity with cloud-based database services.
+    * Azure SQL DB, Firebase (Firestore) & DB AWS Dynamo DB: Familiarity with cloud-based database services.
 
 * **Cloud Computing:**  Utilising cloud platforms for data storage, processing, and analysis.
     * Azure:  Experience with Microsoft Azure cloud services, including Functions and SQL Database.
     * GCP:  Familiarity with Google Cloud Platform, including Cloud Functions and Cloud Deploy.
     * AWS:  Basic knowledge of Amazon Web Services, including Lambda functions.
 
-* **Statistical Modeling:**  Building mathematical models to represent and analyse real-world phenomena.
-    * Python (PuLP): Implementing optimisation models for decision-making.
-    * Monte-Carlo Simulation:  Performing simulations to analyse risk and uncertainty.
-
 ## Academic Experience
 
-I graduated from the University of Leeds with a 2:1 BSc in Computer Science (Digital & Technology Solutions). During my studies, I developed a strong foundation in data visualisation, data analysis, machine learning, and cloud computing. I further enhanced my skills by completing a Masters Level module in Data Science, achieving a 1st class grade.
+#### University
+
+**BSC Computer Science (Digital & Technology Solutions) - 2:1** 
+
+**Digital & Technology Solutions Professional (Data Analyst Pathway) - Level 6 Apprenticeship** 
+
+During my studies, I developed a strong foundation in data visualisation, data analysis, machine learning, and cloud computing. I further enhanced my skills by completing a Masters Level module in Data Science, achieving a 1st class grade.
 
 My passion for sports analytics led me to write my dissertation on "Machine Learning Models for Probabilistic Football Analysis and Prediction," which also received a 1st class grade. This project allowed me to apply my data science and machine learning knowledge to a real-world challenge, developing predictive models to analyse and forecast football outcomes, as well as developing my own custom expected goals (xG) model.
+
+#### Sixth Form
+
+**International Baccalaureate Diploma Programme**
+* Awarded 43/45 points (equivalent to A* A* A* at A-Level)
+    * Higher Level (HL):
+        * Computer Science (Level 7 - equivalent to A*)
+        * Economics (Level 7 - equivalent to A*)
+        * English (Level 7 - equivalent to A*)
+    * Standard Level (SL):
+        * Latin (Level 7 - equivalent to A*)
+        * Mathematics (Level 6 - equivalent to A)
+        * Classics (Level 6 - equivalent to A)
+    * Core Points: 3/3 (Extended Essay and Theory of Knowledge)
+
+#### Secondary School
+
+**GCSEs**
+* Awarded 7x Level 9, 2x Level 8, 1x Level 7, 1x A
+    * Level 9 (equivalent to A**):
+        * Computer Science
+        * English Literature
+        * Geography
+        * History
+        * Biology
+        * Chemistry
+        * Physics
+    * Level 8 (equivalent to A*):
+        * Mathematics
+        * Latin
+    * Level 7 (equivalent to A):
+        * English Language
+    * Grade A:
+        * Japanese
 
 ## Professional Experience
 
