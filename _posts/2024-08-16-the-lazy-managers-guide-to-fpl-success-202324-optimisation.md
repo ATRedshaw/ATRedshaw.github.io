@@ -1,8 +1,8 @@
 ---
 title: "The Lazy Manager's Guide to FPL Success: 2023/24 Set-and-Forget Optimisation"
 date: 2024-08-16 19:30:00 BST
-categories: [Fantasy Games,  Fantasy Premier League]
-tags: [fpl, fantasy premier league, football, optimisation, data, statistics, modelling, python, mathematics]
+categories: [Fantasy Premier League]
+tags: ["fpl", "fantasy premier league", "football", "optimisation", "data", "statistics", "modelling", "python", "mathematics", "FPL Strategy", "FPL Optimisation", "Set-and-Forget Strategy", "FPL Data Analysis", "PuLP Library", "FPL Hindsight", "FPL Bench Strategy", "FPL Captaincy", "FPL Automation", "Data Science in Football", "Fantasy Sports Analytics", "Predictive Modelling", "FPL Constraints", "Mathematical Optimisation", "FPL Budget Management"]
 math: true
 ---
 

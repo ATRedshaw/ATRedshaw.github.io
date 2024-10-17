@@ -16,7 +16,7 @@ timezone:
 
 title: Alex Redshaw # the main title
 
-tagline: Computer Science Graduate & Data Analyst # it will display as the sub-title
+tagline: Data Scientist & Computer Science Graduate # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   A blog site containing a repositiory of personal articles. Key interests relate to Sports Analytics (including Fantasy Premier League (FPL)).
