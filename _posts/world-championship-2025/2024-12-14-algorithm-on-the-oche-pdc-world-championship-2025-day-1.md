@@ -4,11 +4,9 @@
 title: "Algorithm on the Oche: PDC World Championship 2025 Day 1 Preview"
 date: 2024-12-15 09:00:00 BST
 categories: [Darts, PDC World Championship 2025]
-tags: [darts, pdc, world championship, sports analytics, data science, statistics, python, pandas, numpy, web scraping, data collection, elo rating, machine learning, predictive modeling, monte carlo simulation, tournament simulation, probability analysis, match odds, player rankings, data visualization, sports prediction, oche, ally pally, sports betting, data-driven insights, statistical modeling]
+tags: [darts, pdc, world championship, sports analytics, data science, statistics, python, pandas, numpy, web scraping, data collection, elo rating, machine learning, predictive modeling, monte carlo simulation, tournament simulation, probability analysis, match odds, player rankings, data visualization, sports prediction, oche, ally pally, data-driven insights, statistical modeling]
 math: true
 ---
-
-# Algorithm on the Oche: Darts World Championship Day 1 Preview
 
 After thoroughly enjoying the excitement of my simulation work for the 2024 World Matchplay, and following closely on the heels of similar simulations I conducted for the World Grand Prix (a write-up for which is still in the pipeline), I'm thrilled to present my latest projections for the 2025 PDC World Championship. For those who have seen my Matchplay predictions, you'll recall that my model, while not always perfect, had a knack for spotting emerging trends and under-appreciated talent. This was further reinforced by my World Grand Prix projections, which remarkably gave eventual winner Mike De Decker a 1.5% chance of victory at the tournament start, six times the 0.25% odds most bookmakers were offering.
 
@@ -39,7 +37,9 @@ As we can see, **Luke Humphries** leads the pack with a 21.4% chance of winning 
 
 The opening day of the World Championship is always filled with anticipation and excitement. This year, we have three intriguing matches to kick things off:
 
-### Match 1: Thibault Tricole vs. Joe Comito
+### Round 1
+
+#### Match 1: Thibault Tricole vs. Joe Comito
 
 *   **Thibault Tricole:**
     *   Match Odds: 86.7%
@@ -52,7 +52,7 @@ This match pits the Frenchman, **Thibault Tricole**, against the American, **Joe
 
 The winner of this match will face a daunting task in the second round, as they'll be up against the World Number One, **Luke Humphries**.
 
-### Match 2: Jermaine Wattimena vs. Stefan Bellmont
+#### Match 2: Jermaine Wattimena vs. Stefan Bellmont
 
 *   **Jermaine Wattimena:**
     *   Match Odds: 78.6%
@@ -65,7 +65,7 @@ In the second match of the day, Dutchman **Jermaine Wattimena** takes on Switzer
 
 The winner of this match will face the experienced **James Wade** in the second round, a player who knows his way around the Ally Pally stage.
 
-### Match 3: Kim Huybrechts vs. Keane Barry
+#### Match 3: Kim Huybrechts vs. Keane Barry
 
 *   **Kim Huybrechts:**
     *   Match Odds: 59.6%
@@ -74,9 +74,27 @@ The winner of this match will face the experienced **James Wade** in the second 
     *   Match Odds: 40.4%
     *   Tournament Winning Odds: 0.2%
 
-The final match of the opening day sees Belgium's **Kim Huybrechts** face off against the young Irishman, **Keane Barry**. This is the closest match of the day, with Huybrechts having a 59.6% chance of winning and Barry a 40.4% chance. Both players have a 0.2% chance of winning the entire tournament.
+The final Round 1 match of the opening day sees Belgium's **Kim Huybrechts** face off against the young Irishman, **Keane Barry**. This is the closest match of the day, with Huybrechts having a 59.6% chance of winning and Barry a 40.4% chance. Both players have a 0.2% chance of winning the entire tournament.
 
 The reward for the winner of this match is a second-round clash with Welshman **Gerwyn Price**, a former World Champion and one of the most formidable players in the game.
+
+### Round 2
+
+#### Match 4: Luke Humphries vs Thibault Tricole/Joe Comito
+
+*   **Luke Humphries:**
+    *   Match Odds: 86.6%
+    *   Tournament Winning Odds: 21.4%
+*   **Thibault Tricole/Joe Comito:**
+    *   Match Odds: 13.4%
+    *   Tournament Winning Odds: Tricole 0.1%, Comito 0.0%
+
+This second-round match features the formidable **Luke Humphries**, the World Number One, kicking off his title defence against the winner of the first-round clash between **Thibault Tricole** and **Joe Comito**. Humphries is the overwhelming favourite, with my model giving him an 86.6% chance of progressing to the next round. This aligns with his impressive tournament-winning odds of 21.4%, making him the top contender for the title.
+
+Looking at the potential opponents, the simulations heavily favour Tricole over Comito in their initial match. Regardless, the winner will face a monumental challenge against Humphries, with only a 13.4% combined chance of causing a major upset based on the current data.
+
+Humphries' path forward, should he prevail as expected, would likely involve a third-round meeting with **Raymond van Barneveld** should he progress as the favourite in his second round tie against the winner of **Nick Kenny** vs **Stowe Buntz**.  
+
 
 ## Conclusion
 
