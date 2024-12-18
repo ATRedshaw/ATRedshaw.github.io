@@ -12,8 +12,6 @@ math: true
 
 Before we dive into today's matches, let's reflect on yesterday's action. The model continued to perform well, but the darts threw up a few surprises along the way.
 
-Okay, I've adjusted the "Day 2 Match Results and Predictions" section so that the scores in the result now match the order of the players in the bolded match titles:
-
 ### Day 2 Match Results and Predictions:
 
 **Afternoon Session (12:30 GMT)**
