@@ -1,7 +1,7 @@
 ---
 # bundle exec jekyll s - Command to run locally
 # bundle exec jekyll build - Command to build to github pages
-title: "Day 1 Preview- Algorithm on the Oche: PDC World Championship 2025"
+title: "Day 1 Preview - Algorithm on the Oche: PDC World Championship 2025"
 date: 2024-12-15 09:00:00 BST
 categories: [Darts, PDC World Championship 2025]
 tags: [darts, pdc, world championship, sports analytics, data science, statistics, python, pandas, numpy, web scraping, data collection, elo rating, machine learning, predictive modeling, monte carlo simulation, tournament simulation, probability analysis, match odds, player rankings, data visualization, sports prediction, oche, ally pally, data-driven insights, statistical modeling]
