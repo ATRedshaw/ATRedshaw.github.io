@@ -9,7 +9,7 @@ order: 4
 
 ## Introduction
 
-Hi, I'm Alex, a highly motivated and results-oriented Data Analyst with a passion for turning data into actionable insights. I enjoy tackling complex problems and developing creative solutions using a combination of technical skills and analytical thinking. My background in computer science and data science, combined with my enthusiasm for sports analytics, allows me to approach challenges from a unique perspective.
+Hi, I'm Alex, a highly motivated and results-oriented Data Scientist/Data Analyst with a passion for turning data into actionable insights. I enjoy tackling complex problems and developing creative solutions using a combination of technical skills and analytical thinking. My background in computer science and data science, combined with my enthusiasm for sports analytics, allows me to approach challenges from a unique perspective.
 
 ## Skills
 
@@ -25,23 +25,13 @@ I possess a diverse range of skills essential for effective data analysis and pr
     * Alteryx:  Automating data preparation and blending workflows.
     * Statistical Analysis: Applying statistical methods to analyse data and draw conclusions.
 
-* **Machine Learning:**  Building predictive models and algorithms to extract insights and make predictions.
+* **Machine Learning and AI:**  Building predictive models and algorithms to extract insights and make predictions.
     * Python (Scikit-learn): Implementing various machine learning algorithms for classification, regression, and clustering tasks.
     * Model Evaluation & Selection: Assessing model performance and choosing the best model for a given problem.
 
 * **Statistical Modeling:**  Building mathematical models to represent and analyse real-world phenomena.
     * Python (PuLP): Implementing optimisation models for decision-making.
     * Monte-Carlo Simulation:  Performing simulations to analyse risk and uncertainty.
-
-* **Front-End Development:** Proficient in building interactive and responsive user interfaces using modern web technologies.
-    * HTML, CSS, and JavaScript: Solid foundation in core web development languages.
-    * React: Experience with building dynamic and reusable UI components using the React framework.
-    * Tailwind CSS: Utilizing Tailwind CSS for efficient and customizable styling.
-    * Framer Motion: Implementing animations and transitions for enhanced user experience.
-
-* **Back-End Development:** Developing and maintaining server-side logic and APIs for web applications.
-    * Python (Flask): Building RESTful API web services using the Flask framework.
-    * Firebase Authentication and Databases: Integrating Firebase for user authentication and data management.
 
 * **Database Management:**  Working with relational databases to store, retrieve, and manage data.
     * SQL:  Querying and manipulating data in relational database systems.
@@ -53,6 +43,16 @@ I possess a diverse range of skills essential for effective data analysis and pr
     * GCP:  Familiarity with Google Cloud Platform, including Cloud Functions and Cloud Deploy.
     * AWS:  Basic knowledge of Amazon Web Services, including Lambda functions.
 
+* **Front-End Development:** Proficient in building interactive and responsive user interfaces using modern web technologies.
+    * HTML, CSS, and JavaScript: Solid foundation in core web development languages.
+    * React: Experience with building dynamic and reusable UI components using the React framework.
+    * Tailwind CSS: Utilizing Tailwind CSS for efficient and customizable styling.
+    * Framer Motion: Implementing animations and transitions for enhanced user experience.
+
+* **Back-End Development:** Developing and maintaining server-side logic and APIs for web applications.
+    * Python (Flask): Building RESTful API web services using the Flask framework.
+    * Firebase Authentication and Databases: Integrating Firebase for user authentication and data management.
+
 ## Academic Experience
 
 #### University
@@ -63,7 +63,7 @@ I possess a diverse range of skills essential for effective data analysis and pr
 
 During my studies, I developed a strong foundation in data visualisation, data analysis, machine learning, and cloud computing. I further enhanced my skills by completing a Masters Level module in Data Science, achieving a 1st class grade.
 
-My passion for sports analytics led me to write my dissertation on "Machine Learning Models for Probabilistic Football Analysis and Prediction," which also received a 1st class grade. This project allowed me to apply my data science and machine learning knowledge to a real-world challenge, developing predictive models to analyse and forecast football outcomes, as well as developing my own custom expected goals (xG) model.
+My passion for sports analytics led me to write my dissertation on ["Machine Learning Models for Probabilistic Football Analysis and Prediction,"](https://github.com/ATRedshaw/ATRedshaw.github.io/blob/main/assets/pdf/dissertation/Redshaw-Alex-Dissertation-2024.pdf) which also received a 1st class grade. This project allowed me to apply my data science and machine learning knowledge to a real-world challenge, developing predictive models to analyse and forecast football outcomes, as well as developing my own custom expected goals (xG) model.
 
 #### Sixth Form
 
