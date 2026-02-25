@@ -21,8 +21,9 @@ function setupBlogFilters() {
     const filterContainer = document.getElementById('blog-filter-container');
     if (!filterContainer) return;
 
-    const tags = new Set();
-    allPosts.forEach(p => p.tags.forEach(t => tags.add(t)));
+    const tagsSet = new Set();
+    allPosts.forEach(p => p.tags.forEach(t => tagsSet.add(t)));
+    const tags = Array.from(tagsSet).sort();
     
     // Create Dropdown (Minimalist Design)
     const select = document.createElement('select');

@@ -20,8 +20,9 @@ function setupFilters() {
     if (!filterContainer) return;
 
     // Extract unique tags
-    const tags = new Set();
-    allProjects.forEach(p => p.tags.forEach(t => tags.add(t)));
+    const tagsSet = new Set();
+    allProjects.forEach(p => p.tags.forEach(t => tagsSet.add(t)));
+    const tags = Array.from(tagsSet).sort();
     
     // Create Dropdown (Minimalist Design)
     const select = document.createElement('select');
