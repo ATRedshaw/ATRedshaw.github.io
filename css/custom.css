@@ -1,0 +1,138 @@
+/* Custom CSS for Data Scientist Portfolio */
+
+/* Global Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Fade In Animation Class */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, visibility;
+}
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Navbar Link Active State */
+.nav-link.active {
+  color: #2563eb; /* Tailwind blue-600 */
+  border-bottom: 2px solid #2563eb;
+}
+
+/* Modal Transitions */
+#modal-overlay {
+  transition: opacity 0.3s ease-in-out;
+}
+#modal-content {
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* Markdown Content Styling within Modals */
+.prose h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+.prose h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #334155;
+}
+.prose h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #475569;
+}
+.prose p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  color: #475569;
+}
+.prose ul, .prose ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+.prose li {
+    margin-bottom: 0.5rem;
+}
+.prose a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+.prose blockquote {
+  border-left: 4px solid #cbd5e1;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+.prose img {
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+  max-width: 100%;
+  height: auto;
+}
+.prose code {
+  font-family: 'Fira Code', monospace; /* Or standard monospace */
+  background-color: #f1f5f9;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  color: #e11d48;
+}
+.prose pre {
+  background-color: #1e293b;
+  color: #f8fafc;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+.prose pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.9em;
+}
+
+/* Timeline Custom Styles */
+.timeline-line {
+    position: absolute;
+    left: 1rem; /* Adjust based on icon size */
+    top: 3rem;  /* Start below the first item's icon top */
+    bottom: 0;
+    width: 2px;
+    background-color: #e2e8f0;
+    z-index: 0;
+}
+/* Ensure timeline items cover the line line */ 
+.timeline-item {
+    position: relative; 
+    z-index: 10;
+}

@@ -1,0 +1,9 @@
+categories:
+  - name: "Languages & Frameworks"
+    skills: ["Python", "SQL", "R", "Bash", "PyTorch", "TensorFlow", "Scikit-learn", "FastAPI", "Flask"]
+  - name: "Data Engineering"
+    skills: ["Apache Spark", "Airflow", "dbt", "PostgreSQL", "MongoDB", "Snowflake", "Kafka"]
+  - name: "Cloud & DevOps"
+    skills: ["AWS (S3, EC2, Lambda)", "Docker", "Kubernetes", "CI/CD (GitHub Actions)", "Terraform"]
+  - name: "Visualization"
+    skills: ["Tableau", "Power BI", "Matplotlib", "Seaborn", "Plotly", "Streamlit"]

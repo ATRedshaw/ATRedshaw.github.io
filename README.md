@@ -1,61 +1,48 @@
-# Chirpy Starter
+# Data Scientist Portfolio Template
 
-[![Gem Version](https://img.shields.io/gem/v/jekyll-theme-chirpy)][gem]&nbsp;
-[![GitHub license](https://img.shields.io/github/license/cotes2020/chirpy-starter.svg?color=blue)][mit]
+A clean, minimalist, and responsive portfolio website designed for Data Scientists and Engineers. Built with pure HTML, CSS (Tailwind), and vanilla JavaScript. No build steps required.
 
-When installing the [**Chirpy**][chirpy] theme through [RubyGems.org][gem], Jekyll can only read files in the folders
-`_data`, `_layouts`, `_includes`, `_sass` and `assets`, as well as a small part of options of the `_config.yml` file
-from the theme's gem. If you have ever installed this theme gem, you can use the command
-`bundle info --path jekyll-theme-chirpy` to locate these files.
+## Features
 
-The Jekyll team claims that this is to leave the ball in the user’s court, but this also results in users not being
-able to enjoy the out-of-the-box experience when using feature-rich themes.
+- **YAML-driven Content**: Update your site info, skills, projects, and blog posts by simply editing `.yaml` files.
+- **Markdown Support**: Write detailed project descriptions and blog posts in Markdown, rendered dynamically with syntax highlighting.
+- **Filtering**: Tag-based filtering for Projects and Blog posts.
+- **Responsive Design**: Fully responsive layout using Tailwind CSS.
+- **Zero Build Step**: Just host the static files. Works perfectly with GitHub Pages.
 
-To fully use all the features of **Chirpy**, you need to copy the other critical files from the theme's gem to your
-Jekyll site. The following is a list of targets:
+## Directory Structure
 
-```shell
-.
-├── _config.yml
-├── _plugins
-├── _tabs
-└── index.html
-```
+- `data/`: Contains YAML files for all dynamic content structure.
+- `content/`: Contains Markdown files for full text content.
+- `assets/`: Store your images and resume here.
+- `js/`: Application logic.
+- `css/`: Custom styles overriding or extending Tailwind.
 
-To save you time, and also in case you lose some files while copying, we extract those files/configurations of the
-latest version of the **Chirpy** theme and the [CD][CD] workflow to here, so that you can start writing in minutes.
+## How to Customize
 
-## Prerequisites
+### 1. Personal Information
+Edit `data/site.yaml` to update your name, title, bio, and social links.
 
-Follow the instructions in the [Jekyll Docs](https://jekyllrb.com/docs/installation/) to complete the installation of
-the basic environment. [Git](https://git-scm.com/) also needs to be installed.
+### 2. Adding Projects
+1. Add a new entry to `data/projects.yaml`.
+2. Create a Markdown file in `content/projects/YOUR-PROJECT.md`.
+3. Link the markdown file in the YAML entry.
 
-## Installation
+### 3. Adding Blog Posts
+1. Add a new entry to `data/blog.yaml`.
+2. Create a Markdown file in `content/blog/YOUR-POST.md`.
+3. Link the markdown file in the YAML entry.
 
-Sign in to GitHub and [**use this template**][use-template] to generate a brand new repository and name it
-`USERNAME.github.io`, where `USERNAME` represents your GitHub username.
+### 4. Updating Skills & Experience
+Edit `data/skills.yaml` and `data/experience.yaml`.
 
-Then clone it to your local machine and run:
+## Deployment
 
-```console
-$ bundle
-```
+### GitHub Pages
+1. Push this repository to GitHub.
+2. Go to **Settings** > **Pages**.
+3. Select `main` branch as the source.
+4. Your site is live!
 
-## Usage
-
-Please see the [theme's docs](https://github.com/cotes2020/jekyll-theme-chirpy#documentation).
-
-## Contributing
-
-The contents of this repository are automatically updated when new releases are made to the [main repository][chirpy].  
-If you have problems using it, or would like to participate in improving it, please go to the main repository for feedback!
-
-## License
-
-This work is published under [MIT][mit] License.
-
-[gem]: https://rubygems.org/gems/jekyll-theme-chirpy
-[chirpy]: https://github.com/cotes2020/jekyll-theme-chirpy/
-[use-template]: https://github.com/cotes2020/chirpy-starter/generate
-[CD]: https://en.wikipedia.org/wiki/Continuous_deployment
-[mit]: https://github.com/cotes2020/chirpy-starter/blob/master/LICENSE
+## Images
+Please place your headshot in `assets/images/headshot.jpg` or update the path in `data/site.yaml`.

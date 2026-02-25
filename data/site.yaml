@@ -1,0 +1,14 @@
+name: "Alex Redshaw"
+title: "Senior Data Scientist"
+tagline: "Turning complex data into actionable business decisions through advanced analytics and machine learning."
+headshot: "https://via.placeholder.com/300x300?text=Alex+Redshaw"
+headshot_alt: "Alex Redshaw Headshot"
+resume: "assets/resume.pdf"
+about: |
+  I am a passionate Data Scientist with over 5 years of experience in building machine learning models and data pipelines. I specialize in Natural Language Processing (NLP) and predictive analytics, helping organizations leverage their data to drive growth and innovation.
+
+  My background includes a Master's in Computer Science and hands-on experience with modern data stacks. I enjoy solving complex problems and communicating technical findings to non-technical stakeholders. When I'm not coding, you can find me hiking, reading sci-fi novels, or experimenting with new cooking recipes.
+social:
+  github: "https://github.com/ATRedshaw"
+  linkedin: "https://linkedin.com/in/ATRedshaw"
+  email: "mailto:alex@example.com"

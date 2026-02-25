@@ -1,0 +1,23 @@
+projects:
+  - title: "Customer Churn Predictor"
+    description: "An end-to-end machine learning pipeline to predict customer churn in the telecom industry."
+    tags: ["Python", "Scikit-learn", "FastAPI", "Docker"]
+    thumbnail: "https://via.placeholder.com/600x400?text=Churn+Predictor"
+    markdown: "content/projects/customer-churn.md"
+    links:
+      github: "https://github.com/ATRedshaw/churn-predictor"
+      demo: "#"
+  - title: "Sentiment Analysis Dashboard"
+    description: "Real-time dashboard visualization of social media sentiment for brand monitoring."
+    tags: ["NLP", "Python", "Streamlit", "Plotly"]
+    thumbnail: "https://via.placeholder.com/600x400?text=Sentiment+Dashboard"
+    markdown: "content/projects/sentiment-analysis.md"
+    links:
+      github: "https://github.com/ATRedshaw/sentiment-dashboard"
+  - title: "Image Classification API"
+    description: "REST API for classifying images using a fine-tuned ResNet50 model."
+    tags: ["Computer Vision", "PyTorch", "Deep Learning"]
+    thumbnail: "https://via.placeholder.com/600x400?text=Image+API"
+    markdown: "content/projects/image-classification.md"
+    links:
+      github: "https://github.com/ATRedshaw/image-api"
