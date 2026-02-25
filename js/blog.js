@@ -100,13 +100,13 @@ function renderBlogPosts(posts) {
                     <h2 class="text-3xl font-serif text-porcelain mb-4 group-hover:text-terracotta transition-colors duration-300">
                         ${post.title}
                     </h2>
-                    <p class="text-porcelain/60 font-light leading-relaxed mb-6 max-w-2xl">
+                    <p class="text-fern font-light leading-relaxed mb-6 max-w-2xl">
                         ${post.excerpt}
                     </p>
-                    <div class="flex items-center gap-3 md:hidden">
+                    <div class="flex flex-wrap gap-2 text-fern text-xs uppercase tracking-widest font-medium mt-4">
                          ${post.tags.map(tag => `
-                            <span class="text-[10px] font-mono uppercase tracking-wider text-porcelain/40 px-2 py-1 border border-white/10 rounded-full">${tag}</span>
-                        `).join('')}
+                            <span>${tag}</span>
+                        `).join('<span class="text-white/20 px-1">&bull;</span>')}
                     </div>
                 </div>
 
@@ -115,13 +115,7 @@ function renderBlogPosts(posts) {
                     <span class="font-mono text-xs text-fern uppercase tracking-widest">
                         ${post.reading_time || '5 min'} read
                     </span>
-                    <div class="flex flex-wrapjustify-end gap-2">
-                         ${post.tags.slice(0, 2).map(tag => `
-                            <span class="text-[10px] font-mono uppercase tracking-wider text-porcelain/40">${tag}</span>
-                        `).join('')}
-                    </div>
-                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-terracotta opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1 group-hover:-translate-y-1 mt-4"></i>
-                </div>
+                 </div>
 
             </div>
         </article>
