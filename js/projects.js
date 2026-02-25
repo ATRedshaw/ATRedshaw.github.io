@@ -60,13 +60,34 @@ function renderProjects(projects) {
     if (!grid) return;
 
     grid.innerHTML = projects.map((project, index) => {
-        const imageSrc = project.thumbnail || 'https://via.placeholder.com/600x400/1B262C/F4F1EA?text=No+Image';
+        // Determine what visual to show: Image or Fallback
+        let visualContent;
+        
+        // Check for valid thumbnail (not null, undefined, or empty string)
+        const hasThumbnail = project.thumbnail && project.thumbnail.trim().length > 0;
+        
+        if (hasThumbnail) {
+            visualContent = `
+                <img src="${project.thumbnail}" alt="${project.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100 grayscale mix-blend-luminosity" onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='block';">
+                <div class="absolute inset-0 bg-midnight/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                <!-- Fallback hidden by default, shown on error -->
+                <div style="display:none;" class="w-full h-full bg-charcoal relative group-hover:bg-midnight transition-colors duration-500 flex items-center justify-center">
+                    <i data-lucide="code-2" class="w-16 h-16 text-fern/40 stroke-1 group-hover:text-terracotta/60 group-hover:scale-110 transition-all duration-500"></i>
+                </div>
+            `;
+        } else {
+            // Icon Fallback
+            visualContent = `
+                <div class="w-full h-full bg-charcoal relative group-hover:bg-midnight transition-colors duration-500 flex items-center justify-center">
+                    <i data-lucide="code-2" class="w-16 h-16 text-fern/40 stroke-1 group-hover:text-terracotta/60 group-hover:scale-110 transition-all duration-500"></i>
+                </div>
+            `;
+        }
         
         return `
         <div class="group bg-transparent border border-white/5 hover:border-terracotta/50 transition-all duration-500 fade-in-section cursor-pointer project-card relative overflow-hidden">
             <div class="h-64 overflow-hidden bg-charcoal relative">
-                <img src="${imageSrc}" alt="${project.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100 grayscale group-hover:grayscale-0 mix-blend-luminosity group-hover:mix-blend-normal">
-                <div class="absolute inset-0 bg-midnight/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                ${visualContent}
                 
                 <div class="absolute bottom-0 left-0 p-6 w-full z-10">
                     <div class="flex flex-wrap gap-2 mb-3">
@@ -97,12 +118,37 @@ function renderProjects(projects) {
 }
 
 async function openProjectModal(project) {
-    let content = `
-        <div class="mb-12">
+    let visualHeader;
+    
+    // Check for valid thumbnail (not null, undefined, or empty string)
+    const hasThumbnail = project.thumbnail && project.thumbnail.trim().length > 0;
+
+    if (hasThumbnail) {
+        visualHeader = `
              <div class="h-[40vh] w-full overflow-hidden mb-8 border-b border-white/10 relative">
-                <img src="${project.thumbnail || ''}" class="w-full h-full object-cover grayscale opacity-80">
+                <img src="${project.thumbnail}" class="w-full h-full object-cover grayscale opacity-80" onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex';">
+                <div class="absolute inset-0 bg-gradient-to-t from-midnight to-transparent"></div>
+                <!-- Fallback hidden by default, shown on error -->
+                <div style="display:none;" class="absolute inset-0 bg-charcoal flex items-center justify-center overflow-hidden">
+                    <i data-lucide="code-2" class="w-32 h-32 text-fern/20 stroke-1"></i>
+                    <div class="absolute inset-0 bg-gradient-to-t from-midnight to-transparent"></div>
+                </div>
+            </div>
+        `;
+    } else {
+        visualHeader = `
+             <div class="h-[40vh] w-full mb-8 border-b border-white/10 relative bg-charcoal flex items-center justify-center overflow-hidden">
+                <div class="z-10 flex flex-col items-center justify-center">
+                    <i data-lucide="code-2" class="w-32 h-32 text-fern/20 stroke-1 mb-4"></i>
+                </div>
                 <div class="absolute inset-0 bg-gradient-to-t from-midnight to-transparent"></div>
             </div>
+        `;
+    }
+
+    let content = `
+        <div class="mb-12">
+            ${visualHeader}
             <div class="max-w-3xl mx-auto px-6">
                 <span class="block text-terracotta text-xs font-mono mb-4 uppercase tracking-widest">Case Study</span>
                 <h1 class="text-4xl md:text-5xl font-serif font-light text-porcelain mb-6">${project.title}</h1>
