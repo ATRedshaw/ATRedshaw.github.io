@@ -6,17 +6,10 @@ const CONTENT_DIR = 'content/';
 
 // --- Utility Functions ---
 
-/**
- * Fetch and parse a YAML file.
- * @param {string} filename - The name of the YAML file in the data directory.
- * @returns {Promise<Object>} - The parsed JavaScript object.
- */
 async function loadYamlData(filename) {
     try {
         const response = await fetch(`${DATA_DIR}${filename}`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch ${filename}: ${response.statusText}`);
-        }
+        if (!response.ok) throw new Error(`Failed to fetch ${filename}`);
         const text = await response.text();
         return jsyaml.load(text);
     } catch (error) {
@@ -25,17 +18,10 @@ async function loadYamlData(filename) {
     }
 }
 
-/**
- * Fetch and return text content (Markdown).
- * @param {string} filepath - Path to the markdown file.
- * @returns {Promise<string>}
- */
 async function loadMarkdown(filepath) {
     try {
         const response = await fetch(filepath);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch ${filepath}: ${response.statusText}`);
-        }
+        if (!response.ok) throw new Error(`Failed to fetch ${filepath}`);
         return await response.text();
     } catch (error) {
         console.error('Error loading markdown:', error);
@@ -61,16 +47,20 @@ function initNavbar() {
     const navLinks = document.querySelectorAll('.nav-link');
     
     navLinks.forEach(link => {
+        // Simple exact match or specialized logic
         if (link.getAttribute('href') === currentPath) {
-            link.classList.add('text-blue-600', 'font-semibold');
+            // Active state
+            link.classList.remove('text-porcelain/70');
+            link.classList.add('text-terracotta');
         } else {
-            link.classList.remove('text-blue-600', 'font-semibold');
-            link.classList.add('text-slate-600', 'hover:text-blue-500');
+            // Inactive state
+            link.classList.remove('text-terracotta');
+            link.classList.add('text-porcelain/70');
         }
     });
 }
 
-// 2. Footer Logic
+// 2. Footer & Socials Logic
 async function initFooter() {
     const footerSocials = document.getElementById('footer-socials');
     const currentYearSpan = document.getElementById('current-year');
@@ -81,38 +71,37 @@ async function initFooter() {
 
     // Load social links from site.yaml
     const siteData = await loadYamlData('site.yaml');
-    if (siteData && siteData.social && footerSocials) {
-        // Clear existing static links if any, or append
-        footerSocials.innerHTML = ''; 
-
-        // Helper to create icon SVG (simplified) or use FontAwesome classes if loaded
-        // Using Lucide (CDN in HTML) pattern: <i data-lucide="..."></i> then lucide.createIcons()
+    if (siteData && siteData.social) {
         
-        Object.entries(siteData.social).forEach(([platform, url]) => {
-            if (!url) return;
+        const renderSocials = (container) => {
+            if (!container) return;
+            container.innerHTML = ''; 
             
-            const link = document.createElement('a');
-            link.href = url;
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            link.className = 'text-slate-400 hover:text-white transition-colors duration-300';
-            link.setAttribute('aria-label', platform);
-            
-            // Map platform to icon name (assuming Lucide icons used)
-            let iconName = 'link';
-            if (platform === 'github') iconName = 'github';
-            if (platform === 'linkedin') iconName = 'linkedin';
-            if (platform === 'twitter') iconName = 'twitter';
-            if (platform === 'email') iconName = 'mail';
+            Object.entries(siteData.social).forEach(([platform, url]) => {
+                if (!url) return;
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.className = 'text-porcelain/40 hover:text-terracotta transition-colors duration-300';
+                link.setAttribute('aria-label', platform);
+                
+                let iconName = 'link';
+                if (platform === 'github') iconName = 'github';
+                if (platform === 'linkedin') iconName = 'linkedin';
+                if (platform === 'twitter') iconName = 'twitter';
+                if (platform === 'email') iconName = 'mail';
 
-            link.innerHTML = `<i data-lucide="${iconName}" class="w-5 h-5"></i>`;
-            footerSocials.appendChild(link);
-        });
-        
-        // Re-initialize icons if using Lucide
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
+                link.innerHTML = `<i data-lucide="${iconName}" class="w-5 h-5"></i>`;
+                container.appendChild(link);
+            });
+             if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        };
+
+        renderSocials(footerSocials);
     }
 }
 
@@ -128,7 +117,6 @@ function initScrollAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
-                entry.target.classList.remove('opacity-0', 'translate-y-8'); // Remove Tailwind utility hides if used
                 observer.unobserve(entry.target);
             }
         });
@@ -141,6 +129,7 @@ function initScrollAnimations() {
 }
 
 // 4. Modal Logic (Shared)
+// Assumes HTML structure: #modal-overlay -> #modal-content -> #modal-body + #modal-close
 const modalOverlay = document.getElementById('modal-overlay');
 const modalContent = document.getElementById('modal-content');
 const modalBody = document.getElementById('modal-body');
@@ -149,22 +138,33 @@ const modalCloseBtn = document.getElementById('modal-close');
 function openModal(contentHtml) {
     if (!modalOverlay || !modalBody) return;
     
+    // Set content
     modalBody.innerHTML = contentHtml;
+    
+    // Show overlay
     modalOverlay.classList.remove('hidden');
-    // Allow a small tick for display to apply before opacity transition
+    
+    // Trigger animations
     setTimeout(() => {
         modalOverlay.classList.remove('opacity-0');
-        modalContent.classList.remove('scale-95', 'opacity-0');
-        modalContent.classList.add('scale-100', 'opacity-100');
+        if(modalContent) {
+            modalContent.classList.remove('scale-95', 'opacity-0');
+            modalContent.classList.add('scale-100', 'opacity-100');
+        }
     }, 10);
     
     document.body.style.overflow = 'hidden'; // Lock scroll
 
-    // Re-highlight code blocks inside modal
+    // Highlight code
     if (typeof hljs !== 'undefined') {
         modalBody.querySelectorAll('pre code').forEach((block) => {
             hljs.highlightElement(block);
         });
+    }
+    
+    // Initialize icons in modal
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
     }
 }
 
@@ -172,14 +172,16 @@ function closeModal() {
     if (!modalOverlay) return;
 
     modalOverlay.classList.add('opacity-0');
-    modalContent.classList.remove('scale-100', 'opacity-100');
-    modalContent.classList.add('scale-95', 'opacity-0');
+    if(modalContent) {
+        modalContent.classList.remove('scale-100', 'opacity-100');
+        modalContent.classList.add('scale-95', 'opacity-0');
+    }
     
     setTimeout(() => {
         modalOverlay.classList.add('hidden');
         document.body.style.overflow = ''; // Unlock scroll
         if (modalBody) modalBody.innerHTML = ''; // Clear content
-    }, 300); // Match transition duration
+    }, 300);
 }
 
 function initModal() {
@@ -199,7 +201,6 @@ function initModal() {
         }
     });
 }
-
 
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {

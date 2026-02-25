@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Journal | Alex Redshaw</title>
+    <title>Post | Alex Redshaw</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -83,59 +83,43 @@
 
     <!-- Main Content -->
     <main class="flex-grow pt-32 pb-24">
-        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12">
             
-            <!-- Hero -->
-            <header class="mb-20 fade-in-section">
-                <span class="block text-terracotta text-xs font-mono mb-4 uppercase tracking-[0.2em]">Writing</span>
-                <h1 class="text-5xl md:text-7xl font-serif text-porcelain mb-6 tracking-tight">Journal</h1>
-                <p class="text-porcelain/60 max-w-2xl text-lg font-light leading-relaxed border-l border-white/10 pl-6">
-                    Observations on engineering, data science, and the evolving landscape of technology.
-                </p>
-            </header>
-
-            <!-- Filter Controls -->
-            <div class="flex flex-wrap gap-4 mb-16 fade-in-section" id="blog-filter-container">
-                <!-- Filters injected by JS -->
+            <!-- Breadcrumb -->
+            <div class="mb-8">
+                 <a href="blog.html" class="text-xs font-mono uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-colors duration-300 flex items-center gap-2">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Journal
+                 </a>
             </div>
 
-            <!-- Blog Grid -->
-            <div id="blog-grid" class="grid grid-cols-1 gap-4">
-                <!-- Blog Rows injected by JS -->
+            <!-- Blog Post Content -->
+            <div id="blog-post-content" class="fade-in-section">
+                 <!-- Content injected by JS -->
+                 <div class="animate-pulse flex flex-col gap-4">
+                     <div class="h-8 bg-white/5 w-3/4 rounded"></div>
+                     <div class="h-4 bg-white/5 w-1/4 rounded mb-8"></div>
+                     <div class="h-4 bg-white/5 w-full rounded"></div>
+                     <div class="h-4 bg-white/5 w-full rounded"></div>
+                     <div class="h-4 bg-white/5 w-5/6 rounded"></div>
+                 </div>
             </div>
 
         </div>
     </main>
-    
-    <!-- Modal (Consistent with Projects.html) -->
-    <div id="modal-overlay" class="fixed inset-0 bg-midnight/90 backdrop-blur-md z-[60] hidden opacity-0 flex items-center justify-center p-0 md:p-8 transition-opacity duration-300">
-        <div id="modal-content" class="bg-midnight border border-white/10 w-full max-w-5xl h-full md:max-h-[85vh] md:rounded-none shadow-2xl overflow-hidden flex flex-col scale-95 opacity-0 transform transition-all duration-300 relative">
-            
-            <button id="modal-close" class="absolute top-6 right-6 z-50 text-porcelain hover:text-terracotta focus:outline-none p-2 border border-white/10 bg-midnight/50 backdrop-blur-sm transition-colors group">
-                <i data-lucide="x" class="w-6 h-6 group-hover:rotate-90 transition-transform duration-300"></i>
-            </button>
-            
-            <div id="modal-body" class="overflow-y-auto custom-scrollbar h-full p-8 md:p-16">
-                <!-- Dynamic Content -->
-            </div>
-        </div>
-    </div>
-
 
     <!-- Footer -->
-    <footer class="bg-midnight border-t border-white/5 py-16">
-        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="text-porcelain/40 text-xs font-mono uppercase tracking-widest">
-                &copy; <span id="current-year"></span> Alex Redshaw
-            </div>
-            <div class="flex gap-8" id="footer-socials">
-                <!-- Socials Injected -->
+    <footer class="bg-midnight border-t border-white/5 py-12">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-porcelain/40 text-xs font-mono uppercase tracking-widest">© <span id="year"></span> Alex Redshaw</p>
+            <div class="flex space-x-6">
+                <a href="#" class="text-porcelain/40 hover:text-terracotta transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                <a href="#" class="text-porcelain/40 hover:text-terracotta transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                <a href="#" class="text-porcelain/40 hover:text-terracotta transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="js/main.js"></script>
-    <script src="js/blog.js"></script>
+    <script src="js/post.js"></script>
 </body>
 </html>

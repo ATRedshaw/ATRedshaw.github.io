@@ -1,138 +1,123 @@
-/* Custom CSS for Data Scientist Portfolio */
+/* Custom CSS for Minimalist Design Studio Aesthetic */
 
-/* Global Smooth Scroll */
+/* Global Settings */
 html {
   scroll-behavior: smooth;
+  background-color: #1B262C; /* Match midnight */
 }
 
-/* Custom Scrollbar */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar - Minimalist & Dark */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #1B262C;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  background: #233038;
+  border-radius: 0px; /* Sharp edges */
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #E07A5F; /* Terracotta hover */
 }
 
-/* Fade In Animation Class */
+/* Text Selection */
+::selection {
+  background: #E07A5F;
+  color: #F4F1EA;
+}
+
+/* Fade In Animation */
 .fade-in-section {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  will-change: opacity, visibility;
+  transform: translateY(10px); /* Reduced movement for subtler effect */
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform; /* Performance hint */
 }
 .fade-in-section.is-visible {
   opacity: 1;
   transform: none;
 }
 
-/* Navbar Link Active State */
+/* Navigation Active State */
 .nav-link.active {
-  color: #2563eb; /* Tailwind blue-600 */
-  border-bottom: 2px solid #2563eb;
+  color: #E07A5F; /* Terracotta */
 }
 
-/* Modal Transitions */
-#modal-overlay {
-  transition: opacity 0.3s ease-in-out;
-}
-#modal-content {
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400; /* Lighter weights for elegance */
 }
 
-/* Markdown Content Styling within Modals */
-.prose h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #1e293b;
+/* Prose (Markdown) Customization for Dark Mode */
+.prose {
+  color: #BCCCDC; /* Fern/Muted */
+  max-width: 65ch;
 }
-.prose h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-  color: #334155;
-}
-.prose h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-top: 1.25rem;
-  margin-bottom: 0.5rem;
-  color: #475569;
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: #F4F1EA; /* Porcelain */
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  margin-top: 2em;
+  margin-bottom: 0.8em;
 }
 .prose p {
-  margin-bottom: 1rem;
-  line-height: 1.7;
-  color: #475569;
+  line-height: 1.8;
+  margin-bottom: 1.5em;
 }
-.prose ul, .prose ol {
-  margin-bottom: 1rem;
-  padding-left: 1.5rem;
-  list-style-type: disc;
-}
-.prose li {
-    margin-bottom: 0.5rem;
+.prose strong {
+  color: #E07A5F; /* Terracotta */
+  font-weight: 600;
 }
 .prose a {
-  color: #2563eb;
-  text-decoration: underline;
+  color: #E07A5F;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(224, 122, 95, 0.3);
+  transition: border-color 0.3s ease;
 }
-.prose blockquote {
-  border-left: 4px solid #cbd5e1;
-  padding-left: 1rem;
-  font-style: italic;
-  color: #64748b;
-  margin-bottom: 1rem;
-}
-.prose img {
-  border-radius: 0.5rem;
-  margin: 1.5rem 0;
-  max-width: 100%;
-  height: auto;
+.prose a:hover {
+  border-bottom-color: #E07A5F;
 }
 .prose code {
-  font-family: 'Fira Code', monospace; /* Or standard monospace */
-  background-color: #f1f5f9;
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
-  font-size: 0.875em;
-  color: #e11d48;
+  color: #E07A5F;
+  background-color: rgba(255,255,255,0.05); /* Subtle highlight */
+  padding: 0.2em 0.4em;
+  border-radius: 0; /* Sharp */
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85em;
 }
 .prose pre {
-  background-color: #1e293b;
-  color: #f8fafc;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  overflow-x: auto;
-  margin-bottom: 1.5rem;
-}
-.prose pre code {
-  background-color: transparent;
-  color: inherit;
-  padding: 0;
+  background-color: #233038; /* Charcoal */
+  border: 1px solid rgba(255,255,255,0.05);
   border-radius: 0;
-  font-size: 0.9em;
+  padding: 1.5em;
+  overflow-x: auto;
+}
+.prose ul > li::marker {
+  color: #E07A5F;
+}
+.prose blockquote {
+  border-left-color: #E07A5F;
+  color: #F4F1EA;
+  font-style: italic;
+  font-family: 'Fraunces', serif;
 }
 
-/* Timeline Custom Styles */
-.timeline-line {
-    position: absolute;
-    left: 1rem; /* Adjust based on icon size */
-    top: 3rem;  /* Start below the first item's icon top */
-    bottom: 0;
-    width: 2px;
-    background-color: #e2e8f0;
-    z-index: 0;
+/* Links & Buttons Hover Effects */
+a, button {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
-/* Ensure timeline items cover the line line */ 
-.timeline-item {
-    position: relative; 
-    z-index: 10;
+
+/* Image Effects */
+.reveal-on-hover {
+  filter: grayscale(100%);
+  transition: filter 0.5s ease;
+}
+.reveal-on-hover:hover {
+  filter: grayscale(0%);
 }

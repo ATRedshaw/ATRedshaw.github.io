@@ -1,4 +1,4 @@
-// Blog Page Logic
+// Blog Page Logic: Filtering & Rendering
 
 let allPosts = [];
 
@@ -24,35 +24,53 @@ function setupBlogFilters() {
     const tags = new Set();
     allPosts.forEach(p => p.tags.forEach(t => tags.add(t)));
     
-    let html = `<button class="blog-filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-white transition-all shadow-sm hover:bg-slate-700" data-filter="all">All</button>`;
+    // Create Dropdown (Minimalist Design)
+    const select = document.createElement('select');
+    select.className = 'bg-midnight text-porcelain border border-white/10 px-6 py-3 font-mono text-xs uppercase tracking-widest focus:outline-none focus:border-terracotta transition-colors cursor-pointer appearance-none pr-10 relative z-10';
+    select.style.backgroundImage = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23F4F1EA\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'%3E%3C/polyline%3E%3C/svg%3E")';
+    select.style.backgroundRepeat = 'no-repeat';
+    select.style.backgroundPosition = 'right 1rem center';
+    
+    let optionsHtml = `<option value="all">All Topics</option>`;
     
     tags.forEach(tag => {
-        html += `<button class="blog-filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white text-slate-600 border border-slate-200 transition-all shadow-sm hover:bg-slate-50 hover:text-blue-600" data-filter="${tag}">${tag}</button>`;
+        optionsHtml += `<option value="${tag}">${tag}</option>`;
     });
 
-    filterContainer.innerHTML = html;
+    select.innerHTML = optionsHtml;
+    filterContainer.innerHTML = '';
+    filterContainer.appendChild(select);
 
-    filterContainer.querySelectorAll('.blog-filter-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            document.querySelectorAll('.blog-filter-btn').forEach(b => {
-                b.classList.remove('bg-slate-800', 'text-white');
-                b.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
-            });
-            e.target.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
-            e.target.classList.add('bg-slate-800', 'text-white');
-
-            const filterValue = e.target.getAttribute('data-filter');
-            filterPosts(filterValue);
-        });
+    select.addEventListener('change', (e) => {
+        const filterValue = e.target.value;
+        const grid = document.getElementById('blog-grid');
+        if(grid) {
+            grid.style.opacity = '0';
+            setTimeout(() => {
+                filterPosts(filterValue);
+                // grid.style.opacity = '1'; // Handled in filterPosts or by render?
+                // actually filterPosts already does the opacity transition, let's just call it.
+                // Wait, filterPosts implementation in file handles opacity.
+            }, 0); 
+        } else {
+             filterPosts(filterValue);
+        }
     });
 }
 
 function filterPosts(filter) {
-    if (filter === 'all') {
-        renderBlogPosts(allPosts);
-    } else {
-        const filtered = allPosts.filter(p => p.tags.includes(filter));
-        renderBlogPosts(filtered);
+    const grid = document.getElementById('blog-grid');
+    if(grid) {
+        grid.style.opacity = '0';
+        setTimeout(() => {
+            if (filter === 'all') {
+                renderBlogPosts(allPosts);
+            } else {
+                const filtered = allPosts.filter(p => p.tags.includes(filter));
+                renderBlogPosts(filtered);
+            }
+            grid.style.opacity = '1';
+        }, 300);
     }
 }
 
@@ -61,77 +79,64 @@ function renderBlogPosts(posts) {
     if (!grid) return;
 
     grid.innerHTML = posts.map((post, index) => {
+        const dateObj = new Date(post.date);
+        const dateStr = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
         return `
-        <article class="bg-white p-8 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow cursor-pointer fade-in-section blog-card flex flex-col justify-between h-full" data-index="${index}">
-            <div>
-                <div class="flex items-center gap-4 text-xs text-slate-400 mb-4">
-                    <span class="flex items-center gap-1">
-                        <i data-lucide="calendar" class="w-3 h-3"></i> ${new Date(post.date).toLocaleDateString()}
-                    </span>
-                    <span class="flex items-center gap-1">
-                        <i data-lucide="clock" class="w-3 h-3"></i> ${post.reading_time || '5 min'} read
-                    </span>
-                </div>
+        <article class="group relative border-t border-white/5 py-12 md:py-16 transition-colors duration-500 hover:bg-white/[0.02] cursor-pointer blog-card fade-in-section" data-index="${index}">
+            <div class="flex flex-col md:flex-row md:items-baseline gap-6 md:gap-12">
                 
-                <h2 class="text-2xl font-bold text-slate-800 mb-3 hover:text-blue-600 transition-colors">${post.title}</h2>
-                <p class="text-slate-600 leading-relaxed mb-6">${post.excerpt}</p>
-            </div>
-            
-            <div class="flex items-center justify-between mt-auto">
-                <div class="flex gap-2">
-                    ${post.tags.map(tag => `<span class="text-xs font-medium px-2 py-1 rounded bg-slate-100 text-slate-600">${tag}</span>`).slice(0, 2).join('')}
+                <!-- Date -->
+                <div class="md:w-1/6 flex flex-col md:items-end flex-shrink-0">
+                    <span class="font-mono text-terracotta text-sm tracking-widest uppercase mb-2">${dateStr}</span>
+                     <span class="font-mono text-[10px] text-fern/60 uppercase tracking-widest border border-white/5 px-2 py-0.5 inline-block md:hidden w-fit">
+                        ${post.reading_time || '5 min'} read
+                    </span>
                 </div>
-                <span class="text-blue-600 text-sm font-semibold flex items-center gap-1 group">
-                    Read Post <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
-                </span>
+
+                <!-- Content -->
+                <div class="md:w-4/6">
+                    <h2 class="text-3xl font-serif text-porcelain mb-4 group-hover:text-terracotta transition-colors duration-300">
+                        ${post.title}
+                    </h2>
+                    <p class="text-porcelain/60 font-light leading-relaxed mb-6 max-w-2xl">
+                        ${post.excerpt}
+                    </p>
+                    <div class="flex items-center gap-3 md:hidden">
+                         ${post.tags.map(tag => `
+                            <span class="text-[10px] font-mono uppercase tracking-wider text-porcelain/40 px-2 py-1 border border-white/10 rounded-full">${tag}</span>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Meta (Right Side Desktop) -->
+                <div class="hidden md:flex md:w-1/6 flex-col items-end gap-3 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+                    <span class="font-mono text-xs text-fern uppercase tracking-widest">
+                        ${post.reading_time || '5 min'} read
+                    </span>
+                    <div class="flex flex-wrapjustify-end gap-2">
+                         ${post.tags.slice(0, 2).map(tag => `
+                            <span class="text-[10px] font-mono uppercase tracking-wider text-porcelain/40">${tag}</span>
+                        `).join('')}
+                    </div>
+                    <i data-lucide="arrow-up-right" class="w-5 h-5 text-terracotta opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-1 group-hover:-translate-y-1 mt-4"></i>
+                </div>
+
             </div>
         </article>
         `;
     }).join('');
 
-    grid.querySelectorAll('.blog-card').forEach((card, i) => {
+    // Add click listeners
+    const cards = grid.querySelectorAll('.blog-card');
+    cards.forEach((card, i) => {
         card.addEventListener('click', () => {
-             openBlogModal(posts[i]);
+             const filename = posts[i].markdown.split('/').pop().replace('.md', '');
+             window.location.href = `post.html?id=${filename}`;
         });
     });
 
     if (typeof lucide !== 'undefined') lucide.createIcons();
-    initScrollAnimations();
+    if (typeof initScrollAnimations === 'function') initScrollAnimations();
 }
 
-async function openBlogModal(post) {
-    let content = `
-        <div class="mb-8 border-b border-slate-100 pb-8">
-            <div class="flex gap-2 mb-4">
-                ${post.tags.map(tag => `<span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold uppercase tracking-wide">${tag}</span>`).join('')}
-            </div>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 leading-tight">${post.title}</h1>
-            <div class="flex items-center gap-4 text-sm text-slate-500">
-                <span>${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-                <span>&bull;</span>
-                <span>${post.reading_time} read</span>
-            </div>
-        </div>
-        <div class="prose prose-lg max-w-none text-slate-600">
-            <div id="modal-markdown-content" class="animate-pulse">Loading content...</div>
-        </div>
-    `;
-
-    openModal(content);
-
-     // Fetch Markdown
-    if (post.markdown) {
-        const mdText = await loadMarkdown(post.markdown);
-        const htmlContent = marked.parse(mdText);
-        const container = document.getElementById('modal-markdown-content');
-        if (container) {
-            container.classList.remove('animate-pulse');
-            container.innerHTML = htmlContent;
-             if (typeof hljs !== 'undefined') {
-                 container.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightElement(block);
-                });
-            }
-        }
-    }
-}

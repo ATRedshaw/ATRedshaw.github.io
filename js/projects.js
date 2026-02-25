@@ -23,29 +23,25 @@ function setupFilters() {
     const tags = new Set();
     allProjects.forEach(p => p.tags.forEach(t => tags.add(t)));
     
-    // Create Buttons
-    let html = `<button class="filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-slate-800 text-white transition-all shadow-sm hover:bg-slate-700" data-filter="all">All</button>`;
+    // Create Dropdown (Minimalist Design)
+    const select = document.createElement('select');
+    select.className = 'bg-midnight text-porcelain border border-white/10 px-6 py-3 font-mono text-xs uppercase tracking-widest focus:outline-none focus:border-terracotta transition-colors cursor-pointer appearance-none pr-10 relative z-10';
+    select.style.backgroundImage = 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23F4F1EA\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'%3E%3C/polyline%3E%3C/svg%3E")';
+    select.style.backgroundRepeat = 'no-repeat';
+    select.style.backgroundPosition = 'right 1rem center';
     
+    let optionsHtml = `<option value="all">All Projects</option>`;
     tags.forEach(tag => {
-        html += `<button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-white text-slate-600 border border-slate-200 transition-all shadow-sm hover:bg-slate-50 hover:text-blue-600" data-filter="${tag}">${tag}</button>`;
+        optionsHtml += `<option value="${tag}">${tag}</option>`;
     });
 
-    filterContainer.innerHTML = html;
+    select.innerHTML = optionsHtml;
+    filterContainer.innerHTML = '';
+    filterContainer.appendChild(select);
 
-    // Add Event Listeners
-    filterContainer.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            // Update UI
-            document.querySelectorAll('.filter-btn').forEach(b => {
-                b.classList.remove('bg-slate-800', 'text-white');
-                b.classList.add('bg-white', 'text-slate-600', 'border', 'border-slate-200');
-            });
-            e.target.classList.remove('bg-white', 'text-slate-600', 'border', 'border-slate-200');
-            e.target.classList.add('bg-slate-800', 'text-white');
-
-            const filterValue = e.target.getAttribute('data-filter');
-            filterProjects(filterValue);
-        });
+    // Add Event Listener
+    select.addEventListener('change', (e) => {
+        filterProjects(e.target.value);
     });
 }
 
@@ -63,93 +59,94 @@ function renderProjects(projects) {
     if (!grid) return;
 
     grid.innerHTML = projects.map((project, index) => {
-        const imageSrc = project.thumbnail || 'https://via.placeholder.com/600x400?text=No+Image';
+        const imageSrc = project.thumbnail || 'https://via.placeholder.com/600x400/1B262C/F4F1EA?text=No+Image';
         
         return `
-        <div class="group bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 fade-in-section cursor-pointer project-card" data-index="${index}">
-            <div class="h-48 overflow-hidden bg-slate-100 relative">
-                <img src="${imageSrc}" alt="${project.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                     <span class="text-white text-sm font-medium">View Details &rarr;</span>
+        <div class="group bg-transparent border border-white/5 hover:border-terracotta/50 transition-all duration-500 fade-in-section cursor-pointer project-card relative overflow-hidden">
+            <div class="h-64 overflow-hidden bg-charcoal relative">
+                <img src="${imageSrc}" alt="${project.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100 grayscale group-hover:grayscale-0 mix-blend-luminosity group-hover:mix-blend-normal">
+                <div class="absolute inset-0 bg-midnight/20 group-hover:bg-transparent transition-colors duration-500"></div>
+                
+                <div class="absolute bottom-0 left-0 p-6 w-full z-10">
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        ${project.tags.slice(0, 3).map(tag => `<span class="text-[10px] font-mono uppercase tracking-widest px-2 py-1 border border-white/10 text-porcelain/60 bg-midnight/80 backdrop-blur-sm">${tag}</span>`).join('')}
+                    </div>
                 </div>
             </div>
-            <div class="p-6">
-                <div class="flex flex-wrap gap-2 mb-3">
-                    ${project.tags.map(tag => `<span class="text-xs font-medium px-2.5 py-0.5 rounded bg-blue-50 text-blue-600">${tag}</span>`).slice(0, 3).join('')}
-                    ${project.tags.length > 3 ? `<span class="text-xs font-medium px-2.5 py-0.5 rounded bg-slate-50 text-slate-500">+${project.tags.length - 3}</span>` : ''}
+            
+            <div class="p-8 border-t border-white/5 bg-midnight relative group-hover:bg-charcoal/30 transition-colors duration-500">
+                <h3 class="text-2xl font-serif text-porcelain mb-4 group-hover:text-terracotta transition-colors duration-300">${project.title}</h3>
+                <p class="text-fern text-sm font-light leading-relaxed line-clamp-3">${project.description}</p>
+                <div class="mt-6 flex items-center text-terracotta text-xs uppercase tracking-widest font-mono group-hover:translate-x-2 transition-transform duration-300">
+                    View Case Study <span class="ml-2">&rarr;</span>
                 </div>
-                <h3 class="text-xl font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">${project.title}</h3>
-                <p class="text-slate-600 text-sm line-clamp-2">${project.description}</p>
             </div>
         </div>
         `;
     }).join('');
 
-    // Re-bind click events for modals handles
-    // Note: We need to find the correct project object relative to the rendered list, 
-    // but the data-index above refers to the index in the CURRENT filtered array or the original?
-    // Let's use the title or a unique ID if possible. Using title for simplicity in this static context.
-    
     grid.querySelectorAll('.project-card').forEach((card, i) => {
         card.addEventListener('click', () => {
-             // 'projects' here is the currently rendered array (filtered or all)
-             // 'i' matches the index in the loop above
              openProjectModal(projects[i]);
         });
     });
 
-    initScrollAnimations();
+    if (typeof initScrollAnimations === 'function') initScrollAnimations();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 async function openProjectModal(project) {
     let content = `
-        <div class="mb-6">
-             <div class="h-64 w-full rounded-xl overflow-hidden mb-6 bg-slate-100">
-                <img src="${project.thumbnail || ''}" class="w-full h-full object-cover">
+        <div class="mb-12">
+             <div class="h-[40vh] w-full overflow-hidden mb-8 border-b border-white/10 relative">
+                <img src="${project.thumbnail || ''}" class="w-full h-full object-cover grayscale opacity-80">
+                <div class="absolute inset-0 bg-gradient-to-t from-midnight to-transparent"></div>
             </div>
-            <h1 class="text-3xl font-bold text-slate-900 mb-2">${project.title}</h1>
-            <div class="flex flex-wrap gap-2 mb-4">
-                ${project.tags.map(tag => `<span class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-sm">${tag}</span>`).join('')}
+            <div class="max-w-3xl mx-auto px-6">
+                <span class="block text-terracotta text-xs font-mono mb-4 uppercase tracking-widest">Case Study</span>
+                <h1 class="text-4xl md:text-5xl font-serif font-light text-porcelain mb-6">${project.title}</h1>
+                
+                <div class="flex flex-wrap gap-3 mb-12">
+                    ${project.tags.map(tag => `<span class="px-3 py-1 border border-white/10 text-fern text-xs font-mono uppercase tracking-widest">${tag}</span>`).join('')}
+                </div>
+                
+                <div class="flex gap-6 mb-12 border-b border-white/10 pb-12">
+                    ${project.links && project.links.github ? `
+                        <a href="${project.links.github}" target="_blank" class="flex items-center gap-2 text-porcelain hover:text-terracotta transition-colors font-mono text-xs uppercase tracking-wide border border-white/20 px-4 py-2 hover:border-terracotta">
+                            <i data-lucide="github" class="w-4 h-4"></i> View Code
+                        </a>
+                    ` : ''}
+                    ${project.links && project.links.demo ? `
+                        <a href="${project.links.demo}" target="_blank" class="flex items-center gap-2 text-porcelain hover:text-terracotta transition-colors font-mono text-xs uppercase tracking-wide border border-white/20 px-4 py-2 hover:border-terracotta">
+                            <i data-lucide="external-link" class="w-4 h-4"></i> Live Demo
+                        </a>
+                    ` : ''}
+                </div>
+                
+                <div class="prose prose-invert prose-lg max-w-none">
+                     <p class="text-fern font-light text-lg leading-loose">${project.description}</p>
+                </div>
+                
+                <div id="modal-markdown-content" class="mt-8 prose prose-invert prose-lg max-w-none">
+                    <!-- Markdown content loaded here -->
+                </div>
             </div>
-            
-            <div class="flex gap-4 mb-8">
-                ${project.links && project.links.github ? `
-                    <a href="${project.links.github}" target="_blank" class="flex items-center gap-2 text-slate-700 hover:text-blue-600 font-medium">
-                        <i data-lucide="github" class="w-5 h-5"></i> View Code
-                    </a>
-                ` : ''}
-                 ${project.links && project.links.demo ? `
-                    <a href="${project.links.demo}" target="_blank" class="flex items-center gap-2 text-slate-700 hover:text-blue-600 font-medium">
-                        <i data-lucide="external-link" class="w-5 h-5"></i> Live Demo
-                    </a>
-                ` : ''}
-            </div>
-        </div>
-        <div class="prose max-w-none text-slate-600">
-            <!-- Markdown content will be injected here -->
-            <div id="modal-markdown-content" class="animate-pulse">Loading content...</div>
         </div>
     `;
 
-    openModal(content);
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-
-    // Fetch Markdown
-    if (project.markdown) {
-        const mdText = await loadMarkdown(project.markdown);
-        const htmlContent = marked.parse(mdText);
-        const container = document.getElementById('modal-markdown-content');
-        if (container) {
-            container.classList.remove('animate-pulse');
-            container.innerHTML = htmlContent;
-            // Highlight code blocks
-            if (typeof hljs !== 'undefined') {
-                 container.querySelectorAll('pre code').forEach((block) => {
-                    hljs.highlightElement(block);
-                });
-            }
+    if (typeof openModal === 'function') {
+        openModal(content);
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        
+        if (project.markdown) {
+             // Check if markdown path is already full path or just filename
+             const path = project.markdown.startsWith('content/projects/') ? project.markdown : `content/projects/${project.markdown}`;
+             const mdContent = await loadMarkdown(path);
+             const markdownContainer = document.getElementById('modal-markdown-content');
+             if (markdownContainer && mdContent) {
+                 markdownContainer.innerHTML = marked.parse(mdContent);
+                 if (typeof hljs !== 'undefined') hljs.highlightAll();
+             }
         }
-    } else {
-        document.getElementById('modal-markdown-content').innerHTML = "<p>No detailed content available.</p>";
     }
 }

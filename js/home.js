@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Convert newlines to paragraphs
         const paragraphs = siteData.about.split('\n\n').filter(p => p.trim() !== '');
         aboutTextContainer.innerHTML = paragraphs
-            .map(p => `<p class="mb-4 text-slate-600 leading-relaxed">${p}</p>`)
+            .map(p => `<p class="mb-6 text-fern text-lg leading-loose font-light">${p}</p>`)
             .join('');
     }
 });
