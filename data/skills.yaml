@@ -1,9 +1,15 @@
 categories:
-  - name: "Languages & Frameworks"
-    skills: ["Python", "SQL", "R", "Bash", "PyTorch", "TensorFlow", "Scikit-learn", "FastAPI", "Flask"]
-  - name: "Data Engineering"
-    skills: ["Apache Spark", "Airflow", "dbt", "PostgreSQL", "MongoDB", "Snowflake", "Kafka"]
-  - name: "Cloud & DevOps"
-    skills: ["AWS (S3, EC2, Lambda)", "Docker", "Kubernetes", "CI/CD (GitHub Actions)", "Terraform"]
-  - name: "Visualization"
-    skills: ["Tableau", "Power BI", "Matplotlib", "Seaborn", "Plotly", "Streamlit"]
+  - name: "Machine Learning & AI"
+    skills: ["Scikit-Learn", "PyTorch", "Azure Machine Learning", "Generative AI", "LLMs", "MLFlow"]
+  - name: "Data Analysis & Visualisation"
+    skills: ["Pandas", "NumPy", "Tableau", "Power BI", "Matplotlib", "Alteryx"]
+  - name: "Statistical Modeling"
+    skills: ["PuLP", "Monte-Carlo Simulation"]
+  - name: "Languages"
+    skills: ["Python", "SQL", "Java", "JavaScript", "HTML", "CSS"]
+  - name: "Database & Cloud"
+    skills: ["Azure", "AWS", "MS SQL Server", "Firebase", "DynamoDB"]
+  - name: "Web Development"
+    skills: ["React", "Tailwind CSS", "Framer Motion", "Flask"]
+  - name: "Tools"
+    skills: ["Git", "GitHub", "Jupyter Notebooks", "Docker"]
