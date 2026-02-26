@@ -8,7 +8,7 @@ categories:
   - name: "Languages"
     skills: ["Python", "SQL", "Java", "JavaScript", "HTML", "CSS"]
   - name: "Database & Cloud"
-    skills: ["Azure", "AWS", "MS SQL Server", "Firebase", "DynamoDB"]
+    skills: ["Azure", "AWS", "MS SQL Server", "Firebase", "DynamoDB", "SQLite"]
   - name: "Web Development"
     skills: ["React", "Tailwind CSS", "Framer Motion", "Flask"]
   - name: "Tools"
