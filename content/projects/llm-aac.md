@@ -13,8 +13,6 @@ Each participant completes ten scenarios, alternating between two interface cond
 - **Static mode**: A conventional folder-based vocabulary grid. Words are organised into thematic categories (pronouns, actions, food, health and so on) and participants navigate between folders to build their sentence.
 - **Vision mode**: The same grid is available, but a dedicated "Context" tab is added. On scenario start, the scene photograph is passed to a multimodal LLM (Meta Llama 4 Maverick via the Groq API) which returns a contextually relevant word list. These appear as a single flat tile grid, eliminating the need to hunt through folders.
 
-</br>
-
 Before any timed trials begin, participants complete a sandbox session to explore the interface without data being recorded, reducing first-encounter friction. Every interaction is then logged at the event level: timestamped keystrokes, tab switches, AI suggestion selections and real-time similarity scores. Sentence similarity is computed using a token-level matching algorithm with trigram-based Jaccard similarity for fuzzy matching, so "hurt" sensibly matches "hurts".
 
 ## What Is Being Measured
