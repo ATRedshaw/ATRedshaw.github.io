@@ -187,8 +187,10 @@ function openModal(contentHtml) {
     // Set content
     modalBody.innerHTML = contentHtml;
     
-    // Show overlay
+    // Remove display:none before resetting scroll — browsers ignore scrollTop
+    // mutations on elements with display:none, causing stale positions to persist.
     modalOverlay.classList.remove('hidden');
+    modalBody.scrollTop = 0;
     
     // Trigger animations
     setTimeout(() => {
