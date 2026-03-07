@@ -1,11 +1,9 @@
 projects:
   - title: "Multimodal LLM Research for AAC"
-    description: "Research project investigating the integration of multimodal LLMs to assist individuals with learning disabilities and stroke induced speech impairments. Developed a proof of concept framework showing statistically significant improvements in communication rates."
+    description: "Ongoing research project investigating the integration of multimodal LLMs to assist individuals with learning disabilities and stroke-induced speech impairments. Developed a proof-of-concept framework currently showing statistically significant improvements in communication rates."
     tags: ["Generative AI", "LLMs", "Research", "Python"]
-    thumbnail: "https://via.placeholder.com/600x400/210124/FAFFFD?text=LLM+Research"
+    thumbnail: "assets/images/projects/multimodal-aac-research.png"
     markdown: "content/projects/llm-aac.md"
-    links:
-      github: "https://github.com/ATRedshaw"
   - title: "Probabilistic Football Analysis"
     description: "Scraped and preprocessed extensive shot data from Europe's top five leagues to develop a bespoke Expected Goals (xG) model using Scikit-learn. Built an interactive web application for real time plotting and visualisation."
     tags: ["Machine Learning", "Scikit-learn", "Python", "Data Visualisation"]
