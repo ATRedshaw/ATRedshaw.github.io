@@ -1,6 +1,12 @@
-# Data Scientist Portfolio Template
+> ⚠️ **Important: Origin and current status**
+>
+> This site was initially scaffolded from `cotes2020/chirpy-starter` but has since been fully migrated and extensively customised. The original Chirpy starter is no longer used. This repository is a standalone custom implementation with no Chirpy runtime dependency.
 
-A clean, minimalist, and responsive portfolio website designed for Data Scientists and Engineers. Built with pure HTML, CSS (Tailwind), and vanilla JavaScript. No build steps required.
+</br>
+
+# My Portfolio Site
+
+A clean, minimalist, and responsive portfolio website built with pure HTML, CSS (Tailwind via CDN), and vanilla JavaScript. No build steps required.
 
 ## Features
 
