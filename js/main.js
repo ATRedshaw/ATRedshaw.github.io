@@ -8,7 +8,7 @@ const CONTENT_DIR = 'content/';
 
 async function loadYamlData(filename) {
     try {
-        const response = await fetch(`${DATA_DIR}${filename}`);
+        const response = await fetch(`${DATA_DIR}${filename}`, { cache: 'no-cache' });
         if (!response.ok) throw new Error(`Failed to fetch ${filename}`);
         const text = await response.text();
         return jsyaml.load(text);
@@ -20,7 +20,7 @@ async function loadYamlData(filename) {
 
 async function loadMarkdown(filepath) {
     try {
-        const response = await fetch(filepath);
+        const response = await fetch(filepath, { cache: 'no-cache' });
         if (!response.ok) throw new Error(`Failed to fetch ${filepath}`);
         return await response.text();
     } catch (error) {
