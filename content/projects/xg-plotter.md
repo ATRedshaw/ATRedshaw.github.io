@@ -4,8 +4,6 @@ This project is an interactive Expected Goals (xG) prediction and visualisation 
 
 The underlying model family and much of the feature engineering philosophy carry the DNA of my final-year undergraduate dissertation from 2024, in which I achieved a first class grade for investigating whether xG models are genuinely predictive of future team performance across the top five European leagues. That research involved building and comparing logistic regression and random forest classifiers, scraping and processing a substantial dataset, and then evaluating how well those xG estimates could predict future team performance as features in regression and match outcome prediction models. The plotter is a ground-up rebuild of those ideas into something interactive and deployable, rather than an academic artefact that lives in a PDF and is never looked at again.
 
----
-
 ## The Dissertation: Where It All Started
 
 My dissertation asked a fairly fundamental question about the xG metric that many football analysts take for granted: does it actually predict future outcomes better than raw goal counts? The answer, perhaps unsurprisingly to anyone who has followed the analytics space, was broadly yes, though with some interesting nuance depending on which model variant you used and how far ahead you tried to predict.
@@ -13,8 +11,6 @@ My dissertation asked a fairly fundamental question about the xG metric that man
 To answer that question I needed to build xG models from scratch. The dissertation covered scraping historical shot data from Understat, cleaning and preprocessing it, engineering spatial features and training classifiers. Both logistic regression and random forest models were built and compared. Those xG estimates were then used as features in a separate set of predictive models, evaluated against standard regression metrics like MAE and MSE and tested in the context of match outcome prediction. That entire modelling workflow forms the academic foundation of what became the xG Plotter.
 
 The key difference is intent. The dissertation was about the *validity* of xG as a predictive metric. The plotter is about making those models *usable and visible*, in a way that is actually enjoyable to interact with.
-
----
 
 ## The Data Pipeline
 
@@ -44,8 +40,6 @@ where $\vec{v_1}$ and $\vec{v_2}$ are the vectors to the two posts at $(1.0, 0.4
 
 Categorical features (`situation` and `shotType`) are one-hot encoded using `pd.get_dummies`. The advanced model additionally includes interaction terms, created by concatenating the two category labels and then one-hot encoding the result, so `OpenPlay_RightFoot`, `FromCorner_Head` and so on become their own binary features. This allows the model to learn that, say, a headed shot from a corner carries different probabilistic weight than a right-footed shot from open play at the same coordinates.
 
----
-
 ## The Model Architecture: Four Models, One Smart Selector
 
 Rather than a single monolithic model that handles all input combinations, the project trains four logistic regression classifiers, each suited to a different level of available information:
@@ -69,8 +63,6 @@ With a large held-out test set per model, the evaluation is on solid statistical
 
 Penalties are handled as a hard-coded override at prediction time, returning a fixed xG of 0.76 (the avg number of penalties scored for the dataset). Attempting to learn the penalty conversion rate from coordinates alone is rather circular when all penalties are taken from the same spot.
 
----
-
 ## From Flask to ONNX: Killing the Server
 
 The original version of the application used a Flask REST API to serve predictions. The frontend would fire a POST request on every click, the Python backend would run inference and return a JSON response. This worked fine locally but was a nightmare to deploy. It required a persistently running server, introduced latency on every prediction, and meant the project could not be hosted as a static site without paying for compute or fiddling with serverless functions.
@@ -84,8 +76,6 @@ In the browser, ONNX Runtime Web loads the models lazily and caches them, so the
 The `xg_inference.js` module is a faithful JavaScript port of the Python inference logic, including coordinate normalisation, model selection, feature vector construction and the penalty override. The feature engineering, covering distance, angle and the one-hot encoding, is reimplemented in vanilla JS using exactly the same mathematical formulas as the Python preprocessing code. Any divergence between training-time and inference-time feature computation would silently corrupt the predictions, and debugging a model that is technically correct but fed subtly wrong features is not a particularly enjoyable afternoon.
 
 The result is a web application that works offline after the initial page load, costs nothing to host beyond GitHub Pages, and makes predictions in the browser with zero network round-trips.
-
----
 
 ## The Frontend
 
@@ -103,8 +93,6 @@ The pitch is drawn on an HTML `<canvas>` element using FIFA standard dimensions 
 
 Shot markers are rendered as filled circles with a radius of 0.5 metres (scaled accordingly), coloured by team. The selected shot is highlighted with a ring. Clicking an existing shot selects it and clicking anywhere else plots a new one.
 
----
-
 ## Putting It Together: The Development Arc
 
 The honest summary of how this project came together is roughly as follows:
@@ -117,8 +105,6 @@ The honest summary of how this project came together is roughly as follows:
 
 The dissertation is where the model design and much of the analytical thinking lived. The plotter is where the engineering happened. The two fed into each other more than a numbered list makes it sound.
 
----
-
 ## What I Would Do Differently
 
 A few things stand out with the benefit of hindsight.
@@ -126,8 +112,6 @@ A few things stand out with the benefit of hindsight.
 The four-model selector is clean from a user experience perspective, but it adds meaningful complexity to the JavaScript inference module, which has to maintain feature lists in sync with the Python training code. A single model trained on all features, with a learned imputation or embedding for missing categoricals, would simplify the inference path at the cost of some interpretability.
 
 The data covers the top five European leagues from 2014 to 2024, which is broad but not necessarily deep. A model trained purely on shot coordinates and categorical context will always be limited. It has no knowledge of the defensive pressure on the shooter, the quality of the assist, whether it was a first touch or a controlled finish, or any of the richer context that commercially developed xG models incorporate. For a personal project this is entirely fine, though it is worth being honest about the limitations if anything more serious were on the table.
-
----
 
 ## Tech Stack Summary
 
