@@ -82,7 +82,7 @@ async function renderPost(post) {
     if (post.markdown) {
         try {
             const mdText = await loadMarkdown(post.markdown);
-            const htmlContent = marked.parse(mdText);
+            const htmlContent = parseMarkdown(mdText);
             const mdContainer = document.getElementById('markdown-content');
             
             if (mdContainer) {

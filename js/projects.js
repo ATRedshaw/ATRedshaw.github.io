@@ -186,7 +186,7 @@ async function openProjectModal(project) {
              const mdContent = await loadMarkdown(path);
              const markdownContainer = document.getElementById('modal-markdown-content');
              if (markdownContainer && mdContent) {
-                 markdownContainer.innerHTML = marked.parse(mdContent);
+                 markdownContainer.innerHTML = parseMarkdown(mdContent);
                  if (typeof hljs !== 'undefined') hljs.highlightAll();
              }
         }

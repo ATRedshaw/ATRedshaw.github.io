@@ -29,6 +29,52 @@ async function loadMarkdown(filepath) {
     }
 }
 
+/**
+ * Parses a markdown string to HTML, safely handling LaTeX math expressions.
+ *
+ * Display math ($$...$$) and inline math ($...$) are stashed before the
+ * markdown parser runs — preventing it from mangling LaTeX syntax such as
+ * subscript underscores and pipe characters — then restored as rendered
+ * KaTeX output. Falls back to a <code> block if KaTeX is unavailable.
+ *
+ * @param {string} mdText - Raw markdown string.
+ * @returns {string} Rendered HTML.
+ */
+function parseMarkdown(mdText) {
+    const stash = [];
+
+    const stashMath = (content, displayMode) => {
+        const placeholder = `MATHPLACEHOLDER${stash.length}END`;
+        stash.push({ content, displayMode });
+        // Surround display-math placeholders with blank lines so marked
+        // treats them as their own paragraph rather than inline text.
+        return displayMode ? `\n\n${placeholder}\n\n` : placeholder;
+    };
+
+    // Stash display math first to avoid the $$ being caught by the inline pass.
+    let processed = mdText.replace(/\$\$([\s\S]+?)\$\$/g, (_, math) => stashMath(math, true));
+    // Stash inline math, excluding $ adjacent to another $ (already handled).
+    processed = processed.replace(/(?<!\$)\$([^$\n]+?)\$(?!\$)/g, (_, math) => stashMath(math, false));
+
+    let html = marked.parse(processed);
+
+    html = html.replace(/MATHPLACEHOLDER(\d+)END/g, (_, idx) => {
+        const { content, displayMode } = stash[parseInt(idx, 10)];
+        if (typeof katex !== 'undefined') {
+            try {
+                return katex.renderToString(content.trim(), { displayMode, throwOnError: false });
+            } catch {
+                return `<code>${content}</code>`;
+            }
+        }
+        return displayMode
+            ? `<pre class="math-block"><code>${content}</code></pre>`
+            : `<code>${content}</code>`;
+    });
+
+    return html;
+}
+
 // --- UI / DOM Functions ---
 
 // 1. Navbar Logic
