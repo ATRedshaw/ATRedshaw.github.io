@@ -4,8 +4,6 @@ Augmentative and Alternative Communication, or AAC, refers to any system that su
 
 This project asks a straightforward question: can a context-aware, vision-augmented suggestion feed powered by a multimodal large language model meaningfully improve communication speed and reduce physical effort compared to the conventional static folder approach?
 
----
-
 ## The Experiment
 
 I built a browser-based AAC research tool from scratch in HTML, CSS and JavaScript. The interface presents participants with a scene photograph alongside a target sentence they must construct using the available vocabulary. Scenarios were drawn from a pool of real-world environments ranging from a pharmacy counter and a bus stop to a gym and a jewellery store.
@@ -19,8 +17,6 @@ Each participant completes ten scenarios, alternating between two interface cond
 
 Before any timed trials begin, participants complete a sandbox session to explore the interface without data being recorded, reducing first-encounter friction. Every interaction is then logged at the event level: timestamped keystrokes, tab switches, AI suggestion selections and real-time similarity scores. Sentence similarity is computed using a token-level matching algorithm with trigram-based Jaccard similarity for fuzzy matching, so "hurt" sensibly matches "hurts".
 
----
-
 ## What Is Being Measured
 
 Three core metrics are extracted per completed task:
@@ -30,8 +26,6 @@ Three core metrics are extracted per completed task:
 **Physical Interaction Cost** is the total number of UI interactions required to complete a sentence. Folder selections and AI taps count as one click per word. Keyboard input is charged at one click per character plus one for the enter key, because typing "withdraw" on a virtual keyboard is not the same as tapping a single pre-generated tile and conflating the two would paint a flattering but dishonest picture.
 
 **Selection Ratio** is physical interactions divided by word count. A ratio of 1.0 means every word required exactly one tap. The higher this number climbs, the more folder navigation and typing effort was involved.
-
----
 
 ## Early Results
 
@@ -56,8 +50,6 @@ In Vision mode, the majority of words are selected directly from AI suggestions,
 ### Keystroke Saving Rate
 
 The global Keystroke Saving Rate (KSR), a standard efficiency metric in AAC research, currently sits at a level suggesting Vision mode is eliminating roughly two in every five user interactions compared to the conventional folder-based approach. Whether that figure holds as the dataset grows is the interesting question.
-
----
 
 ## Status, Limitations and What Comes Next
 
