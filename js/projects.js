@@ -158,16 +158,11 @@ async function openProjectModal(project) {
                 </div>
                 
                 <div class="flex gap-6 mb-12 border-b border-white/10 pb-12">
-                    ${project.links && project.links.github ? `
-                        <a href="${project.links.github}" target="_blank" class="flex items-center gap-2 text-porcelain hover:text-terracotta transition-colors font-mono text-xs uppercase tracking-wide border border-white/20 px-4 py-2 hover:border-terracotta">
-                            <i data-lucide="github" class="w-4 h-4"></i> View Code
+                    ${(project.links || []).map(link => `
+                        <a href="${link.url}" target="_blank" class="flex items-center gap-2 text-porcelain hover:text-terracotta transition-colors font-mono text-xs uppercase tracking-wide border border-white/20 px-4 py-2 hover:border-terracotta">
+                            <i data-lucide="${link.icon || 'external-link'}" class="w-4 h-4"></i> ${link.label || 'View Link'}
                         </a>
-                    ` : ''}
-                    ${project.links && project.links.demo ? `
-                        <a href="${project.links.demo}" target="_blank" class="flex items-center gap-2 text-porcelain hover:text-terracotta transition-colors font-mono text-xs uppercase tracking-wide border border-white/20 px-4 py-2 hover:border-terracotta">
-                            <i data-lucide="external-link" class="w-4 h-4"></i> Live Demo
-                        </a>
-                    ` : ''}
+                    `).join('')}
                 </div>
                 
                 <div class="prose prose-invert prose-lg max-w-none">
