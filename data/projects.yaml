@@ -4,17 +4,25 @@ projects:
     tags: ["Generative AI", "LLMs", "Research", "Python"]
     thumbnail: "assets/images/projects/multimodal-aac-research.png"
     markdown: "content/projects/llm-aac.md"
-  - title: "Probabilistic Football Analysis"
-    description: "Scraped and preprocessed extensive shot data from Europe's top five leagues to develop a bespoke Expected Goals (xG) model using Scikit-learn. Built an interactive web application for real time plotting and visualisation."
+  - title: "Custom Football xG Model & Interactive Plotter"
+    description: "Built on a first-class dissertation in probabilistic machine-learning for football. Rebuilt a bespoke xG model and implemented an interactive front-end plotter to explore and visualise model predictions."
     tags: ["Machine Learning", "Scikit-learn", "Python", "Data Visualisation"]
     thumbnail: "https://via.placeholder.com/600x400/210124/FAFFFD?text=Football+Analysis"
-    markdown: "content/projects/football-analysis.md"
+    markdown: "content/projects/xg-plotter.md"
     links:
-      github: "https://github.com/ATRedshaw"
+      - url: "https://github.com/ATRedshaw/Redshaw-xG"
+        icon: "github"
+        label: "View Code"
+      - url: "https://atredshaw.github.io/Redshaw-xG/"
+        icon: "chart-scatter"
+        label: "Visit Site"
+      - url: ""
   - title: "WhirlWatch: Media Tracking & Recommendations"
     description: "Web application using the TMDb API for personalised media watchlists. Engineered a recommendation engine via the Groq Inference API to provide high speed suggestions based on natural language inputs."
     tags: ["Web Development", "LLMs", "API Integration", "Python"]
     thumbnail: "https://via.placeholder.com/600x400/210124/FAFFFD?text=WhirlWatch"
     markdown: "content/projects/whirlwatch.md"
     links:
-      github: "https://github.com/ATRedshaw"
+      - url: "https://github.com/ATRedshaw"
+        icon: "github"
+        label: "View Code"
