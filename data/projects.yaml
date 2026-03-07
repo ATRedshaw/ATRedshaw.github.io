@@ -2,7 +2,7 @@ projects:
   - title: "Custom Football xG Model & Interactive Plotter"
     description: "Building on a first-class dissertation in probabilistic machine-learning for football, I rebuilt a bespoke xG model from the ground up, implementing an interactive front-end plotter to explore and visualise model predictions."
     tags: ["Machine Learning", "Scikit-learn", "Python", "Data Visualisation"]
-    thumbnail: "assets/images/projects/xg-heatmap.png"
+    thumbnail: "assets/images/projects/thumbnails/xg-heatmap.png"
     markdown: "content/projects/xg-plotter.md"
     links:
       - url: "https://github.com/ATRedshaw/Redshaw-xG"
@@ -17,12 +17,12 @@ projects:
   - title: "Multimodal LLM Research for AAC"
     description: "Ongoing research project investigating the integration of multimodal LLMs to assist individuals with learning disabilities and stroke-induced speech impairments. Developed a proof-of-concept framework currently showing statistically significant improvements in communication rates."
     tags: ["Generative AI", "LLMs", "Research", "Python"]
-    thumbnail: "assets/images/projects/multimodal-aac-research.png"
+    thumbnail: "assets/images/projects/thumbnails/multimodal-aac-research.png"
     markdown: "content/projects/llm-aac.md"
   - title: "WhirlWatch: Media Tracking & Recommendations"
     description: "Web application using the TMDb API for personalised media watchlists. Engineered a recommendation engine via the Groq Inference API to provide high speed suggestions based on natural language inputs."
     tags: ["Web Development", "LLMs", "API Integration", "Python"]
-    thumbnail: "https://via.placeholder.com/600x400/210124/FAFFFD?text=WhirlWatch"
+    thumbnail: "assets/images/projects/thumbnails/whirlwatch.png"
     markdown: "content/projects/whirlwatch.md"
     links:
       - url: "https://github.com/ATRedshaw"
