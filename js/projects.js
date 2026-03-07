@@ -68,7 +68,7 @@ function renderProjects(projects) {
         
         if (hasThumbnail) {
             visualContent = `
-                <img src="${project.thumbnail}" alt="${project.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100 grayscale mix-blend-luminosity" onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='block';">
+                <img src="${project.thumbnail}" alt="${project.title}" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100 grayscale group-hover:grayscale-0 mix-blend-luminosity group-hover:mix-blend-normal" onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='block';">
                 <div class="absolute inset-0 bg-midnight/20 group-hover:bg-transparent transition-colors duration-500"></div>
                 <!-- Fallback hidden by default, shown on error -->
                 <div style="display:none;" class="w-full h-full bg-charcoal relative group-hover:bg-midnight transition-colors duration-500 flex items-center justify-center">
@@ -126,7 +126,7 @@ async function openProjectModal(project) {
     if (hasThumbnail) {
         visualHeader = `
              <div class="h-[40vh] w-full overflow-hidden mb-8 border-b border-white/10 relative">
-                <img src="${project.thumbnail}" class="w-full h-full object-cover grayscale opacity-80" onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex';">
+                <img src="${project.thumbnail}" class="w-full h-full object-cover opacity-90 transition-opacity duration-700" onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex';">
                 <div class="absolute inset-0 bg-gradient-to-t from-midnight to-transparent"></div>
                 <!-- Fallback hidden by default, shown on error -->
                 <div style="display:none;" class="absolute inset-0 bg-charcoal flex items-center justify-center overflow-hidden">
