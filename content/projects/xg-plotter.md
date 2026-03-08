@@ -10,6 +10,8 @@ My dissertation asked a fairly fundamental question about the xG metric that man
 
 ![xG vs raw goals as a predictor of future performance](assets/images/projects/xg-plotter/xg_vs_goals_headtohead.png)
 
+_Figure: This analysis, building on ideas from my dissertation, compares how well past expected goals and past actual goals predict future player scoring performance. The Pearson correlation tracks predictive strength across varying match windows. Expected goals consistently outperform raw goal counts as a leading indicator of future attacking performance. This advantage is particularly pronounced in the short term and extends clearly through medium-term evaluations but the predictive power of expected goals and raw goals eventually converges over much longer time horizons._
+ 
 To answer that question I needed to build xG models from scratch. The dissertation covered scraping historical shot data from Understat, cleaning and preprocessing it, engineering spatial features and training classifiers. Both logistic regression and random forest models were built and compared. Those xG estimates were then used as features in a separate set of predictive models, evaluated against standard regression metrics like MAE and MSE and tested in the context of match outcome prediction. That entire modelling workflow forms the academic foundation of what became the xG Plotter.
 
 The key difference is intent. The dissertation was about the *validity* of xG as a predictive metric. The plotter is about making those models *usable and visible*, in a way that is actually enjoyable to interact with.
@@ -20,10 +22,12 @@ The backend is a Python pipeline orchestrated by a single shell script, `run_pip
 
 ### Scraping
 
-Shot data is scraped from Understat, covering the English Premier League, La Liga, the Bundesliga, Serie A and Ligue 1, for seasons spanning 2014 to 2024. That amounts to hundreds of thousands of shots across roughly a decade of top-level football. Each record contains the normalised x/y coordinates of the shot, the game situation, the shot type and the outcome.
+Shot data is scraped from Understat, covering the English Premier League, La Liga, the Bundesliga, Serie A and Ligue 1, for seasons spanning 2014 to 2025. That amounts to over half a million shots across roughly a decade of top-level football. Each record contains the normalised x/y coordinates of the shot, the game situation, the shot type and the outcome.
 
 ![Shot volume by location across all leagues and seasons](assets/images/projects/xg-plotter/shot_volume_heatmap.png)
 
+_Figure: This dataset breakdown highlights the volume of shots and goals recorded across five major European leagues from 2014 to 2025. Compiling over half a million total shots is absolutely critical for training a robust classifier because actual goals are rare events (roughly one in ten shots results in a goal on average). The aggregated totals show consistent seasonal shot counts across the continent while providing a vast pool of positive historical examples for the model to learn from._
+ 
 ### Cleansing
 
 The cleansing stage is deliberately straightforward. It selects only the columns needed for modelling (`X`, `Y`, `situation`, `shotType`, `result`), coerces numeric types, ensures categoricals are consistent strings and drops anything malformed. Football shot data from a reputable provider is generally quite clean, and adding complexity here would be solving a problem that does not really exist.
@@ -44,6 +48,8 @@ where $\vec{v_1}$ and $\vec{v_2}$ are the vectors to the two posts at $(1.0, 0.4
 
 ![Distance and angle feature schematic](assets/images/projects/xg-plotter/distance_angle_schematic.png)
 
+_Figure: This schematic illustrates the two core spatial features underpinning the model. While distance to goal acts as a straightforward proxy for shot difficulty the angle calculation provides vital geometric context. A central strike and a wide attempt might share identical distances but the visible target area for the wide shot shrinks dramatically. Using this trigonometric approach ensures the algorithm understands goal face visibility rather than just raw proximity._
+ 
 Categorical features (`situation` and `shotType`) are one-hot encoded using `pd.get_dummies`. The advanced model additionally includes interaction terms, created by concatenating the two category labels and then one-hot encoding the result, so `OpenPlay_RightFoot`, `FromCorner_Head` and so on become their own binary features. This allows the model to learn that, say, a headed shot from a corner carries different probabilistic weight than a right-footed shot from open play at the same coordinates.
 
 ## The Model Architecture: Four Models, One Smart Selector
@@ -65,9 +71,11 @@ The reason for maintaining four separate models rather than one is straightforwa
 
 Each model is trained using a scikit-learn `Pipeline` containing a `StandardScaler` followed by `LogisticRegression`. Hyperparameters are tuned with `RandomizedSearchCV` over 50 iterations, using 5-fold stratified cross-validation and Brier score as the optimisation objective. The search covers L1 and L2 regularisation with a log-uniform distribution over the regularisation strength `C` (spanning four orders of magnitude) and the `liblinear` and `saga` solvers.
 
-With a large held-out test set per model, the evaluation is on solid statistical footing. One of the lessons from the dissertation was that Brier score is a more informative metric than accuracy for a heavily imbalanced classification problem like this one. Goals represent roughly 10% of all shots, so a model that simply predicts "no goal" for everything would achieve 90% accuracy and be entirely useless.
+With a large held-out test set of over 100,000 shots, the evaluation is on solid statistical footing. One of the lessons from the dissertation was that Brier score is a more informative metric than accuracy for a heavily imbalanced classification problem like this one. Goals represent roughly 10% of all shots, so a model that simply predicts "no goal" for everything would achieve 90% accuracy and be entirely useless.
 
 ![Reliability diagrams showing calibration for all four models](assets/images/projects/xg-plotter/reliability_advanced_model.png)
+
+_Figure: A reliability diagram visually assesses model calibration by plotting predicted probabilities against actual observed outcomes. The horizontal axis groups shots by their predicted expected goals value while the vertical axis shows the real percentage of those exact shots that resulted in a goal. If the model assigns a twenty percent chance of scoring to a specific batch of attempts a perfectly calibrated model will see exactly two in ten hit the back of the net. The incredibly low Expected Calibration Error (ECE) of 0.0062 and Absolute Calibration Error (ACE) of 0.0287 demonstrate that this model tracks closely to that ideal diagonal line across all probability buckets. The lower histogram highlights the severe class imbalance inherent to football data where goals are scarce and as such the model identified high-xg, clear-cut chances are few and far between._
 
 Penalties are handled as a hard-coded override at prediction time, returning a fixed xG of 0.76 (the avg number of penalties scored for the dataset). Attempting to learn the penalty conversion rate from coordinates alone is rather circular when all penalties are taken from the same spot.
 
@@ -81,7 +89,7 @@ The export process (`export_to_onnx.py`) reads each `model.joblib` file, uses `s
 
 In the browser, ONNX Runtime Web loads the models lazily and caches them, so the first prediction for a given model incurs a small network cost to fetch the `.onnx` file and every subsequent one is essentially instant. WebAssembly execution is fast enough that predictions feel synchronous from the user's perspective.
 
-The `xg_inference.js` module is a faithful JavaScript port of the Python inference logic, including coordinate normalisation, model selection, feature vector construction and the penalty override. The feature engineering, covering distance, angle and the one-hot encoding, is reimplemented in vanilla JS using exactly the same mathematical formulas as the Python preprocessing code. Any divergence between training-time and inference-time feature computation would silently corrupt the predictions, and debugging a model that is technically correct but fed subtly wrong features is not a particularly enjoyable afternoon.
+The `xg_inference.js` module is a JavaScript port of the Python inference logic, including coordinate normalisation, model selection, feature vector construction and the penalty override. The feature engineering, covering distance, angle and the one-hot encoding, is reimplemented in vanilla JS using exactly the same mathematical formulas as the Python preprocessing code. Any divergence between training-time and inference-time feature computation would silently corrupt the predictions, and debugging a model that is technically correct but fed subtly wrong features is not a particularly enjoyable afternoon.
 
 The result is a web application that works offline after the initial page load, costs nothing to host beyond GitHub Pages, and makes predictions in the browser with zero network round-trips.
 
@@ -119,7 +127,7 @@ A few things stand out with the benefit of hindsight.
 
 The four-model selector is clean from a user experience perspective, but it adds meaningful complexity to the JavaScript inference module, which has to maintain feature lists in sync with the Python training code. A single model trained on all features, with a learned imputation or embedding for missing categoricals, would simplify the inference path at the cost of some interpretability.
 
-The data covers the top five European leagues from 2014 to 2024, which is broad but not necessarily deep. A model trained purely on shot coordinates and categorical context will always be limited. It has no knowledge of the defensive pressure on the shooter, the quality of the assist, whether it was a first touch or a controlled finish, or any of the richer context that commercially developed xG models incorporate. For a personal project this is entirely fine, though it is worth being honest about the limitations if anything more serious were on the table.
+The data covers the top five European leagues from 2014 to 2025, which is broad but not necessarily deep. A model trained purely on shot coordinates and categorical context will always be limited. It has no knowledge of the defensive pressure on the shooter, the quality of the assist, whether it was a first touch or a controlled finish, or any of the richer context that commercially developed xG models incorporate. For a personal project this is entirely fine, though it is worth being honest about the limitations if anything more serious were on the table.
 
 ## Tech Stack Summary
 
