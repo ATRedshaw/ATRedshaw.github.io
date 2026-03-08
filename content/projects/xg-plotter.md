@@ -8,6 +8,8 @@ The underlying model family and much of the feature engineering philosophy carry
 
 My dissertation asked a fairly fundamental question about the xG metric that many football analysts take for granted: does it actually predict future outcomes better than raw goal counts? The answer, perhaps unsurprisingly to anyone who has followed the analytics space, was broadly yes, though with some interesting nuance depending on which model variant you used and how far ahead you tried to predict.
 
+![xG vs raw goals as a predictor of future performance](assets/images/projects/xg-plotter/xg_vs_goals_headtohead.png)
+
 To answer that question I needed to build xG models from scratch. The dissertation covered scraping historical shot data from Understat, cleaning and preprocessing it, engineering spatial features and training classifiers. Both logistic regression and random forest models were built and compared. Those xG estimates were then used as features in a separate set of predictive models, evaluated against standard regression metrics like MAE and MSE and tested in the context of match outcome prediction. That entire modelling workflow forms the academic foundation of what became the xG Plotter.
 
 The key difference is intent. The dissertation was about the *validity* of xG as a predictive metric. The plotter is about making those models *usable and visible*, in a way that is actually enjoyable to interact with.
@@ -19,6 +21,8 @@ The backend is a Python pipeline orchestrated by a single shell script, `run_pip
 ### Scraping
 
 Shot data is scraped from Understat, covering the English Premier League, La Liga, the Bundesliga, Serie A and Ligue 1, for seasons spanning 2014 to 2024. That amounts to hundreds of thousands of shots across roughly a decade of top-level football. Each record contains the normalised x/y coordinates of the shot, the game situation, the shot type and the outcome.
+
+![Shot volume by location across all leagues and seasons](assets/images/projects/xg-plotter/shot_volume_heatmap.png)
 
 ### Cleansing
 
@@ -37,6 +41,8 @@ $$d = \sqrt{(x - 1.0)^2 + (y - 0.5)^2}$$
 $$\theta = \arccos\left(\frac{\vec{v_1} \cdot \vec{v_2}}{|\vec{v_1}||\vec{v_2}|}\right)$$
 
 where $\vec{v_1}$ and $\vec{v_2}$ are the vectors to the two posts at $(1.0, 0.45)$ and $(1.0, 0.55)$ respectively.
+
+![Distance and angle feature schematic](assets/images/projects/xg-plotter/distance_angle_schematic.png)
 
 Categorical features (`situation` and `shotType`) are one-hot encoded using `pd.get_dummies`. The advanced model additionally includes interaction terms, created by concatenating the two category labels and then one-hot encoding the result, so `OpenPlay_RightFoot`, `FromCorner_Head` and so on become their own binary features. This allows the model to learn that, say, a headed shot from a corner carries different probabilistic weight than a right-footed shot from open play at the same coordinates.
 
@@ -60,6 +66,8 @@ The reason for maintaining four separate models rather than one is straightforwa
 Each model is trained using a scikit-learn `Pipeline` containing a `StandardScaler` followed by `LogisticRegression`. Hyperparameters are tuned with `RandomizedSearchCV` over 50 iterations, using 5-fold stratified cross-validation and Brier score as the optimisation objective. The search covers L1 and L2 regularisation with a log-uniform distribution over the regularisation strength `C` (spanning four orders of magnitude) and the `liblinear` and `saga` solvers.
 
 With a large held-out test set per model, the evaluation is on solid statistical footing. One of the lessons from the dissertation was that Brier score is a more informative metric than accuracy for a heavily imbalanced classification problem like this one. Goals represent roughly 10% of all shots, so a model that simply predicts "no goal" for everything would achieve 90% accuracy and be entirely useless.
+
+![Reliability diagrams showing calibration for all four models](assets/images/projects/xg-plotter/reliability_advanced_model.png)
 
 Penalties are handled as a hard-coded override at prediction time, returning a fixed xG of 0.76 (the avg number of penalties scored for the dataset). Attempting to learn the penalty conversion rate from coordinates alone is rather circular when all penalties are taken from the same spot.
 
