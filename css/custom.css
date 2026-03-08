@@ -271,3 +271,70 @@ a, button {
 .reveal-on-hover:hover {
   filter: grayscale(0%);
 }
+
+/* Prose image — click-to-enlarge trigger */
+.prose-img-zoomable {
+    cursor: zoom-in;
+    transition: opacity 0.2s ease;
+}
+
+.prose-img-zoomable:hover {
+    opacity: 0.8;
+}
+
+/* Image Lightbox
+   Flat element appended to <body>; avoids stacking context issues caused by
+   modal transforms and backdrop-filter on sibling elements. */
+#img-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(13, 27, 42, 0.97);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    cursor: zoom-out;
+}
+
+#img-lightbox.img-lightbox--active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#img-lightbox .img-lightbox__img {
+    display: block;
+    max-width: 95vw;
+    max-height: 95vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: default;
+}
+
+.img-lightbox__close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F4F1EA;
+    padding: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(13, 27, 42, 0.7);
+    cursor: pointer;
+    line-height: 0;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.img-lightbox__close:hover {
+    color: #E07A5F;
+    border-color: rgba(224, 122, 95, 0.5);
+}
