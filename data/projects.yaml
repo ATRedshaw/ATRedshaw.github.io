@@ -14,6 +14,18 @@ projects:
       - url: "https://raw.githubusercontent.com/ATRedshaw/ATRedshaw.github.io/refs/heads/main/assets/pdfs/Redshaw-Alex-Dissertation-2024.pdf"
         icon: "file-text"
         label: "Read Dissertation"
+  - title: "FPL Challenge Optimisations"
+    description: "Engine to pick the optimal Fantasy Premier League Challenge squad each gameweek. Adjusts ML point projections for bespoke scoring rules, solves an integer linear programme to maximise expected points, and includes a hindsight pass to compare predicted and actual outcomes."
+    tags: ["Machine Learning", "Optimisation", "Python", "Data Analysis", "Web Development"]
+    thumbnail: "assets/images/projects/thumbnails/fpl-challenge-optimisations.png"
+    markdown: "content/projects/fpl-challenge-optimisations.md"
+    links:
+      - url: "https://atredshaw.github.io/fpl-challenge-optimisations/"
+        icon: "laptop"
+        label: "Visit Site"
+      - url: "https://github.com/ATRedshaw/fpl-challenge-optimisations"
+        icon: "github"
+        label: "View Code"
   - title: "Multimodal LLM Research for AAC"
     description: "Ongoing research project investigating the integration of multimodal LLMs to assist individuals with learning disabilities and stroke-induced speech impairments. Developed a proof-of-concept framework currently showing statistically significant improvements in communication rates."
     tags: ["Generative AI", "LLMs", "Research", "Python"]
