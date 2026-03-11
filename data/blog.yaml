@@ -1,13 +1,7 @@
-# posts:
-#   - title: "Introduction to Transformers in NLP"
-#     date: "2024-02-15"
-#     tags: ["NLP", "Deep Learning", "Tutorial"]
-#     excerpt: "Understanding the attention mechanism and how Transformers revolutionized Natural Language Processing."
-#     reading_time: "8 min"
-#     markdown: "content/blog/transformers-intro.md"
-#   - title: "Best Practices for MLOps with Docker"
-#     date: "2024-01-20"
-#     tags: ["MLOps", "Docker", "Engineering"]
-#     excerpt: "A guide to containerizing your machine learning models for reproducible and scalable deployments."
-#     reading_time: "6 min"
-#     markdown: "content/blog/mlops-docker.md"
+posts:
+  - title: "Algorithm on the Oche: Darts World Championship 2025"
+    date: "2025-01-18"
+    tags: ["Darts", "Analytics", "Machine Learning", "Python"]
+    excerpt: "Crunching the numbers on the 2025 PDC World Darts Championship and seeing how my predictive model survived the Luke Littler storm."
+    reading_time: "6 min"
+    markdown: "content/blog/algorithm-on-the-oche-wc-2025.md"
