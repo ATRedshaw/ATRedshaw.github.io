@@ -85,7 +85,7 @@ The hindsight script skips gameweeks that have already been processed, so it can
 
 All results are surfaced through a static HTML frontend at `site/index.html`. There is no build step and no framework dependency. It loads two JSON files from `site/data/{season}/`: one for predicted optimal and one for actual optimal, then renders both side-by-side for each gameweek.
 
-![A screenshot of the modal for a specific challenge](/assets/images/fpl-challenge-optimisations/challenge-example-modal.png)
+![A screenshot of the modal for a specific challenge](/assets/images/projects/fpl-challenge-optimisations/challenge-example-modal.png)
 
 _Figure: The post-gameweek modal for Challenge 17, illustrating the performance gap between the initial 85.8 xPts projection and the 189.0 hindsight optimal. The UI highlights the "Match Rate" (50%) and uses green ticks to identify where the solver successfully aligned with the perfect lineup._
 
@@ -93,12 +93,11 @@ The UI is dark-themed and minimal. Each gameweek shows the challenge title and d
 
 A chart tracking predicted versus actual total points across all completed gameweeks gives a quick season-level view of how the model has held up over time.
 
-![Overall challenge stats bar at the top of the page, including overall rank, rank %, total gameweeks, etc.](/assets/images/fpl-challenge-optimisations/challenge-rank-progression.png)
+![Overall challenge stats bar at the top of the page, including overall rank, rank %, total gameweeks, etc.](/assets/images/projects/fpl-challenge-optimisations/challenge-rank-progression.png)
 
 _Figure: The graph showing the progression of the model's rank over the course of the season._
 
-![Overall challenge stats bar at the top of the page, including overall rank, rank %, total gameweeks, etc.](/assets/images/fpl-challenge-optimisations/challenge-stats.png)
-
+![Overall challenge stats bar at the top of the page, including overall rank, rank %, total gameweeks, etc.](/assets/images/projects/fpl-challenge-optimisations/challenge-stats.png)
 _Figure: The overall challenge stats bar indicating the overall season rank of the model can be found at the top of the page._
 
 The site data is mirrored automatically from the season data directory (`2025-26/data/lineups/`) every time the solver or hindsight scripts are run, so the frontend always reflects the latest state without any manual copying.
