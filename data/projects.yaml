@@ -31,12 +31,15 @@ projects:
     tags: ["Generative AI", "LLMs", "Research", "Python"]
     thumbnail: "assets/images/projects/thumbnails/multimodal-aac-research.png"
     markdown: "content/projects/llm-aac.md"
-  - title: "WhirlWatch: Media Tracking & Recommendations"
-    description: "Web application using the TMDb API for personalised media watchlists. Engineered a recommendation engine via the Groq Inference API to provide high speed suggestions based on natural language inputs."
+  - title: "WhirlWatch: Media Tracking & AI Recommendations"
+    description: "Web application using the TMDb API for personalised media tracking and watchlists. Engineered a recommendation engine via the Groq Inference API to provide high speed suggestions based on natural language inputs."
     tags: ["Web Development", "LLMs", "API Integration", "Python"]
     thumbnail: "assets/images/projects/thumbnails/whirlwatch.png"
     markdown: "content/projects/whirlwatch.md"
     links:
-      - url: "https://github.com/ATRedshaw"
+      - url: "https://whirlwatch.onrender.com/"
+        icon: "laptop"
+        label: "Visit Site"
+      - url: "https://github.com/ATRedshaw/whirl-watch"
         icon: "github"
         label: "View Code"
