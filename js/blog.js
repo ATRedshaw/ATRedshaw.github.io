@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Sort by date descending
     allPosts = data.posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    // Compute reading times from markdown character counts
+    await Promise.all(allPosts.map(async post => {
+        try {
+            const text = await loadMarkdown(post.markdown);
+            post.reading_time = readingTimeFromChars(text.length);
+        } catch {
+            post.reading_time = '1 min';
+        }
+    }));
     
     setupBlogFilters();
     renderBlogPosts(allPosts);

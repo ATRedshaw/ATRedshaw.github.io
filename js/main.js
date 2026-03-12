@@ -75,6 +75,17 @@ function parseMarkdown(mdText) {
     return html;
 }
 
+/**
+ * Computes a reading time string from a character count.
+ * Assumes ~1000 characters per minute for technical content.
+ *
+ * @param {number} charCount - Number of characters in the content.
+ * @returns {string} Formatted reading time, e.g. "6 min".
+ */
+function readingTimeFromChars(charCount) {
+    return `${Math.max(1, Math.round(charCount / 1000))} min`;
+}
+
 // --- UI / DOM Functions ---
 
 // 1. Navbar Logic

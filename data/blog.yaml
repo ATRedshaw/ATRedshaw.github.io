@@ -3,5 +3,4 @@ posts:
     date: "2025-01-18"
     tags: ["Darts", "Analytics", "Machine Learning", "Python"]
     excerpt: "Crunching the numbers on the 2025 PDC World Darts Championship and seeing how my predictive model survived the Luke Littler storm."
-    reading_time: "6 min"
     markdown: "content/blog/algorithm-on-the-oche-wc-2025.md"

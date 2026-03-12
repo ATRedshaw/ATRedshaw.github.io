@@ -59,7 +59,7 @@ async function renderPost(post) {
                 <span class="text-terracotta">•</span>
                 <div class="flex items-center gap-2">
                     <i data-lucide="clock" class="w-4 h-4"></i>
-                    <span>${post.reading_time || '5 min'} read</span>
+                    <span id="reading-time-display">... read</span>
                 </div>
             </div>
         </div>
@@ -82,6 +82,10 @@ async function renderPost(post) {
     if (post.markdown) {
         try {
             const mdText = await loadMarkdown(post.markdown);
+
+            const readingTimeEl = document.getElementById('reading-time-display');
+            if (readingTimeEl) readingTimeEl.textContent = `${readingTimeFromChars(mdText.length)} read`;
+
             const htmlContent = parseMarkdown(mdText);
             const mdContainer = document.getElementById('markdown-content');
             
