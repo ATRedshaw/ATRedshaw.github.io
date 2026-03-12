@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const heroTitle = document.getElementById('hero-title');
     const heroTagline = document.getElementById('hero-tagline');
     const heroImage = document.getElementById('hero-image');
-    const resumeBtn = document.getElementById('resume-btn');
 
     if (heroName) heroName.textContent = siteData.name;
     if (heroTitle) heroTitle.textContent = siteData.title;
@@ -18,10 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         heroImage.src = siteData.headshot;
         heroImage.alt = siteData.headshot_alt || siteData.name;
     }
-    if (resumeBtn && siteData.resume) {
-        resumeBtn.href = siteData.resume;
-        resumeBtn.setAttribute('download', '');
-    }
+    // No automatic resume download/linking — resume links are handled in markup
 
     // Populate About Section
     const aboutTextContainer = document.getElementById('about-text');
