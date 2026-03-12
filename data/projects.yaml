@@ -1,0 +1,45 @@
+projects:
+  - title: "Custom Football xG Model & Interactive Plotter"
+    description: "Building on a first-class dissertation in probabilistic machine-learning for football, I rebuilt a bespoke xG model from the ground up, implementing an interactive front-end plotter to explore and visualise model predictions."
+    tags: ["Machine Learning", "Scikit-learn", "Python", "Data Visualisation"]
+    thumbnail: "assets/images/projects/thumbnails/xg-heatmap.png"
+    markdown: "content/projects/xg-plotter.md"
+    links:
+      - url: "https://atredshaw.github.io/Redshaw-xG/"
+        icon: "laptop"
+        label: "Visit Site"
+      - url: "https://github.com/ATRedshaw/Redshaw-xG"
+        icon: "github"
+        label: "View Code"
+      - url: "https://raw.githubusercontent.com/ATRedshaw/ATRedshaw.github.io/refs/heads/main/assets/pdfs/Redshaw-Alex-Dissertation-2024.pdf"
+        icon: "file-text"
+        label: "Read Dissertation"
+  - title: "FPL Challenge Optimisations"
+    description: "Engine to pick the optimal Fantasy Premier League Challenge squad each gameweek. Adjusts ML point projections for bespoke scoring rules, solves an integer linear programme to maximise expected points, and includes a hindsight pass to compare predicted and actual outcomes."
+    tags: ["Machine Learning", "Optimisation", "Python", "Data Analysis", "Web Development"]
+    thumbnail: "assets/images/projects/thumbnails/fpl-challenge-optimisations.png"
+    markdown: "content/projects/fpl-challenge-optimisations.md"
+    links:
+      - url: "https://atredshaw.github.io/fpl-challenge-optimisations/"
+        icon: "laptop"
+        label: "Visit Site"
+      - url: "https://github.com/ATRedshaw/fpl-challenge-optimisations"
+        icon: "github"
+        label: "View Code"
+  - title: "Multimodal LLM Research for AAC"
+    description: "Ongoing research project investigating the integration of multimodal LLMs to assist individuals with learning disabilities and stroke-induced speech impairments. Developed a proof-of-concept framework currently showing statistically significant improvements in communication rates."
+    tags: ["Generative AI", "LLMs", "Research", "Python"]
+    thumbnail: "assets/images/projects/thumbnails/multimodal-aac-research.png"
+    markdown: "content/projects/llm-aac.md"
+  - title: "WhirlWatch: Media Tracking & AI Recommendations"
+    description: "Web application using the TMDb API for personalised media tracking and watchlists. Engineered a recommendation engine via the Groq Inference API to provide high speed suggestions based on natural language inputs."
+    tags: ["Web Development", "LLMs", "API Integration", "Python"]
+    thumbnail: "assets/images/projects/thumbnails/whirlwatch.png"
+    markdown: "content/projects/whirlwatch.md"
+    links:
+      - url: "https://whirlwatch.onrender.com/"
+        icon: "laptop"
+        label: "Visit Site"
+      - url: "https://github.com/ATRedshaw/whirl-watch"
+        icon: "github"
+        label: "View Code"

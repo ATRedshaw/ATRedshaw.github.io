@@ -1,0 +1,348 @@
+/* Custom CSS for Minimalist Design Studio Aesthetic */
+
+/* Global Settings */
+html {
+  scroll-behavior: smooth;
+  background-color: #1B262C; /* Match midnight */
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar - Minimalist & Dark */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1B262C;
+}
+::-webkit-scrollbar-thumb {
+  background: #233038;
+  border-radius: 0px; /* Sharp edges */
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E07A5F; /* Terracotta hover */
+}
+
+/* Text Selection */
+::selection {
+  background: #E07A5F;
+  color: #F4F1EA;
+}
+
+/* Fade In Animation */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(10px); /* Reduced movement for subtler effect */
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform; /* Performance hint */
+}
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Navigation Active State */
+.nav-link.active {
+  color: #E07A5F; /* Terracotta */
+}
+
+/* Typography Overrides */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400; /* Lighter weights for elegance */
+}
+
+/* Prose (Markdown) Rendering
+   Parent containers control width; no max-width set here.
+   Heading sizes are explicit because Tailwind Preflight resets them to inherit. */
+.prose {
+    color: #BCCCDC;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+    color: #F4F1EA;
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    margin-top: 2.25em;
+    margin-bottom: 0.75em;
+    line-height: 1.3;
+}
+
+.prose h1 { font-size: 2rem; }
+
+.prose h2 {
+    font-size: 1.6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 0.4em;
+}
+
+.prose h3 { font-size: 1.25rem; }
+
+.prose h4 {
+    font-size: 0.875rem;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #778DA9;
+}
+
+.prose p {
+    line-height: 1.85;
+    margin-bottom: 1.5em;
+}
+
+.prose strong {
+    color: #E07A5F;
+    font-weight: 600;
+}
+
+.prose em {
+    font-style: italic;
+    color: rgba(244, 241, 234, 0.9);
+}
+
+.prose a {
+    color: #E07A5F;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(224, 122, 95, 0.3);
+    transition: border-color 0.3s ease;
+}
+
+.prose a:hover {
+    border-bottom-color: #E07A5F;
+}
+
+/* Lists
+   Tailwind Preflight sets list-style: none globally — restore explicitly. */
+.prose ul,
+.prose ol {
+    padding-left: 1.75em;
+    margin: 1.25em 0;
+}
+
+.prose ul { list-style-type: disc; }
+.prose ol { list-style-type: decimal; }
+
+.prose li {
+    margin-bottom: 0.5em;
+    line-height: 1.75;
+    display: list-item;
+}
+
+.prose li p { margin: 0; }
+
+.prose ul > li::marker {
+    color: #E07A5F;
+}
+
+.prose ol > li::marker {
+    color: #E07A5F;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85em;
+}
+
+.prose ul ul,
+.prose ol ol,
+.prose ul ol,
+.prose ol ul {
+    margin: 0.25em 0;
+}
+
+/* Inline code */
+.prose code {
+    color: #E07A5F;
+    background-color: rgba(255, 255, 255, 0.06);
+    padding: 0.2em 0.45em;
+    border-radius: 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.82em;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Code blocks — reset the inline code decoration inside <pre> */
+.prose pre {
+    background-color: #080f18;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-left: 3px solid #E07A5F;
+    border-radius: 0;
+    padding: 1.5em;
+    overflow-x: auto;
+    margin: 2em 0;
+}
+
+.prose pre code {
+    color: inherit;
+    background: none;
+    padding: 0;
+    border: none;
+    font-size: 0.875em;
+}
+
+/* Tables */
+.prose-table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 2em 0;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.prose table {
+    width: 100%;
+    min-width: 480px;
+    border-collapse: collapse;
+    margin: 0;
+    font-size: 0.875em;
+}
+
+.prose thead {
+    border-bottom: 2px solid rgba(224, 122, 95, 0.4);
+}
+
+.prose th {
+    color: #F4F1EA;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75em;
+    font-weight: 700;
+    text-align: left;
+    padding: 0.75em 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.prose td {
+    padding: 0.75em 1em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: #BCCCDC;
+    vertical-align: top;
+}
+
+.prose tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Horizontal rule */
+.prose hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 3em 0;
+}
+
+/* Blockquote */
+.prose blockquote {
+    border-left: 3px solid #E07A5F;
+    margin: 2em 0;
+    padding: 0.75em 1.5em;
+    background-color: rgba(255, 255, 255, 0.02);
+    color: rgba(244, 241, 234, 0.75);
+    font-style: italic;
+    font-family: 'Fraunces', serif;
+    font-size: 1.05em;
+}
+
+.prose blockquote p { margin: 0; }
+
+/* Images */
+.prose img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2em auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* KaTeX math rendering */
+.katex-display {
+    overflow-x: auto;
+    padding: 1.25em 0;
+    color: #F4F1EA;
+    text-align: center;
+}
+
+.katex { font-size: 1.05em; }
+
+/* Links & Buttons Hover Effects */
+a, button {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Image Effects */
+.reveal-on-hover {
+  filter: grayscale(100%);
+  transition: filter 0.5s ease;
+}
+.reveal-on-hover:hover {
+  filter: grayscale(0%);
+}
+
+/* Prose image — click-to-enlarge trigger */
+.prose-img-zoomable {
+    cursor: zoom-in;
+    transition: opacity 0.2s ease;
+}
+
+.prose-img-zoomable:hover {
+    opacity: 0.8;
+}
+
+/* Image Lightbox
+   Flat element appended to <body>; avoids stacking context issues caused by
+   modal transforms and backdrop-filter on sibling elements. */
+#img-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(13, 27, 42, 0.97);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    cursor: zoom-out;
+}
+
+#img-lightbox.img-lightbox--active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#img-lightbox .img-lightbox__img {
+    display: block;
+    max-width: 95vw;
+    max-height: 95vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: default;
+}
+
+.img-lightbox__close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #F4F1EA;
+    padding: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(13, 27, 42, 0.7);
+    cursor: pointer;
+    line-height: 0;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.img-lightbox__close:hover {
+    color: #E07A5F;
+    border-color: rgba(224, 122, 95, 0.5);
+}

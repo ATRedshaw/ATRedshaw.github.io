@@ -1,0 +1,15 @@
+categories:
+  - name: "Machine Learning & AI"
+    skills: ["Scikit-Learn", "PyTorch", "Azure Machine Learning", "Generative AI", "LLMs", "MLFlow"]
+  - name: "Data Analysis & Visualisation"
+    skills: ["Pandas", "NumPy", "Tableau", "Power BI", "Matplotlib", "Alteryx"]
+  - name: "Statistical Modeling"
+    skills: ["PuLP", "Monte-Carlo Simulation"]
+  - name: "Languages"
+    skills: ["Python", "SQL", "Java", "JavaScript", "HTML", "CSS"]
+  - name: "Database & Cloud"
+    skills: ["Azure", "AWS", "MS SQL Server", "Firebase", "DynamoDB", "SQLite"]
+  - name: "Web Development"
+    skills: ["React", "Tailwind CSS", "Framer Motion", "Flask"]
+  - name: "Tools"
+    skills: ["Git", "GitHub", "Jupyter Notebooks", "Docker"]
