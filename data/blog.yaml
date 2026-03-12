@@ -17,5 +17,5 @@ posts:
   - title: "The Lazy Manager's Guide to FPL Success Part 2 (2024/25)"
     date: "2025-07-19"
     tags: ["FPL", "Python", "Data Science", "Optimisation"]
-    excerpt: "I let an algorithm pick a single FPL team for the entire 24/25 season. It humiliated my actual team for the second year running."
+    excerpt: "I let an algorithm pick a single FPL team for the entire 24/25 season. With no transfers or chips, it humiliated my actual team for the second year running."
     markdown: "content/blog/lazy-manager-fpl-202425.md"

@@ -54,6 +54,8 @@ Figure 4 visualizes the full player breakdown across all 38 gameweeks.
 ![image](assets/images/blogs/lazy-manager-fpl-202425/set_and_forget_player_point_breakdown.png)
 *Figure 4. Breakdown of players' contribution to the total points tally.*
 
+I love this diagram, it remains my favourite style I've ever produced, but... It brings me great pain looking back at the missing C on Mbeumo for Gameweek 29 when Salah blanked, it made my question when writing this up why, with a better GW15 score, Palmer wasn't vice captain and if my algorithm was wrong. Alas, the choice is right but the diagram is missing that GW29 label for whatever reason, and it will frustrate me till my dying breath (or when I can just be bother to actually fix it...). Just imagine there is a C on Mbeumo in that week for the sake of my sanity.
+
 ## The Dream Team
 
 Here is the final squad of fifteen.
