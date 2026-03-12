@@ -98,6 +98,8 @@ async function renderPost(post) {
                         hljs.highlightElement(block);
                     });
                 }
+
+                attachImageLightboxHandlers(mdContainer);
             }
         } catch (e) {
             console.error('Error loading markdown:', e);

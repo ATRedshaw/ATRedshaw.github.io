@@ -58,6 +58,10 @@ function parseMarkdown(mdText) {
 
     let html = marked.parse(processed);
 
+    // Wrap tables in a scrollable container so wide tables don't clip on
+    // narrow viewports — applies to all rendering contexts (modal, post page).
+    html = html.replace(/<table/g, '<div class="prose-table-scroll"><table').replace(/<\/table>/g, '</table></div>');
+
     html = html.replace(/MATHPLACEHOLDER(\d+)END/g, (_, idx) => {
         const { content, displayMode } = stash[parseInt(idx, 10)];
         if (typeof katex !== 'undefined') {
@@ -261,12 +265,94 @@ function initModal() {
     });
 }
 
+// 5. Image Lightbox (Shared)
+
+/**
+ * Attaches click-to-enlarge handlers to all images within a container.
+ *
+ * @param {HTMLElement} container - Parent element containing prose images.
+ */
+function attachImageLightboxHandlers(container) {
+    container.querySelectorAll('img').forEach(img => {
+        img.classList.add('prose-img-zoomable');
+        img.addEventListener('click', () => openLightbox(img.src, img.alt));
+    });
+}
+
+/**
+ * Creates the lightbox DOM element and appends it to the document body.
+ * Idempotent — safe to call multiple times.
+ */
+function createLightboxElement() {
+    if (document.getElementById('img-lightbox')) return;
+
+    const lightbox = document.createElement('div');
+    lightbox.id = 'img-lightbox';
+    lightbox.setAttribute('role', 'dialog');
+    lightbox.setAttribute('aria-modal', 'true');
+    lightbox.setAttribute('aria-label', 'Image viewer');
+    lightbox.innerHTML = `
+        <img class="img-lightbox__img" id="img-lightbox-img" src="" alt="">
+        <button class="img-lightbox__close" id="img-lightbox-close" aria-label="Close image">
+            <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+    `;
+    document.body.appendChild(lightbox);
+
+    // Clicking the backdrop (anywhere outside the image) closes the lightbox.
+    lightbox.addEventListener('click', closeLightbox);
+    lightbox.querySelector('.img-lightbox__img').addEventListener('click', (e) => e.stopPropagation());
+    lightbox.querySelector('#img-lightbox-close').addEventListener('click', closeLightbox);
+}
+
+/**
+ * Opens the lightbox displaying the given image.
+ *
+ * @param {string} src - Image source URL.
+ * @param {string} [alt] - Image alt text.
+ */
+function openLightbox(src, alt) {
+    createLightboxElement();
+    const lightbox = document.getElementById('img-lightbox');
+    const img      = document.getElementById('img-lightbox-img');
+    img.src = src;
+    img.alt = alt || '';
+    lightbox.classList.add('img-lightbox--active');
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+/**
+ * Closes the lightbox.
+ */
+function closeLightbox() {
+    const lightbox = document.getElementById('img-lightbox');
+    if (!lightbox) return;
+    lightbox.classList.remove('img-lightbox--active');
+}
+
+/**
+ * Registers a capture-phase keydown handler so Escape closes an open
+ * lightbox without also dismissing any underlying modal.
+ */
+function initLightboxKeyHandler() {
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        const lightbox = document.getElementById('img-lightbox');
+        if (lightbox && lightbox.classList.contains('img-lightbox--active')) {
+            // Prevent the modal's bubble-phase Escape listener from firing.
+            e.stopImmediatePropagation();
+            closeLightbox();
+        }
+    }, true); // capture phase
+}
+
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     initNavbar();
     initFooter();
     initScrollAnimations();
     initModal();
+    initLightboxKeyHandler();
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
