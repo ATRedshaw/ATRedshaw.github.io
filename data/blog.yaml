@@ -3,8 +3,12 @@ posts:
     date: "2024-07-22"
     tags: ["Darts", "Analytics", "Machine Learning", "Python"]
     excerpt: "Can an algorithm predict the chaos of the World Matchplay? I put my data science skills to the test in Blackpool."
-    reading_time: "9 min"
     markdown: "content/blog/algorithm-on-the-oche-wm-2024.md"
+  - title: "The Lazy Manager's Guide to FPL Success (2023/24)"
+    date: "2024-08-16"
+    tags: ["FPL", "Python", "Data Science", "Optimisation"]
+    excerpt: "What happens if you pick a Fantasy Premier League team in August and literally never touch it again? I built a Python optimiser to find out."
+    markdown: "content/blog/lazy-manager-fpl-202324.md"
   - title: "Algorithm on the Oche: Darts World Championship 2025"
     date: "2025-01-18"
     tags: ["Darts", "Analytics", "Machine Learning", "Python"]
