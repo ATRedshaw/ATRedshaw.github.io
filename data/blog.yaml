@@ -1,4 +1,10 @@
 posts:
+  - title: "Algorithm on the Oche: Darts World Matchplay 2024"
+    date: "2024-07-22"
+    tags: ["Darts", "Analytics", "Machine Learning", "Python"]
+    excerpt: "Can an algorithm predict the chaos of the World Matchplay? I put my data science skills to the test in Blackpool."
+    reading_time: "9 min"
+    markdown: "content/blog/algorithm-on-the-oche-wm-2024.md"
   - title: "Algorithm on the Oche: Darts World Championship 2025"
     date: "2025-01-18"
     tags: ["Darts", "Analytics", "Machine Learning", "Python"]
