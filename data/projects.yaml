@@ -31,6 +31,11 @@ projects:
     tags: ["Generative AI", "LLMs", "Research", "Python"]
     thumbnail: "assets/images/projects/thumbnails/multimodal-aac-research.png"
     markdown: "content/projects/llm-aac.md"
+  - title: "Theme Park Visitor Modelling"
+    description: "Project focused on predicting theme park crowd levels and ride wait times using historical data, machine learning models and a Streamlit dashboard for interactive exploration."
+    tags: ["Machine Learning", "Data Analysis", "Python", "Web Development"]
+    thumbnail: "assets/images/projects/thumbnails/theme-park-crowd-modelling-thumbnail.png"
+    markdown: "content/projects/theme-park-modelling.md"
   - title: "WhirlWatch: Media Tracking & AI Recommendations"
     description: "Web application using the TMDb API for personalised media tracking and watchlists. Engineered a recommendation engine via the Groq Inference API to provide high speed suggestions based on natural language inputs."
     tags: ["Web Development", "LLMs", "API Integration", "Python"]
