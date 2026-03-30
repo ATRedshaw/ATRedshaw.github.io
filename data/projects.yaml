@@ -39,7 +39,7 @@ projects:
     links:
       - url: "https://github.com/ATRedshaw/theme-park-queue-modelling"
         icon: "github"
-        label: "Visit Site"
+        label: "View Code"
   - title: "WhirlWatch: Media Tracking & AI Recommendations"
     description: "Web application using the TMDb API for personalised media tracking and watchlists. Engineered a recommendation engine via the Groq Inference API to provide high speed suggestions based on natural language inputs."
     tags: ["Web Development", "LLMs", "API Integration", "Python"]
