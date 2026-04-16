@@ -103,7 +103,7 @@ Figure 6 maps out every single player's contribution.
 
 ## Two Seasons and One Depressing Reality
 
-This set-and-forget model has now landed within 16 points of itself across two totally different seasons. It hit 2,656 then 2,640. The math is rock solid. The actual final rank is the part that hurts.
+This set-and-forget model has now landed within 16 points of itself across two totally different seasons. It hit 2,656 then 2,640. The maths is rock solid. The actual final rank is the part that hurts.
 
 Going from top 250 down to 1,667th proves the game is getting harder. More managers are using systematic approaches and taking this stuff way too seriously. It also proves that perfect hindsight only shows you the absolute ceiling. Or so, that's what they want you to think, but in reality it's probably just down to variance between the seasons.
 
