@@ -1,17 +1,17 @@
 name: "Alex Redshaw"
-title: "Senior Data Scientist Associate"
-tagline: "Data scientist building end to end machine learning solutions, from enterprise data pipelines to probabilistic sports models."
+title: "Data Scientist / Machine Learning Engineer"
+tagline: "Data scientist and machine learning engineer working across production data pipelines, applied ML systems and probabilistic sports models."
 headshot: "assets/images/profile.jpg"
 headshot_alt: "Alex Redshaw Headshot"
 resume: "assets/resume.pdf"
 about: |
-  I am a data scientist and analyst who loves turning complex data into useful information. I enjoy taking on difficult problems and building creative solutions that blend technical expertise with sharp analytical thinking. My background in computer science and data science alongside my passion for sports analytics gives me a unique perspective when approaching new challenges, and this combination of skills was what ultimately led me to write my dissertation on 'Probabilistig Machine Learning Models for Football Analysis and Prediction', which achieved a first class grade.
+  I am a data scientist and machine learning engineer with a background in computer science, analytics and applied modelling. My work sits between data engineering, statistical modelling and practical software delivery: building pipelines, training models, testing assumptions and turning the results into something people can actually use. That same mix led to my dissertation, 'Probabilistic Machine Learning Models for Football Analysis and Prediction', which received a first-class grade.
 
-  Over the past five years at PwC I have specialised in delivering high impact machine learning and data solutions for the financial services sector. I have a strong track record of architecting end to end AI systems including custom finetuned LLMs and ETL frameworks that handle millions of daily transactions. Beyond my commercial work I am currently researching multimodal LLMs for accessibility to explore how generative AI can drive positive social impact.
+  Over the past five years at PwC I have specialised in machine learning and data solutions for financial services clients. I have built custom fine-tuned LLM systems for unstructured data extraction, designed Python ETL frameworks processing millions of transactions each day, and developed forecasting and regression models used in business planning. The work has usually involved the full path from messy source data to production-ready outputs, with enough explanation around the model behaviour for stakeholders to trust the result.
 
-  Outside of work I am a massive sports fan. I love playing football and supporting Liverpool FC while also following Formula 1 and darts. I have a slight obsession with Fantasy Premier League. During the 2022/23 season I used a data driven approach to optimise my team selection and finished with an overall rank of 1326 out of over 10 million players. I also won 20 consecutive head to head ties to secure the Liverpool cup competition. I have come to terms with the fact that my FPL career peaked that year.
+  Outside work I am usually watching or playing sport. I support Liverpool FC, follow Formula 1 and darts, and spend far too much time thinking about Fantasy Premier League. During the 2022/23 season I used a data-driven approach to optimise my team selection and finished with an overall rank of 1,326 out of more than 10 million players. I also won 20 consecutive head-to-head ties to secure the Liverpool cup competition. I have come to terms with the fact that my FPL career peaked that year.
 
-  I frequently apply my data analysis skills to personal sports projects. I have built statistical models and run analyses across all the sports I follow to experiment with different machine learning techniques. You can find some of my early write ups on this site with more on the way when time permits.
+  I use personal sports projects to try out modelling ideas that do not always fit neatly into client work. That has included football xG models, darts forecasting, FPL optimisation and crowd prediction for theme parks. Some of the write-ups are on this site, with more to follow when time permits.
 social:
   github: "https://github.com/ATRedshaw"
   linkedin: "https://www.linkedin.com/in/alex-redshaw-a21711323/"
