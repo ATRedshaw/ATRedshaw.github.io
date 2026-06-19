@@ -4,14 +4,16 @@ tagline: "Data scientist and machine learning engineer working across production
 headshot: "assets/images/profile.jpg"
 headshot_alt: "Alex Redshaw Headshot"
 resume: "assets/resume.pdf"
-about: |
-  I am a data scientist and machine learning engineer with a background in computer science, analytics and applied modelling. My work sits between data engineering, statistical modelling and practical software delivery: building pipelines, training models, testing assumptions and turning the results into something people can actually use. That same mix led to my dissertation, 'Probabilistic Machine Learning Models for Football Analysis and Prediction', which received a first-class grade.
+about: "I am a data scientist and machine learning engineer with a background in computer science, analytics and applied modelling. My work sits between data engineering, statistical modelling and practical software delivery: building pipelines, training models, testing assumptions and turning the results into something people can actually use. That same mix led to my dissertation, 'Machine Learning Models for Probabilistic Football Analysis and Prediction', which received a first-class grade.
 
-  Over the past five years at PwC I have specialised in machine learning and data solutions for financial services clients. I have built custom fine-tuned LLM systems for unstructured data extraction, designed Python ETL frameworks processing millions of transactions each day, and developed forecasting and regression models used in business planning. The work has usually involved the full path from messy source data to production-ready outputs, with enough explanation around the model behaviour for stakeholders to trust the result.
 
-  Outside work I am usually watching or playing sport. I support Liverpool FC, follow Formula 1 and darts, and spend far too much time thinking about Fantasy Premier League. During the 2022/23 season I used a data-driven approach to optimise my team selection and finished with an overall rank of 1,326 out of more than 10 million players. I also won 20 consecutive head-to-head ties to secure the Liverpool cup competition. I have come to terms with the fact that my FPL career peaked that year.
+Since joining PwC in 2020, I have worked across Technology Data & Analytics, financial services analytics, AI/ML and cyber-related data work. I have built reusable Python and SQL pipelines for high-volume banking transaction reconciliation, developed scikit-learn forecasting models for operational and commercial planning, and contributed to Azure-based LLM and RAG workflows for extracting structured information from unstructured documents. The work has usually involved the full path from messy source data to production-ready outputs, with enough explanation around the model behaviour and data limitations for stakeholders to trust the result.
 
-  I use personal sports projects to try out modelling ideas that do not always fit neatly into client work. That has included football xG models, darts forecasting, FPL optimisation and crowd prediction for theme parks. Some of the write-ups are on this site, with more to follow when time permits.
+
+Outside work I am usually watching or playing sport. I support Liverpool FC, follow Formula 1 and darts, and spend far too much time thinking about Fantasy Premier League. During the 2022/23 season I used a data-driven approach to optimise my team selection and finished with an overall rank of 1,326 out of more than 10 million players. I also won 20 consecutive head-to-head ties to secure the Liverpool cup competition. I have come to terms with the fact that my FPL career peaked that year.
+
+
+I use personal projects to try out modelling and product ideas that do not always fit neatly into client work. That has included browser-based xG models, Premier League table prediction games, FPL optimisation, theme park crowd forecasting, collaborative watchlist apps and early research into LLM-assisted accessibility tools. Some of the write-ups are on this site, with more to follow when time permits."
 social:
   github: "https://github.com/ATRedshaw"
   linkedin: "https://www.linkedin.com/in/alex-redshaw-a21711323/"
