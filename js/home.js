@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const heroTagline = document.getElementById('hero-tagline');
     const heroImage = document.getElementById('hero-image');
     const githubCta = document.getElementById('github-cta');
+    const linkedinCta = document.getElementById('linkedin-cta');
 
     if (heroName) heroName.textContent = siteData.name;
     if (heroTitle) heroTitle.textContent = siteData.title;
@@ -20,6 +21,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     if (githubCta && siteData.social?.github) {
         githubCta.href = siteData.social.github;
+    }
+    if (linkedinCta && siteData.social?.linkedin) {
+        linkedinCta.href = siteData.social.linkedin;
     }
     // No automatic resume download/linking — resume links are handled in markup
 
