@@ -1,4 +1,13 @@
 projects:
+  - title: "xLthm: FPL Points Projections"
+    description: "An FPL forecasting tool that models player minutes and football events, simulates fixture outcomes, and serves expected points through a cloud-hosted batch API and interactive dashboard."
+    tags: ["Machine Learning", "Scikit-learn", "Python", "Data Visualisation", "Web Development"]
+    thumbnail: "assets/images/projects/thumbnails/xlthm.png"
+    markdown: "content/projects/xlthm.md"
+    links:
+      - url: "https://xlthm.atredshaw.com/"
+        icon: "laptop"
+        label: "Visit Site"
   - title: "Custom Football xG Model & Interactive Plotter"
     description: "Building on a first-class dissertation in probabilistic machine-learning for football, I rebuilt a bespoke xG model from the ground up, implementing an interactive front-end plotter to explore and visualise model predictions."
     tags: ["Machine Learning", "Scikit-learn", "Python", "Data Visualisation"]

@@ -44,7 +44,7 @@ Each gameweek has its own runner script (`gw1.py`, `gw2.py` and so on) that orch
 
 ### Projections
 
-Player point projections come from a private ML model (although I have aspirations of releasing this for wider consumption in the future). The raw output lands in `data/projections/` as a CSV, so the data can still be used even if the projections can no longer be made (such as when the gameweek deadline has passed). Each row carries a player's base expected points (`Predicted_Points`), expected minutes (`xMins`), price, position and team. These fields feed everything downstream.
+Player point projections come from a private ML model (although I have aspirations of releasing this for wider consumption in the future - now released with a small public window as [xLthm](https://xlthm.atredshaw.com/)). The raw output lands in `data/projections/` as a CSV, so the data can still be used even if the projections can no longer be made (such as when the gameweek deadline has passed). Each row carries a player's base expected points (`Predicted_Points`), expected minutes (`xMins`), price, position and team. These fields feed everything downstream.
 
 ### Challenge Rule Adjustments
 
