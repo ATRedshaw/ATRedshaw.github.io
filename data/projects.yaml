@@ -23,6 +23,18 @@ projects:
       - url: "https://raw.githubusercontent.com/ATRedshaw/ATRedshaw.github.io/refs/heads/main/assets/pdfs/Redshaw-Alex-Dissertation-2024.pdf"
         icon: "file-text"
         label: "Read Dissertation"
+  - title: "PredictTheBall: Premier League Predictions"
+    description: "A Premier League table prediction game with private leagues, live scoring and an Elo benchmark that simulates the remaining season 10,000 times. Built with React and Flask, and deployed on Oracle Cloud Infrastructure."
+    tags: ["Web Development", "Python", "Data Visualisation", "Data Analysis"]
+    thumbnail: "assets/images/projects/thumbnails/predict-the-ball.png"
+    markdown: "content/projects/predict-the-ball.md"
+    links:
+      - url: "https://predict-the-ball.atredshaw.com/"
+        icon: "laptop"
+        label: "Visit Site"
+      - url: "https://github.com/ATRedshaw/predict-the-ball"
+        icon: "github"
+        label: "View Code"
   - title: "FPL Challenge Optimisations"
     description: "Engine to pick the optimal Fantasy Premier League Challenge squad each gameweek. Adjusts ML point projections for bespoke scoring rules, solves an integer linear programme to maximise expected points, and includes a hindsight pass to compare predicted and actual outcomes."
     tags: ["Machine Learning", "Optimisation", "Python", "Data Analysis", "Web Development"]
