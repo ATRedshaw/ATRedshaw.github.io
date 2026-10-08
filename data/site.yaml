@@ -1,10 +1,10 @@
 name: "Alex Redshaw"
-title: "Data Scientist / Machine Learning Engineer"
-tagline: "Data scientist and machine learning engineer working across production data pipelines, applied ML systems and probabilistic sports models."
+title: "Data Science & Machine Learning Professional"
+tagline: "Data science and machine learning professional working across production data pipelines, applied ML systems and probabilistic sports models."
 headshot: "assets/images/profile.jpg"
 headshot_alt: "Alex Redshaw Headshot"
 resume: "assets/resume.pdf"
-about: "I am a data scientist and machine learning engineer with a background in computer science, analytics and applied modelling. My work sits between data engineering, statistical modelling and practical software delivery: building pipelines, training models, testing assumptions and turning the results into something people can actually use. That same mix led to my dissertation, 'Machine Learning Models for Probabilistic Football Analysis and Prediction', which received a first-class grade.
+about: "I am a data science and machine learning professional with a background in computer science, analytics and applied modelling. My work sits between data engineering, statistical modelling and practical software delivery: building pipelines, training models, testing assumptions and turning the results into something people can actually use. That same mix led to my dissertation, 'Machine Learning Models for Probabilistic Football Analysis and Prediction', which received a first-class grade.
 
 
 Since joining PwC in 2020, I have worked across Technology Data & Analytics, financial services analytics, AI/ML and cyber-related data work. I have built reusable Python and SQL pipelines for high-volume banking transaction reconciliation, developed scikit-learn forecasting models for operational and commercial planning, and contributed to Azure-based LLM and RAG workflows for extracting structured information from unstructured documents. The work has usually involved the full path from messy source data to production-ready outputs, with enough explanation around the model behaviour and data limitations for stakeholders to trust the result.
