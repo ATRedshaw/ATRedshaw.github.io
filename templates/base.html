@@ -4,7 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }}</title>
-    <meta name="description" content="Portfolio of Alex Redshaw, a data scientist and machine learning engineer specialising in applied machine learning, data engineering and probabilistic modelling.">
+    <meta name="description" content="{{ description }}">
+    <meta name="author" content="{{ site.name }}">
+    {% if noindex %}
+    <meta name="robots" content="noindex, follow">
+    {% else %}
+    <link rel="canonical" href="{{ canonical }}">
+    {% endif %}
+    <meta property="og:site_name" content="{{ site.name }}">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ canonical }}">
+    <meta property="og:type" content="{{ 'article' if active in ['blog', 'projects'] and structured_data else 'website' }}">
+    <meta property="og:image" content="{{ image_url }}">
+    <meta property="og:image:alt" content="{{ image_alt }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ description }}">
+    <meta name="twitter:image" content="{{ image_url }}">
+    <meta name="twitter:image:alt" content="{{ image_alt }}">
+    {% if structured_data %}
+    <script type="application/ld+json">{{ structured_data | tojson }}</script>
+    {% endif %}
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/assets/web/favicon.ico">

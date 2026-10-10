@@ -1,24 +1,28 @@
 posts:
   - title: "Algorithm on the Oche: Darts World Matchplay 2024"
     slug: "algorithm-on-the-oche-wm-2024"
+    image: "assets/images/blogs/algorithm-on-the-oche-mp-2024/model_differences_favourite_win_comparison.png"
     date: "2024-07-22"
     tags: ["Darts", "Analytics", "Machine Learning", "Python"]
     excerpt: "Can an algorithm predict the chaos of the World Matchplay? I put my data science skills to the test in Blackpool."
     markdown: "content/blog/algorithm-on-the-oche-wm-2024.md"
   - title: "The Lazy Manager's Guide to FPL Success (2023/24)"
     slug: "lazy-manager-fpl-202324"
+    image: "assets/images/blogs/lazy-manager-fpl-202324/cummulative_points_own_vs_optimised.png"
     date: "2024-08-16"
     tags: ["FPL", "Python", "Data Science", "Optimisation"]
     excerpt: "What happens if you pick a Fantasy Premier League team in August and literally never touch it again? I built a Python optimiser to find out."
     markdown: "content/blog/lazy-manager-fpl-202324.md"
   - title: "Algorithm on the Oche: Darts World Championship 2025"
     slug: "algorithm-on-the-oche-wc-2025"
+    image: "assets/images/blogs/algorithm-on-the-oche-wc-2025/rolling-model-accuracy.png"
     date: "2025-01-18"
     tags: ["Darts", "Analytics", "Machine Learning", "Python"]
     excerpt: "Crunching the numbers on the 2025 PDC World Darts Championship and seeing how my predictive model survived the Luke Littler storm."
     markdown: "content/blog/algorithm-on-the-oche-wc-2025.md"
   - title: "The Lazy Manager's Guide to FPL Success Part 2 (2024/25)"
     slug: "lazy-manager-fpl-202425"
+    image: "assets/images/blogs/lazy-manager-fpl-202425/cummulative_points_own_vs_optimised.png"
     date: "2025-07-19"
     tags: ["FPL", "Python", "Data Science", "Optimisation"]
     excerpt: "I let an algorithm pick a single FPL team for the entire 24/25 season. With no transfers or chips, it humiliated my actual team for the second year running."
