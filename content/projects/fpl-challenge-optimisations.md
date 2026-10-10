@@ -1,5 +1,3 @@
-# FPL Challenge Optimisation Engine
-
 Fantasy football is usually a game about gut feeling and weekly panic transfers. FPL Challenge is different. It runs as a standalone format alongside the main game, resetting completely each gameweek with a fresh squad, a fresh budget and a different scoring twist each time. One week, under-23 players score double points. The next, goalkeepers earn bonus points for every save they make. The challenge changes constantly, and that turns a casual pastime into a genuinely interesting optimisation problem.
 
 This project is my attempt to solve that problem properly.

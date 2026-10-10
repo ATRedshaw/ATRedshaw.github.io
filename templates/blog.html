@@ -13,7 +13,7 @@
         <div id="blog-grid" class="grid grid-cols-1 gap-4" data-filter-grid>
             {% for post in posts %}
             <article class="group relative border-t border-white/5 py-12 md:py-16 transition-colors duration-500 hover:bg-white/[0.02] blog-card fade-in-section" data-tags="{{ post.tags | tojson | forceescape }}">
-                <a href="{{ post.url }}" data-legacy-id="{{ post.markdown.split('/')[-1].removesuffix('.md') }}" class="flex flex-col md:flex-row md:items-baseline gap-6 md:gap-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta">
+                <a href="{{ post.url }}" data-legacy-id="{{ post.slug }}" class="flex flex-col md:flex-row md:items-baseline gap-6 md:gap-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta">
                     <div class="md:w-1/6 flex flex-col md:items-end shrink-0">
                         <time datetime="{{ post.date }}" class="font-mono text-terracotta text-sm tracking-widest uppercase mb-2">{{ post.date | short_date }}</time>
                         <span class="font-mono text-[10px] text-fern/60 uppercase tracking-widest border border-white/5 px-2 py-0.5 inline-block md:hidden w-fit">{{ post.reading_time }} read</span>

@@ -47,11 +47,12 @@ def render_markdown(text, legacy_urls):
             return match.group(0)
         path = parts.path.lstrip("/")
         if path.startswith("assets/"):
-            url = "/" + path
+            url = parts._replace(scheme="", netloc="", path="/" + path).geturl()
         elif path in ("post.html", "projects.html"):
             parameter = "id" if path == "post.html" else "project"
             identifier = parse_qs(parts.query).get(parameter, [""])[0]
-            url = legacy_urls.get(identifier, url)
+            if identifier in legacy_urls:
+                url = legacy_urls[identifier] + ("#" + parts.fragment if parts.fragment else "")
         return f'{attribute}="{url}"'
 
     html = re.sub(r'\b(href|src)="([^"]+)"', rewrite_url, html)
@@ -68,12 +69,16 @@ def build():
         trim_blocks=True,
         lstrip_blocks=True,
     )
-    environment.filters["short_date"] = lambda value: date.fromisoformat(value).strftime("%b %d, %Y").replace(" 0", " ")
-    environment.filters["long_date"] = lambda value: date.fromisoformat(value).strftime("%B %d, %Y").replace(" 0", " ")
+    environment.filters["short_date"] = lambda value: (
+        date.fromisoformat(value).strftime("%b %d, %Y").replace(" 0", " ")
+    )
+    environment.filters["long_date"] = lambda value: (
+        date.fromisoformat(value).strftime("%B %d, %Y").replace(" 0", " ")
+    )
     projects = load_entries("projects.yaml", "projects", "projects")
     posts = load_entries("blog.yaml", "posts", "blog")
     posts.sort(key=lambda post: post["date"], reverse=True)
-    legacy_urls = {Path(post["markdown"]).stem: post["url"] for post in posts}
+    legacy_urls = {post["slug"]: post["url"] for post in posts}
     legacy_urls.update({project["legacy_slug"]: project["url"] for project in projects})
     for entry in projects + posts:
         entry["html"] = render_markdown(entry["markdown_text"], legacy_urls)
@@ -104,7 +109,7 @@ def build():
     for directory in ("assets", "css", "js", ".well-known"):
         shutil.copytree(
             ROOT / directory, OUTPUT / directory,
-            ignore=shutil.ignore_patterns(".DS_Store", "*.py", "__pycache__"),
+            ignore=shutil.ignore_patterns(".DS_Store", "*.py", "__pycache__", "tailwind.css"),
         )
     shutil.copy2(ROOT / "CNAME", OUTPUT / "CNAME")
 
@@ -136,11 +141,31 @@ def build():
         site["description"], structured_data=profile,
     )
     for filename, template, title, active, description, noindex in (
-        ("experience.html", "experience.html", "Experience & Skills | Alex Redshaw", "experience", "Alex Redshaw's experience in data science, machine learning and data engineering, alongside technical skills, education and certifications.", False),
-        ("projects.html", "projects.html", "Data Science & Machine Learning Projects | Alex Redshaw", "projects", "Explore Alex Redshaw's projects in football analytics, FPL forecasting, applied machine learning and software engineering, with demos and case studies.", False),
-        ("blog.html", "blog.html", "Journal | Alex Redshaw", "blog", "Articles by Alex Redshaw on sports analytics, Fantasy Premier League optimisation, probabilistic modelling and practical data science.", False),
-        ("post.html", "legacy-post.html", "Journal | Alex Redshaw", "blog", "Find Alex Redshaw's articles at their new addresses.", True),
-        ("404.html", "404.html", "Page Not Found | Alex Redshaw", "", "This page could not be found. Explore Alex Redshaw's projects or return to the homepage.", True),
+        (
+            'experience.html', 'experience.html', 'Experience & Skills | Alex Redshaw', 'experience',
+            "Alex Redshaw's experience in data science, machine learning and data engineering, alongside technical skills, education and certifications.",
+            False,
+        ),
+        (
+            'projects.html', 'projects.html', 'Data Science & Machine Learning Projects | Alex Redshaw', 'projects',
+            "Explore Alex Redshaw's projects in football analytics, FPL forecasting, applied machine learning and software engineering, with demos and case studies.",
+            False,
+        ),
+        (
+            'blog.html', 'blog.html', 'Journal | Alex Redshaw', 'blog',
+            'Articles by Alex Redshaw on sports analytics, Fantasy Premier League optimisation, probabilistic modelling and practical data science.',
+            False,
+        ),
+        (
+            'post.html', 'legacy-post.html', 'Journal | Alex Redshaw', 'blog',
+            "Find Alex Redshaw's articles at their new addresses.",
+            True,
+        ),
+        (
+            '404.html', '404.html', 'Page Not Found | Alex Redshaw', '',
+            "This page could not be found. Explore Alex Redshaw's projects or return to the homepage.",
+            True,
+        ),
     ):
         write_page(filename, template, title, active, description, noindex=noindex)
     for section, entries in (("projects", projects), ("blog", posts)):

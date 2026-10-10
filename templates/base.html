@@ -109,7 +109,7 @@
             <div class="flex gap-8" id="footer-socials">
                 {% for platform, url in site.social.items() %}
                 <a href="{{ url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ platform | capitalize }} profile" class="text-porcelain/40 hover:text-terracotta transition-colors duration-300">
-                    <i data-lucide="{{ platform }}" class="w-5 h-5"></i>
+                    {% include "social-icon.html" %}
                 </a>
                 {% endfor %}
             </div>

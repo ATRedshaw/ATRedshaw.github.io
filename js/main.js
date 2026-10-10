@@ -19,7 +19,7 @@ function initScrollAnimations() {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0 });
 
     document.querySelectorAll('.fade-in-section').forEach(section => {
         section.classList.add('will-animate');

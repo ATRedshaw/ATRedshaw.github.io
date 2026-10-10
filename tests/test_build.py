@@ -1,0 +1,100 @@
+from html import unescape
+from pathlib import Path
+from tempfile import TemporaryDirectory
+import unittest
+from unittest.mock import patch
+
+from scripts import build
+from scripts.check_site import Page, check_site
+
+
+class BuildTests(unittest.TestCase):
+    def test_generated_site_links_metadata_and_public_files(self):
+        check_site()
+
+    def test_identity_and_experience_are_in_the_initial_html(self):
+        home_html = (build.OUTPUT / "index.html").read_text(encoding="utf-8")
+        home = unescape(home_html)
+        experience = unescape((build.OUTPUT / "experience.html").read_text(encoding="utf-8"))
+        site = build.load_data("site.yaml")
+        for paragraph in site["about"].split("\n\n"):
+            self.assertIn(paragraph, home)
+        for entry in build.load_data("experience.yaml")["entries"]:
+            self.assertIn(entry["description"], experience)
+        profile = Page(home_html).structured_data[0]["mainEntity"]
+        self.assertEqual(profile["name"], site["name"])
+        self.assertEqual(profile["sameAs"], list(site["social"].values()))
+
+    def test_every_writeup_has_a_linked_static_page_and_author(self):
+        for filename, key, section in (("projects.yaml", "projects", "projects"), ("blog.yaml", "posts", "blog")):
+            listing = (build.OUTPUT / f"{section}.html").read_text(encoding="utf-8")
+            for entry in build.load_data(filename)[key]:
+                with self.subTest(slug=entry["slug"]):
+                    url = f"/{section}/{entry['slug']}/"
+                    self.assertIn(f'href="{url}"', listing)
+                    page = (build.OUTPUT / section / entry["slug"] / "index.html").read_text(encoding="utf-8")
+                    self.assertIn('data-article-body', page)
+                    self.assertIn('rel="author"', page)
+                    self.assertNotIn('fetch(', page)
+                    self.assertEqual(Page(page).structured_data[0]["author"]["name"], "Alex Redshaw")
+
+    def test_markdown_keeps_math_code_tables_and_normalises_local_urls(self):
+        text = r"""Inline $x_i$ and a display equation:
+
+$$
+p(x|y) = \frac{x_i}{y}
+$$
+
+```python
+price = "$x_i$"
+```
+
+| Model | Score |
+| --- | --- |
+| Baseline | 0.5 |
+
+![Chart](assets/images/chart.png)
+[Old article](https://atredshaw.com/post.html?id=old#results)
+[External article](https://example.com/post.html?id=old)
+"""
+        html = build.render_markdown(text, {"old": "/blog/new/"})
+        self.assertIn(r'\(x_i\)', html)
+        self.assertIn(r'\frac{x_i}{y}', html)
+        self.assertIn('<pre><code class="language-python">', html)
+        self.assertIn('&quot;$x_i$&quot;', html)
+        self.assertIn('<div class="prose-table-scroll"><table>', html)
+        self.assertIn('src="/assets/images/chart.png"', html)
+        self.assertIn('href="/blog/new/#results"', html)
+        self.assertIn('href="https://example.com/post.html?id=old"', html)
+
+    def test_duplicate_or_unsafe_slugs_fail_the_build(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "article.md").write_text("A write-up.", encoding="utf-8")
+            for slugs in (("same", "same"), ("../outside",)):
+                entries = [{"slug": slug, "markdown": "article.md"} for slug in slugs]
+                with self.subTest(slugs=slugs), patch.object(build, "ROOT", root), patch.object(build, "load_data", return_value={"posts": entries}):
+                    with self.assertRaises(ValueError):
+                        build.load_entries("blog.yaml", "posts", "blog")
+
+    def test_missing_writeup_fails_the_build(self):
+        with TemporaryDirectory() as directory:
+            entries = [{"slug": "missing", "markdown": "missing.md"}]
+            with patch.object(build, "ROOT", Path(directory)), patch.object(build, "load_data", return_value={"posts": entries}):
+                with self.assertRaises(FileNotFoundError):
+                    build.load_entries("blog.yaml", "posts", "blog")
+
+    def test_extra_title_in_content_fails_validation(self):
+        with TemporaryDirectory() as directory:
+            output = Path(directory)
+            (output / "index.html").write_text(
+                '<title>Page</title><meta name="description" content="Description">'
+                '<h1>Heading</h1><title>Accidental raw HTML in a write-up</title>',
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(ValueError, "Expected one title"):
+                check_site(output)
+
+
+if __name__ == "__main__":
+    unittest.main()

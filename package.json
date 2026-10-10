@@ -2,7 +2,7 @@
   "name": "alex-redshaw-portfolio",
   "private": true,
   "scripts": {
-    "build": "python scripts/build.py && npm run build:css",
+    "build": "python scripts/build.py && npm run build:css && python scripts/check_site.py",
     "build:css": "tailwindcss -i css/tailwind.css -o dist/css/tailwind.css --minify"
   },
   "devDependencies": {

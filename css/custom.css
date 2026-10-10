@@ -54,6 +54,16 @@ body {
   transform: none;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fade-in-section.will-animate {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-bounce { animation: none; }
+}
+
 /* Navigation Active State */
 .nav-link.active {
   color: #E07A5F; /* Terracotta */
