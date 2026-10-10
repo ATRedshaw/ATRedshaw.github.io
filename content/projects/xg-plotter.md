@@ -50,7 +50,7 @@ _Figure: This schematic illustrates the two core spatial features underpinning t
  
 Categorical features (`situation` and `shotType`) are one-hot encoded using `pd.get_dummies`. The advanced model additionally includes interaction terms, created by concatenating the two category labels and then one-hot encoding the result, so `OpenPlay_RightFoot`, `FromCorner_Head` and so on become their own binary features. This allows the model to learn that, say, a headed shot from a corner carries different probabilistic weight than a right-footed shot from open play at the same coordinates.
 
-## The Model Architecture: Four Models, One Smart Selector
+## The Model Architecture
 
 Rather than a single monolithic model that handles all input combinations, the project trains four logistic regression classifiers, each suited to a different level of available information:
 
@@ -77,7 +77,7 @@ _Figure: A reliability diagram visually assesses model calibration by plotting p
 
 Penalties are handled as a hard-coded override at prediction time, returning a fixed xG of 0.76 (the avg number of penalties scored for the dataset). Attempting to learn the penalty conversion rate from coordinates alone is rather circular when all penalties are taken from the same spot.
 
-## From Flask to ONNX: Killing the Server
+## Transitioning from Flask to ONNX
 
 The original version of the application used a Flask REST API to serve predictions. The frontend would fire a POST request on every click, the Python backend would run inference and return a JSON response. This worked fine locally but was a nightmare to deploy. It required a persistently running server, introduced latency on every prediction, and meant the project could not be hosted as a static site without paying for compute or fiddling with serverless functions.
 
@@ -107,7 +107,7 @@ The pitch is drawn on an HTML `<canvas>` element using FIFA standard dimensions 
 
 Shot markers are rendered as filled circles with a radius of 0.5 metres (scaled accordingly), coloured by team. The selected shot is highlighted with a ring. Clicking an existing shot selects it and clicking anywhere else plots a new one.
 
-## Putting It Together: The Development Arc
+## The Development Arc
 
 The honest summary of how this project came together is roughly as follows:
 
