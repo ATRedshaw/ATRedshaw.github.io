@@ -14,7 +14,7 @@
                         {{ site.name }}
                     </h1>
                     
-                    <p id="hero-tagline" class="text-lg md:text-xl text-fern font-light leading-relaxed max-w-lg mb-12 border-l border-white/10 pl-6">
+                    <p id="hero-tagline" class="text-lg md:text-xl text-porcelain/65 font-light leading-relaxed max-w-lg mb-12 border-l border-white/10 pl-6">
                         {{ site.tagline }}
                     </p>
                     
@@ -82,9 +82,9 @@
                     <h2 class="text-3xl md:text-5xl font-serif text-porcelain">About Me</h2>
                 </div>
                 
-                <div id="about-text" class="prose prose-invert prose-lg mx-auto text-center font-light leading-loose text-fern">
+                <div id="about-text" class="prose prose-invert prose-lg mx-auto text-center font-light leading-loose text-porcelain/65">
                     {% for paragraph in site.about.split('\n\n') if paragraph.strip() %}
-                    <p class="mb-6 text-fern text-lg leading-loose font-light">{{ paragraph }}</p>
+                    <p class="mb-6 text-porcelain/65 text-lg leading-loose font-light">{{ paragraph }}</p>
                     {% endfor %}
                 </div>
             </div>

@@ -1,5 +1,3 @@
-## What Is AAC?
-
 Augmentative and Alternative Communication, or AAC, refers to any system that supplements or replaces speech for people who cannot communicate verbally. This might be someone with cerebral palsy, ALS, autism or any number of conditions that affect speech production. Traditional AAC devices present vocabulary in categorised, folder-based grids: the user navigates between folders, selects one word at a time and gradually assembles a sentence. It works, but it is slow, cognitively demanding and roughly analogous to trying to write an email using only a printed phonebook.
 
 This project asks a straightforward question: can a context-aware, vision-augmented suggestion feed powered by a multimodal large language model meaningfully improve communication speed and reduce physical effort compared to the conventional static folder approach?

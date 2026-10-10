@@ -1,5 +1,3 @@
-## Overview
-
 This project is an interactive Expected Goals (xG) prediction and visualisation tool for football, built entirely from scratch. It lets you click on a pitch, specify the shot situation and type, and get an instant xG prediction back, all running directly in the browser with no server involved.
 
 The underlying model family and much of the feature engineering philosophy carry the DNA of my final-year undergraduate dissertation from 2024, in which I achieved a first class grade for investigating whether xG models are genuinely predictive of future team performance across the top five European leagues. That research involved building and comparing logistic regression and random forest classifiers, scraping and processing a substantial dataset, and then evaluating how well those xG estimates could predict future team performance as features in regression and match outcome prediction models. The plotter is a ground-up rebuild of those ideas into something interactive and deployable, rather than an academic artefact that lives in a PDF and is never looked at again.
