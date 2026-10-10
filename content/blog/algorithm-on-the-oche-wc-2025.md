@@ -1,3 +1,16 @@
+---
+title: 'Algorithm on the Oche: Darts World Championship 2025'
+slug: algorithm-on-the-oche-wc-2025
+image: assets/images/blogs/algorithm-on-the-oche-wc-2025/rolling-model-accuracy.png
+date: '2025-01-18'
+tags:
+- Darts
+- Analytics
+- Machine Learning
+- Python
+excerpt: Crunching the numbers on the 2025 PDC World Darts Championship and seeing how my predictive model survived the Luke Littler storm.
+---
+
 Want to see how the tournament odds bounced around in real time? Check out my [Darts Tournament Odds tracker](https://atredshaw.github.io/darts-tournament-odds-html/) to watch the probabilities jump around as the championship unfolded.
 
 ## Algorithm on the Oche

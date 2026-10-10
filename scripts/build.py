@@ -21,14 +21,39 @@ def load_data(filename):
 
 def load_entries(filename, key, section):
     entries = load_data(filename)[key]
+    for index, entry in enumerate(entries, start=1):
+        entry["source"] = f"data/{filename}, entry {index}"
+    return prepare_entries(entries, section)
+
+
+def load_posts():
+    entries = []
+    for path in sorted((ROOT / "content/blog").glob("*.md")):
+        source = path.relative_to(ROOT).as_posix()
+        parts = path.read_text(encoding="utf-8").split("\n---\n", 1)
+        if not parts[0].startswith("---\n") or len(parts) != 2:
+            raise ValueError(f"{source}: expected YAML front matter between --- lines")
+        entry = yaml.safe_load(parts[0][4:])
+        entry["source"] = source
+        entry["markdown"] = source
+        entry["markdown_text"] = parts[1].lstrip("\n")
+        for field in ("date", "updated"):
+            if isinstance(entry.get(field), date):
+                entry[field] = entry[field].isoformat()
+        entries.append(entry)
+    return prepare_entries(entries, "blog")
+
+
+def prepare_entries(entries, section):
     slugs = set()
     for entry in entries:
         slug = entry["slug"]
         if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) or slug in slugs:
-            raise ValueError(f"Invalid or duplicate slug in {filename}: {slug}")
+            raise ValueError(f"{entry['source']}: invalid or duplicate slug: {slug}")
         slugs.add(slug)
         entry["url"] = f"/{section}/{slug}/"
-        entry["markdown_text"] = (ROOT / entry["markdown"]).read_text(encoding="utf-8")
+        if "markdown_text" not in entry:
+            entry["markdown_text"] = (ROOT / entry["markdown"]).read_text(encoding="utf-8")
         entry["reading_time"] = f"{max(1, math.floor(len(entry['markdown_text']) / 1000 + 0.5))} min"
     return entries
 
@@ -76,7 +101,7 @@ def build():
         date.fromisoformat(value).strftime("%B %d, %Y").replace(" 0", " ")
     )
     projects = load_entries("projects.yaml", "projects", "projects")
-    posts = load_entries("blog.yaml", "posts", "blog")
+    posts = load_posts()
     posts.sort(key=lambda post: post["date"], reverse=True)
     legacy_urls = {post["slug"]: post["url"] for post in posts}
     legacy_urls.update({project["legacy_slug"]: project["url"] for project in projects})

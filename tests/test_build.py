@@ -9,6 +9,33 @@ from scripts.check_site import Page, check_site
 
 
 class BuildTests(unittest.TestCase):
+    def test_articles_are_discovered_from_front_matter_with_stable_slugs(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            folder = root / "content/blog"
+            folder.mkdir(parents=True)
+            path = folder / "new-article.md"
+            path.write_text(
+                '---\ntitle: A new title\nslug: stable-address\ndate: 2026-10-10\n'
+                'tags: [Python]\nexcerpt: A summary.\nimage: /assets/preview.png\n---\n\n## Article\nBody.',
+                encoding="utf-8",
+            )
+            with patch.object(build, "ROOT", root):
+                posts = build.load_posts()
+            self.assertEqual(len(posts), 1)
+            self.assertEqual(posts[0]["url"], "/blog/stable-address/")
+            self.assertEqual(posts[0]["date"], "2026-10-10")
+            self.assertEqual(posts[0]["markdown_text"], "## Article\nBody.")
+
+    def test_article_without_front_matter_identifies_its_source(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            folder = root / "content/blog"
+            folder.mkdir(parents=True)
+            (folder / "unfinished.md").write_text("## An unfinished article", encoding="utf-8")
+            with patch.object(build, "ROOT", root), self.assertRaisesRegex(ValueError, "content/blog/unfinished.md: expected YAML front matter"):
+                build.load_posts()
+
     def test_generated_site_links_metadata_and_public_files(self):
         check_site()
 
@@ -26,9 +53,9 @@ class BuildTests(unittest.TestCase):
         self.assertEqual(profile["sameAs"], list(site["social"].values()))
 
     def test_every_writeup_has_a_linked_static_page_and_author(self):
-        for filename, key, section in (("projects.yaml", "projects", "projects"), ("blog.yaml", "posts", "blog")):
+        for section, entries in (("projects", build.load_data("projects.yaml")["projects"]), ("blog", build.load_posts())):
             listing = (build.OUTPUT / f"{section}.html").read_text(encoding="utf-8")
-            for entry in build.load_data(filename)[key]:
+            for entry in entries:
                 with self.subTest(slug=entry["slug"]):
                     url = f"/{section}/{entry['slug']}/"
                     self.assertIn(f'href="{url}"', listing)
