@@ -9,6 +9,33 @@ from scripts.check_site import Page, check_site
 
 
 class BuildTests(unittest.TestCase):
+    def test_reading_time_uses_words_and_rounds_up_to_at_least_one_minute(self):
+        for words, minutes in ((0, 1), (1, 1), (240, 1), (241, 2), (480, 2)):
+            with self.subTest(words=words):
+                self.assertEqual(build.ReadingTime("word " * words).minutes, minutes)
+
+    def test_reading_time_counts_rendered_text_without_urls_or_markup(self):
+        text = (
+            "word " * 234
+            + "\n\n## Heading\n\n[Link](https://example.com/" + "long-path/" * 200 + ")\n\n"
+            + "| First | Second |\n| --- | --- |\n| Third | Fourth |\n\n"
+            + "<!-- " + "comment " * 240 + " -->\n"
+            + "<script>" + "script " * 240 + "</script>\n"
+            + "<style>" + "style " * 240 + "</style>\n"
+        )
+        html = build.render_markdown(text, {}, "atredshaw.com")
+        self.assertEqual(build.ReadingTime(html).words, 240)
+        self.assertEqual(build.ReadingTime(html).minutes, 1)
+        html = build.render_markdown(text + "\n```text\ncode\n```", {}, "atredshaw.com")
+        self.assertEqual(build.ReadingTime(html).minutes, 2)
+        self.assertEqual(build.ReadingTime("<p>Don't stop &amp; re-read.</p>").words, 4)
+
+    def test_reading_time_allows_ten_seconds_per_article_image(self):
+        image = '<img src="/chart.png" alt="' + "description " * 240 + '" />'
+        self.assertEqual(build.ReadingTime(image * 6).minutes, 1)
+        self.assertEqual(build.ReadingTime(image * 7).minutes, 2)
+        self.assertEqual(build.ReadingTime("word " * 240 + image).minutes, 2)
+
     def test_articles_are_discovered_from_front_matter_with_stable_slugs(self):
         with TemporaryDirectory() as directory:
             root = Path(directory)

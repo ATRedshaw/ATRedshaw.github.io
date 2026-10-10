@@ -1,4 +1,5 @@
 from datetime import date
+from html.parser import HTMLParser
 import math
 from pathlib import Path
 import re
@@ -14,6 +15,32 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoes
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "dist"
+
+
+class ReadingTime(HTMLParser):
+    def __init__(self, html):
+        super().__init__()
+        self.words = 0
+        self.images = 0
+        self.in_hidden_content = False
+        self.feed(html)
+        # Allow 240 words per minute and 10 seconds to view each image.
+        seconds = self.words / 240 * 60 + self.images * 10
+        self.minutes = max(1, math.ceil(seconds / 60))
+
+    def handle_starttag(self, tag, attributes):
+        if tag in ("script", "style"):
+            self.in_hidden_content = True
+        elif tag == "img" and not self.in_hidden_content:
+            self.images += 1
+
+    def handle_endtag(self, tag):
+        if tag in ("script", "style"):
+            self.in_hidden_content = False
+
+    def handle_data(self, data):
+        if not self.in_hidden_content:
+            self.words += len(re.findall(r"\b\w+(?:['’]\w+)*\b", data))
 
 
 class ContentLoader(yaml.SafeLoader):
@@ -154,7 +181,6 @@ def prepare_entries(entries, section):
                 raise ValueError(f"{source}: Markdown file not found: {entry['markdown']}") from None
         if not entry["markdown_text"].strip():
             raise ValueError(f"{source}: Markdown body must not be empty")
-        entry["reading_time"] = f"{max(1, math.floor(len(entry['markdown_text']) / 1000 + 0.5))} min"
     return entries
 
 
@@ -259,6 +285,7 @@ def build():
     legacy_urls.update({project["legacy_slug"]: project["url"] for project in projects})
     for entry in projects + posts:
         entry["html"] = render_markdown(entry["markdown_text"], legacy_urls, domain)
+        entry["reading_time"] = f"{ReadingTime(entry['html']).minutes} min"
     context = {
         "site": site,
         "skills": load_data("skills.yaml")["categories"],
