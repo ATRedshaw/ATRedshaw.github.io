@@ -61,6 +61,23 @@
             </div>
         </section>
 
+        <section class="border-t border-white/5 py-24">
+            <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+                <header class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 fade-in-section">
+                    <div>
+                        <span class="text-terracotta font-mono text-xs uppercase tracking-[0.2em] mb-4 block">Selected Work</span>
+                        <h2 class="text-3xl md:text-5xl font-serif text-porcelain">Selected Projects</h2>
+                    </div>
+                    <a href="/projects.html" class="text-terracotta font-mono text-xs uppercase tracking-widest hover:text-porcelain">All Projects &rarr;</a>
+                </header>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {% for project in projects if project.get('featured') %}
+                    {% include "project-card.html" %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
         <!-- About Section -->
         <section class="border-t border-white/5 py-32 bg-midnight/50">
             <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 fade-in-section">

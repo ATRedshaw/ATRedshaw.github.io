@@ -104,7 +104,7 @@
     <footer class="border-t border-white/5 py-12 bg-midnight">
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="text-fern text-xs font-mono uppercase tracking-widest">
-                &copy; <span id="current-year">{{ year }}</span> Alex Redshaw.
+                &copy; <span id="current-year">{{ year }}</span> <a href="/" class="hover:text-terracotta">{{ site.name }}</a>.
             </div>
             <div class="flex gap-8" id="footer-socials">
                 {% for platform, url in site.social.items() %}
