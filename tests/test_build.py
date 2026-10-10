@@ -130,17 +130,48 @@ price = "$x_i$"
             root = Path(directory)
             (root / "article.md").write_text("A write-up.", encoding="utf-8")
             for slugs in (("same", "same"), ("../outside",)):
-                entries = [{"slug": slug, "markdown": "article.md"} for slug in slugs]
-                with self.subTest(slugs=slugs), patch.object(build, "ROOT", root), patch.object(build, "load_data", return_value={"posts": entries}):
-                    with self.assertRaises(ValueError):
-                        build.load_entries("blog.yaml", "posts", "blog")
+                entries = [{"title": "Project", "slug": slug, "markdown": "article.md", "description": "Summary", "thumbnail": "/assets/image.png", "tags": ["Python"], "legacy_slug": f"legacy-{index}"} for index, slug in enumerate(slugs)]
+                with self.subTest(slugs=slugs), patch.object(build, "ROOT", root), patch.object(build, "load_data", return_value={"projects": entries}):
+                    with self.assertRaisesRegex(ValueError, "duplicate slug|slug must use lowercase"):
+                        build.load_entries("projects.yaml", "projects", "projects")
 
     def test_missing_writeup_fails_the_build(self):
         with TemporaryDirectory() as directory:
-            entries = [{"slug": "missing", "markdown": "missing.md"}]
-            with patch.object(build, "ROOT", Path(directory)), patch.object(build, "load_data", return_value={"posts": entries}):
-                with self.assertRaises(FileNotFoundError):
-                    build.load_entries("blog.yaml", "posts", "blog")
+            entries = [{"title": "Project", "slug": "missing", "markdown": "missing.md", "description": "Summary", "thumbnail": "/assets/image.png", "tags": ["Python"], "legacy_slug": "missing"}]
+            with patch.object(build, "ROOT", Path(directory)), patch.object(build, "load_data", return_value={"projects": entries}):
+                with self.assertRaisesRegex(ValueError, "data/projects.yaml, entry 1: Markdown file not found: missing.md"):
+                    build.load_entries("projects.yaml", "projects", "projects")
+
+    def test_invalid_article_metadata_reports_the_file_and_field(self):
+        valid = {
+            "source": "content/blog/example.md", "title": "Example", "slug": "example",
+            "date": "2026-10-10", "tags": ["Python"], "excerpt": "Summary",
+            "image": "/assets/preview.png", "markdown_text": "## Body\nArticle.",
+        }
+        for field, value in (
+            ("title", None), ("slug", 123), ("image", ""), ("excerpt", False),
+            ("date", "2026-02-30"), ("date", "10/10/2026"), ("date", None),
+            ("tags", "Python"), ("tags", [123]), ("tags", []),
+            ("updated", "2025-01-01"), ("featured", "yes"), ("markdown_text", ""),
+        ):
+            with self.subTest(field=field, value=value):
+                with self.assertRaisesRegex(ValueError, "content/blog/example.md:") as error:
+                    build.prepare_entries([{**valid, field: value}], "blog")
+                self.assertIn("Markdown body" if field == "markdown_text" else field, str(error.exception))
+
+    def test_duplicate_article_slugs_identify_both_sources(self):
+        entry = {
+            "source": "content/blog/first.md", "title": "Example", "slug": "same",
+            "date": "2026-10-10", "tags": ["Python"], "excerpt": "Summary",
+            "image": "/assets/preview.png", "markdown_text": "Article.",
+        }
+        with self.assertRaisesRegex(ValueError, "content/blog/second.md: duplicate slug 'same', also used by content/blog/first.md"):
+            build.prepare_entries([entry, {**entry, "source": "content/blog/second.md"}], "blog")
+
+    def test_invalid_yaml_reports_the_source(self):
+        for text in ("title: [unfinished", "- a list", ""):
+            with self.subTest(text=text), self.assertRaisesRegex(ValueError, "content/blog/example.md:"):
+                build.parse_yaml(text, "content/blog/example.md")
 
     def test_extra_title_in_content_fails_validation(self):
         with TemporaryDirectory() as directory:

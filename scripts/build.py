@@ -3,6 +3,7 @@ import math
 from pathlib import Path
 import re
 import shutil
+import sys
 from urllib.parse import parse_qs, urlsplit
 from xml.etree import ElementTree
 
@@ -16,12 +17,82 @@ OUTPUT = ROOT / "dist"
 
 
 def load_data(filename):
-    return yaml.safe_load((ROOT / "data" / filename).read_text(encoding="utf-8"))
+    path = ROOT / "data" / filename
+    return parse_yaml(path.read_text(encoding="utf-8"), f"data/{filename}")
+
+
+def parse_yaml(text, source):
+    try:
+        data = yaml.safe_load(text)
+    except yaml.YAMLError as error:
+        raise ValueError(f"{source}: invalid YAML: {error}") from error
+    if not isinstance(data, dict):
+        raise ValueError(f"{source}: expected a YAML mapping of field names to values")
+    return data
+
+
+def require_text(data, field, source):
+    value = data.get(field)
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"{source}: {field} must be a non-empty string")
+
+
+def validate_entry(entry, section):
+    source = entry["source"]
+    fields = ("title", "slug", "excerpt", "image") if section == "blog" else (
+        "title", "slug", "description", "thumbnail", "markdown", "legacy_slug"
+    )
+    for field in fields:
+        require_text(entry, field, source)
+    tags = entry.get("tags")
+    if not isinstance(tags, list) or not tags or any(not isinstance(tag, str) or not tag.strip() for tag in tags):
+        raise ValueError(f"{source}: tags must be a non-empty list of strings, such as [Python, Analytics]")
+    for field in ("date", "updated"):
+        if field not in entry and (field != "date" or section != "blog"):
+            continue
+        value = entry.get(field)
+        if isinstance(value, date):
+            value = value.isoformat()
+        try:
+            if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+                raise ValueError
+            date.fromisoformat(value)
+        except ValueError:
+            raise ValueError(f"{source}: {field} must be a valid date in YYYY-MM-DD format") from None
+        entry[field] = value
+    if "updated" in entry and "date" in entry and entry["updated"] < entry["date"]:
+        raise ValueError(f"{source}: updated cannot be earlier than date")
+    if "featured" in entry and not isinstance(entry["featured"], bool):
+        raise ValueError(f"{source}: featured must be true or false")
+    links = entry.get("links", [])
+    if not isinstance(links, list):
+        raise ValueError(f"{source}: links must be a list")
+    for index, link in enumerate(links, start=1):
+        if not isinstance(link, dict):
+            raise ValueError(f"{source}: link {index} must contain url, icon and label")
+        for field in ("url", "icon", "label"):
+            require_text(link, field, f"{source}, link {index}")
+
+
+def validate_site(site):
+    source = "data/site.yaml"
+    for field in ("name", "handle", "person_id", "title", "description", "tagline", "headshot", "headshot_alt", "about"):
+        require_text(site, field, source)
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", site["person_id"]):
+        raise ValueError(f"{source}: person_id must use lowercase words separated by hyphens")
+    if not isinstance(site.get("social"), dict):
+        raise ValueError(f"{source}: social must contain profile links")
+    for field in ("github", "linkedin"):
+        require_text(site["social"], field, f"{source}, social")
 
 
 def load_entries(filename, key, section):
-    entries = load_data(filename)[key]
+    entries = load_data(filename).get(key)
+    if not isinstance(entries, list):
+        raise ValueError(f"data/{filename}: {key} must be a list")
     for index, entry in enumerate(entries, start=1):
+        if not isinstance(entry, dict):
+            raise ValueError(f"data/{filename}, entry {index}: expected a YAML mapping")
         entry["source"] = f"data/{filename}, entry {index}"
     return prepare_entries(entries, section)
 
@@ -33,27 +104,39 @@ def load_posts():
         parts = path.read_text(encoding="utf-8").split("\n---\n", 1)
         if not parts[0].startswith("---\n") or len(parts) != 2:
             raise ValueError(f"{source}: expected YAML front matter between --- lines")
-        entry = yaml.safe_load(parts[0][4:])
+        entry = parse_yaml(parts[0][4:], source)
         entry["source"] = source
         entry["markdown"] = source
         entry["markdown_text"] = parts[1].lstrip("\n")
-        for field in ("date", "updated"):
-            if isinstance(entry.get(field), date):
-                entry[field] = entry[field].isoformat()
         entries.append(entry)
     return prepare_entries(entries, "blog")
 
 
 def prepare_entries(entries, section):
-    slugs = set()
+    slugs = {}
+    legacy_slugs = set()
     for entry in entries:
+        validate_entry(entry, section)
+        source = entry["source"]
         slug = entry["slug"]
-        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug) or slug in slugs:
-            raise ValueError(f"{entry['source']}: invalid or duplicate slug: {slug}")
-        slugs.add(slug)
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+            raise ValueError(f"{source}: slug must use lowercase words separated by hyphens")
+        if slug in slugs:
+            raise ValueError(f"{source}: duplicate slug '{slug}', also used by {slugs[slug]}")
+        slugs[slug] = source
+        if section == "projects":
+            legacy_slug = entry["legacy_slug"]
+            if legacy_slug in legacy_slugs:
+                raise ValueError(f"{source}: duplicate legacy_slug '{legacy_slug}'")
+            legacy_slugs.add(legacy_slug)
         entry["url"] = f"/{section}/{slug}/"
         if "markdown_text" not in entry:
-            entry["markdown_text"] = (ROOT / entry["markdown"]).read_text(encoding="utf-8")
+            try:
+                entry["markdown_text"] = (ROOT / entry["markdown"]).read_text(encoding="utf-8")
+            except FileNotFoundError:
+                raise ValueError(f"{source}: Markdown file not found: {entry['markdown']}") from None
+        if not entry["markdown_text"].strip():
+            raise ValueError(f"{source}: Markdown body must not be empty")
         entry["reading_time"] = f"{max(1, math.floor(len(entry['markdown_text']) / 1000 + 0.5))} min"
     return entries
 
@@ -101,6 +184,7 @@ def build():
         date.fromisoformat(value).strftime("%B %d, %Y").replace(" 0", " ")
     )
     site = load_data("site.yaml")
+    validate_site(site)
     domain = (ROOT / "CNAME").read_text(encoding="utf-8").strip()
     base_url = "https://" + domain
     projects = load_entries("projects.yaml", "projects", "projects")
@@ -233,4 +317,8 @@ def build():
 
 
 if __name__ == "__main__":
-    build()
+    try:
+        build()
+    except (ValueError, FileNotFoundError) as error:
+        print(f"Build failed: {error}", file=sys.stderr)
+        sys.exit(1)
