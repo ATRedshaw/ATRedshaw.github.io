@@ -14,7 +14,7 @@ projects:
     thumbnail: "assets/images/projects/thumbnails/xg-heatmap.png"
     markdown: "content/projects/xg-plotter.md"
     links:
-      - url: "https://atredshaw.github.io/Redshaw-xG/"
+      - url: "https://xg-plotter.atredshaw.com/"
         icon: "laptop"
         label: "Visit Site"
       - url: "https://github.com/ATRedshaw/Redshaw-xG"
@@ -41,7 +41,7 @@ projects:
     thumbnail: "assets/images/projects/thumbnails/fpl-challenge-optimisations.png"
     markdown: "content/projects/fpl-challenge-optimisations.md"
     links:
-      - url: "https://atredshaw.github.io/fpl-challenge-optimisations/"
+      - url: "https://fpl-challenge-optimisations.atredshaw.com/"
         icon: "laptop"
         label: "Visit Site"
       - url: "https://github.com/ATRedshaw/fpl-challenge-optimisations"
