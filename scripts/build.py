@@ -58,7 +58,7 @@ def prepare_entries(entries, section):
     return entries
 
 
-def render_markdown(text, legacy_urls):
+def render_markdown(text, legacy_urls, domain):
     html = markdown.markdown(
         text,
         extensions=["extra", "toc", "pymdownx.arithmatex"],
@@ -68,7 +68,7 @@ def render_markdown(text, legacy_urls):
     def rewrite_url(match):
         attribute, url = match.groups()
         parts = urlsplit(url)
-        if parts.netloc and parts.netloc != "atredshaw.com":
+        if parts.netloc and parts.netloc != domain:
             return match.group(0)
         path = parts.path.lstrip("/")
         if path.startswith("assets/"):
@@ -100,28 +100,29 @@ def build():
     environment.filters["long_date"] = lambda value: (
         date.fromisoformat(value).strftime("%B %d, %Y").replace(" 0", " ")
     )
+    site = load_data("site.yaml")
+    domain = (ROOT / "CNAME").read_text(encoding="utf-8").strip()
+    base_url = "https://" + domain
     projects = load_entries("projects.yaml", "projects", "projects")
     posts = load_posts()
     posts.sort(key=lambda post: post["date"], reverse=True)
     legacy_urls = {post["slug"]: post["url"] for post in posts}
     legacy_urls.update({project["legacy_slug"]: project["url"] for project in projects})
     for entry in projects + posts:
-        entry["html"] = render_markdown(entry["markdown_text"], legacy_urls)
+        entry["html"] = render_markdown(entry["markdown_text"], legacy_urls, domain)
     context = {
-        "site": load_data("site.yaml"),
+        "site": site,
         "skills": load_data("skills.yaml")["categories"],
         "experience": load_data("experience.yaml")["entries"],
         "year": date.today().year,
         "projects": projects,
         "posts": posts,
     }
-    site = context["site"]
-    base_url = "https://" + (ROOT / "CNAME").read_text(encoding="utf-8").strip()
     person = {
         "@type": "Person",
-        "@id": base_url + "/#alex-redshaw",
+        "@id": base_url + "/#" + site["person_id"],
         "name": site["name"],
-        "alternateName": "ATRedshaw",
+        "alternateName": site["handle"],
         "url": base_url + "/",
         "image": base_url + "/" + site["headshot"],
         "description": site["tagline"],
@@ -167,28 +168,28 @@ def build():
     )
     for filename, template, title, active, description, noindex in (
         (
-            'experience.html', 'experience.html', 'Experience & Skills | Alex Redshaw', 'experience',
-            "Alex Redshaw's experience in data science, machine learning and data engineering, alongside technical skills, education and certifications.",
+            'experience.html', 'experience.html', f"Experience & Skills | {site['name']}", 'experience',
+            f"{site['name']}'s experience in data science, machine learning and data engineering, alongside technical skills, education and certifications.",
             False,
         ),
         (
-            'projects.html', 'projects.html', 'Data Science & Machine Learning Projects | Alex Redshaw', 'projects',
-            "Explore Alex Redshaw's projects in football analytics, FPL forecasting, applied machine learning and software engineering, with demos and case studies.",
+            'projects.html', 'projects.html', f"Data Science & Machine Learning Projects | {site['name']}", 'projects',
+            f"Explore {site['name']}'s projects in football analytics, FPL forecasting, applied machine learning and software engineering, with demos and case studies.",
             False,
         ),
         (
-            'blog.html', 'blog.html', 'Journal | Alex Redshaw', 'blog',
-            'Articles by Alex Redshaw on sports analytics, Fantasy Premier League optimisation, probabilistic modelling and practical data science.',
+            'blog.html', 'blog.html', f"Journal | {site['name']}", 'blog',
+            f"Articles by {site['name']} on sports analytics, Fantasy Premier League optimisation, probabilistic modelling and practical data science.",
             False,
         ),
         (
-            'post.html', 'legacy-post.html', 'Journal | Alex Redshaw', 'blog',
-            "Find Alex Redshaw's articles at their new addresses.",
+            'post.html', 'legacy-post.html', f"Journal | {site['name']}", 'blog',
+            f"Find {site['name']}'s articles at their new addresses.",
             True,
         ),
         (
-            '404.html', '404.html', 'Page Not Found | Alex Redshaw', '',
-            "This page could not be found. Explore Alex Redshaw's projects or return to the homepage.",
+            '404.html', '404.html', f"Page Not Found | {site['name']}", '',
+            f"This page could not be found. Explore {site['name']}'s projects or return to the homepage.",
             True,
         ),
     ):

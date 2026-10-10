@@ -68,7 +68,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="/" class="text-2xl font-serif font-semibold text-porcelain tracking-tight hover:text-terracotta transition-colors duration-300">
-                        AR<span class="text-terracotta">.</span>
+                        {{ site.name.split() | map('first') | join }}<span class="text-terracotta">.</span>
                     </a>
                 </div>
                 

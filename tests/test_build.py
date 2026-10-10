@@ -52,6 +52,37 @@ class BuildTests(unittest.TestCase):
         self.assertEqual(profile["name"], site["name"])
         self.assertEqual(profile["sameAs"], list(site["social"].values()))
 
+    def test_identity_changes_flow_into_profile_links_and_page_metadata(self):
+        load_data = build.load_data
+        site = load_data("site.yaml")
+        site.update(name="Sample Person", handle="SampleHandle", person_id="stable-person")
+        site["social"] = {"github": "https://github.com/sample", "linkedin": "https://www.linkedin.com/in/sample/"}
+        with TemporaryDirectory() as directory:
+            output = Path(directory)
+            with patch.object(build, "OUTPUT", output), patch.object(
+                build, "load_data", side_effect=lambda filename: site if filename == "site.yaml" else load_data(filename)
+            ):
+                build.build()
+            home = (output / "index.html").read_text(encoding="utf-8")
+            profile = Page(home).structured_data[0]["mainEntity"]
+            self.assertEqual(profile["alternateName"], "SampleHandle")
+            self.assertTrue(profile["@id"].endswith("/#stable-person"))
+            for url in site["social"].values():
+                self.assertGreaterEqual(home.count(f'href="{url}"'), 2)
+            for filename in ("experience.html", "projects.html", "blog.html", "post.html", "404.html"):
+                page = Page((output / filename).read_text(encoding="utf-8"))
+                self.assertIn("Sample Person", page.title)
+                self.assertIn("Sample Person", page.meta["description"])
+
+    def test_legacy_markdown_links_use_the_configured_domain(self):
+        html = build.render_markdown(
+            "[Internal](https://portfolio.example/post.html?id=old) "
+            "[External](https://atredshaw.com/post.html?id=old)",
+            {"old": "/blog/new/"}, "portfolio.example",
+        )
+        self.assertIn('href="/blog/new/"', html)
+        self.assertIn('href="https://atredshaw.com/post.html?id=old"', html)
+
     def test_every_writeup_has_a_linked_static_page_and_author(self):
         for section, entries in (("projects", build.load_data("projects.yaml")["projects"]), ("blog", build.load_posts())):
             listing = (build.OUTPUT / f"{section}.html").read_text(encoding="utf-8")
@@ -84,7 +115,7 @@ price = "$x_i$"
 [Old article](https://atredshaw.com/post.html?id=old#results)
 [External article](https://example.com/post.html?id=old)
 """
-        html = build.render_markdown(text, {"old": "/blog/new/"})
+        html = build.render_markdown(text, {"old": "/blog/new/"}, "atredshaw.com")
         self.assertIn(r'\(x_i\)', html)
         self.assertIn(r'\frac{x_i}{y}', html)
         self.assertIn('<pre><code class="language-python">', html)
