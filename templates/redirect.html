@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block head %}
+<meta http-equiv="refresh" content="0;url={{ redirect_url }}">
+{% endblock %}
+{% block content %}
+<main class="grow pt-32 pb-24">
+    <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12">
+        <h1 class="text-4xl font-serif text-porcelain mb-8">{{ redirect_title }}</h1>
+        <p class="text-fern text-lg">This page has moved. <a href="{{ redirect_url }}" class="text-terracotta hover:underline">Continue to {{ redirect_title }} &rarr;</a></p>
+    </div>
+</main>
+{% endblock %}

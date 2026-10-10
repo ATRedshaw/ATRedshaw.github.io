@@ -1,6 +1,6 @@
 It turns out predicting last season is quite easy when you let the code read the results.
 
-My [Lazy Manager experiments](https://atredshaw.com/post.html?id=lazy-manager-fpl-202425) used perfect hindsight to find the best set-and-forget FPL squad. At the end of that write-up, I said I wanted to build something that looked forward. xLthm is that forecasting project, estimating how many Fantasy Premier League points each player will score in upcoming fixtures.
+My [Lazy Manager experiments](/journal/series/the-lazy-manager/) used perfect hindsight to find the best set-and-forget FPL squad. At the end of that write-up, I said I wanted to build something that looked forward. xLthm is that forecasting project, estimating how many Fantasy Premier League points each player will score in upcoming fixtures.
 
 I've wanted to build something like this properly for years. A tool I could keep running, inspect and improve over a season, without having to remember which notebook cell I last ran. It now produces expected points, expected minutes, probabilities and a scoring breakdown, with a dashboard to explore them. You can [try the public version here](https://xlthm.atredshaw.com/).
 

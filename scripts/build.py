@@ -173,7 +173,7 @@ def prepare_entries(entries, section):
             if legacy_slug in legacy_slugs:
                 raise ValueError(f"{source}: duplicate legacy_slug '{legacy_slug}'")
             legacy_slugs.add(legacy_slug)
-        entry["url"] = f"/{section}/{slug}/"
+        entry["url"] = f"/{'journal' if section == 'blog' else section}/{slug}/"
         if "markdown_text" not in entry:
             try:
                 entry["markdown_text"] = (ROOT / entry["markdown"]).read_text(encoding="utf-8")
@@ -245,6 +245,8 @@ def render_markdown(text, legacy_urls, domain):
             url = parts._replace(scheme="", netloc="", path="/" + path).geturl()
         elif path == "blog.html":
             url = parts._replace(scheme="", netloc="", path="/journal.html").geturl()
+        elif path.startswith("blog/"):
+            url = parts._replace(scheme="", netloc="", path="/journal/" + path[5:]).geturl()
         elif path in ("post.html", "projects.html"):
             parameter = "id" if path == "post.html" else "project"
             identifier = parse_qs(parts.query).get(parameter, [""])[0]
@@ -319,15 +321,15 @@ def build():
 
     def write_page(
         filename, template, title, active, description,
-        image=None, structured_data=None, noindex=False, **page_context,
+        image=None, structured_data=None, noindex=False, redirect_url=None, **page_context,
     ):
         path = "/" if filename == "index.html" else "/" + filename.removesuffix("index.html")
-        canonical = base_url + path
+        canonical = base_url + (redirect_url or path)
         image = image or site["headshot"]
         html = environment.get_template(template).render(
             **context, title=title, active=active, description=description,
             canonical=canonical, image_url=base_url + "/" + image.lstrip("/"),
-            image_alt=title, structured_data=structured_data, noindex=noindex,
+            image_alt=title, structured_data=structured_data, noindex=noindex, redirect_url=redirect_url,
             **page_context,
         )
         destination = OUTPUT / filename
@@ -356,11 +358,6 @@ def build():
             False,
         ),
         (
-            'blog.html', 'legacy-blog.html', f"Journal | {site['name']}", 'journal',
-            f"Visit {site['name']}'s journal at its new address.",
-            True,
-        ),
-        (
             'post.html', 'legacy-post.html', f"Journal | {site['name']}", 'journal',
             f"Find {site['name']}'s articles at their new addresses.",
             True,
@@ -372,6 +369,11 @@ def build():
         ),
     ):
         write_page(filename, template, title, active, description, noindex=noindex)
+    write_page(
+        "blog.html", "redirect.html", f"Journal | {site['name']}", "journal",
+        f"Visit {site['name']}'s journal at its new address.",
+        noindex=True, redirect_url="/journal.html", redirect_title="Journal",
+    )
     write_page(
         "journal.html", "journal.html", f"Journal | {site['name']}", "journal",
         f"Articles by {site['name']} on sports analytics, projects, technology and more. Browse by topic or follow a series.",
@@ -414,11 +416,17 @@ def build():
             if "updated" in entry:
                 article["dateModified"] = entry["updated"]
             write_page(
-                f"{section}/{entry['slug']}/index.html", "detail.html",
+                entry["url"].lstrip("/") + "index.html", "detail.html",
                 f"{entry['title']} | {context['site']['name']}", 'journal' if section == 'blog' else section,
                 article["description"], image=image, structured_data=article,
                 entry=entry, section=section,
             )
+            if section == "blog":
+                write_page(
+                    f"blog/{entry['slug']}/index.html", "redirect.html",
+                    f"{entry['title']} | {site['name']}", "journal", article["description"],
+                    image=image, noindex=True, redirect_url=entry["url"], redirect_title=entry["title"],
+                )
     namespace = "http://www.sitemaps.org/schemas/sitemap/0.9"
     ElementTree.register_namespace("", namespace)
     sitemap = ElementTree.Element(f"{{{namespace}}}urlset")

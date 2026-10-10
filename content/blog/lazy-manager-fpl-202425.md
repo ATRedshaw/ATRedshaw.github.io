@@ -18,7 +18,7 @@ excerpt: Using hindsight, a Python optimiser found the best set-and-forget FPL t
 
 Last year I tried a weird little experiment for the 2023/24 Fantasy Premier League season. I wanted to see what happens if you pick fifteen players before the first game, never touch the team again, and let perfect hindsight take the wheel. The answer was 2,656 points. That was enough for a top 250 global finish out of eleven million players.
 
-I obviously had to run it again for the 24/25 season. Same code, same constraints, different season. [The full GitHub repo is here](https://github.com/ATRedshaw/fpl-hindsight-optimiser) and the methodology is identical to [last year's write-up](https://atredshaw.github.io/post.html?id=lazy-manager-fpl-202324). I'll spare you the deep dive into the code this time. The short version is that PuLP solves for a fifteen-player squad under £100m that maxes out total season points. It handles the captaincy doubling, auto-subs and vice-captain promotions when your main guy gets benched.
+I obviously had to run it again for the 24/25 season. Same code, same constraints, different season. [The full GitHub repo is here](https://github.com/ATRedshaw/fpl-hindsight-optimiser) and the methodology is identical to [last year's write-up](/journal/lazy-manager-fpl-202324/). I'll spare you the deep dive into the code this time. The short version is that PuLP solves for a fifteen-player squad under £100m that maxes out total season points. It handles the captaincy doubling, auto-subs and vice-captain promotions when your main guy gets benched.
 
 ## The Results
 
