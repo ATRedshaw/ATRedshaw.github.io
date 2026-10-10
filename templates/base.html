@@ -15,7 +15,7 @@
     <meta property="og:title" content="{{ title }}">
     <meta property="og:description" content="{{ description }}">
     <meta property="og:url" content="{{ canonical }}">
-    <meta property="og:type" content="{{ 'article' if active in ['blog', 'projects'] and structured_data else 'website' }}">
+    <meta property="og:type" content="{{ 'article' if active in ['journal', 'projects'] and structured_data else 'website' }}">
     <meta property="og:image" content="{{ image_url }}">
     <meta property="og:image:alt" content="{{ image_alt }}">
     <meta name="twitter:card" content="summary_large_image">
@@ -74,7 +74,7 @@
                 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-12">
-                    {% for key, url, label in [('home', '/', 'Home'), ('experience', '/experience.html', 'Experience'), ('projects', '/projects.html', 'Projects'), ('blog', '/blog.html', 'Blog')] %}
+                    {% for key, url, label in [('home', '/', 'Home'), ('experience', '/experience.html', 'Experience'), ('projects', '/projects.html', 'Projects'), ('journal', '/journal.html', 'Journal')] %}
                     <a href="{{ url }}" {% if active == key %}aria-current="page"{% endif %} class="nav-link text-xs font-mono font-medium uppercase tracking-widest {{ 'text-terracotta' if active == key else 'text-porcelain/60' }} hover:text-terracotta transition-all duration-300">{{ label }}</a>
                     {% endfor %}
                 </div>
@@ -91,7 +91,7 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-midnight border-t border-white/5 absolute w-full">
             <div class="px-6 py-6 space-y-4">
-                {% for key, url, label in [('home', '/', 'Home'), ('experience', '/experience.html', 'Experience'), ('projects', '/projects.html', 'Projects'), ('blog', '/blog.html', 'Blog')] %}
+                {% for key, url, label in [('home', '/', 'Home'), ('experience', '/experience.html', 'Experience'), ('projects', '/projects.html', 'Projects'), ('journal', '/journal.html', 'Journal')] %}
                 <a href="{{ url }}" {% if active == key %}aria-current="page"{% endif %} class="block text-sm font-mono uppercase tracking-widest {{ 'text-terracotta' if active == key else 'text-porcelain/60' }} hover:text-terracotta transition-colors">{{ label }}</a>
                 {% endfor %}
             </div>

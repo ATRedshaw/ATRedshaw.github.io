@@ -9,7 +9,7 @@
 <main class="grow pt-32 pb-24">
     <div class="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12">
         <div class="mb-8">
-            <a href="/{{ section }}.html" class="text-xs font-mono uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-colors duration-300 inline-flex items-center gap-2">
+            <a href="{{ '/projects.html' if section == 'projects' else '/journal.html' }}" class="text-xs font-mono uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-colors duration-300 inline-flex items-center gap-2">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to {{ 'Projects' if section == 'projects' else 'Journal' }}
             </a>
         </div>

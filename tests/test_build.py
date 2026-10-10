@@ -42,6 +42,20 @@ class BuildTests(unittest.TestCase):
     def test_generated_site_links_metadata_and_public_files(self):
         check_site()
 
+    def test_journal_replaces_the_blog_listing_and_preserves_article_addresses(self):
+        journal = (build.OUTPUT / "journal.html").read_text(encoding="utf-8")
+        legacy = (build.OUTPUT / "blog.html").read_text(encoding="utf-8")
+        sitemap = (build.OUTPUT / "sitemap.xml").read_text(encoding="utf-8")
+        self.assertIn('/journal.html', Page(journal).canonicals[0])
+        self.assertIn('content="0;url=/journal.html"', legacy)
+        self.assertIn("noindex", Page(legacy).meta["robots"])
+        self.assertNotIn('/blog.html</loc>', sitemap)
+        self.assertIn('/journal.html</loc>', sitemap)
+        for post in build.load_posts():
+            self.assertTrue(post["url"].startswith("/blog/"))
+            article = (build.OUTPUT / post["url"].strip("/") / "index.html").read_text(encoding="utf-8")
+            self.assertIn('href="/journal.html"', article)
+
     def test_identity_and_experience_are_in_the_initial_html(self):
         home_html = (build.OUTPUT / "index.html").read_text(encoding="utf-8")
         home = unescape(home_html)
@@ -73,7 +87,7 @@ class BuildTests(unittest.TestCase):
             self.assertTrue(profile["@id"].endswith("/#stable-person"))
             for url in site["social"].values():
                 self.assertGreaterEqual(home.count(f'href="{url}"'), 2)
-            for filename in ("experience.html", "projects.html", "blog.html", "post.html", "404.html"):
+            for filename in ("experience.html", "projects.html", "journal.html", "post.html", "404.html"):
                 page = Page((output / filename).read_text(encoding="utf-8"))
                 self.assertIn("Sample Person", page.title)
                 self.assertIn("Sample Person", page.meta["description"])
@@ -89,7 +103,7 @@ class BuildTests(unittest.TestCase):
 
     def test_every_writeup_has_a_linked_static_page_and_author(self):
         for section, entries in (("projects", build.load_data("projects.yaml")["projects"]), ("blog", build.load_posts())):
-            listing = (build.OUTPUT / f"{section}.html").read_text(encoding="utf-8")
+            listing = (build.OUTPUT / ("projects.html" if section == "projects" else "journal.html")).read_text(encoding="utf-8")
             for entry in entries:
                 with self.subTest(slug=entry["slug"]):
                     url = f"/{section}/{entry['slug']}/"

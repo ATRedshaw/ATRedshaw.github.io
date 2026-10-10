@@ -164,6 +164,8 @@ def render_markdown(text, legacy_urls, domain):
         path = parts.path.lstrip("/")
         if path.startswith("assets/"):
             url = parts._replace(scheme="", netloc="", path="/" + path).geturl()
+        elif path == "blog.html":
+            url = parts._replace(scheme="", netloc="", path="/journal.html").geturl()
         elif path in ("post.html", "projects.html"):
             parameter = "id" if path == "post.html" else "project"
             identifier = parse_qs(parts.query).get(parameter, [""])[0]
@@ -270,12 +272,17 @@ def build():
             False,
         ),
         (
-            'blog.html', 'blog.html', f"Journal | {site['name']}", 'blog',
+            'journal.html', 'journal.html', f"Journal | {site['name']}", 'journal',
             f"Articles by {site['name']} on sports analytics, Fantasy Premier League optimisation, probabilistic modelling and practical data science.",
             False,
         ),
         (
-            'post.html', 'legacy-post.html', f"Journal | {site['name']}", 'blog',
+            'blog.html', 'legacy-blog.html', f"Journal | {site['name']}", 'journal',
+            f"Visit {site['name']}'s journal at its new address.",
+            True,
+        ),
+        (
+            'post.html', 'legacy-post.html', f"Journal | {site['name']}", 'journal',
             f"Find {site['name']}'s articles at their new addresses.",
             True,
         ),
@@ -305,7 +312,7 @@ def build():
                 article["dateModified"] = entry["updated"]
             write_page(
                 f"{section}/{entry['slug']}/index.html", "detail.html",
-                f"{entry['title']} | {context['site']['name']}", section,
+                f"{entry['title']} | {context['site']['name']}", 'journal' if section == 'blog' else section,
                 article["description"], image=image, structured_data=article,
                 entry=entry, section=section,
             )
