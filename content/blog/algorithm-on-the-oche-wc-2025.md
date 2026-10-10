@@ -3,6 +3,9 @@ title: 'Algorithm on the Oche: Darts World Championship 2025'
 slug: algorithm-on-the-oche-wc-2025
 image: assets/images/blogs/algorithm-on-the-oche-wc-2025/rolling-model-accuracy.png
 date: '2025-01-18'
+topic: Darts
+series: Algorithm on the Oche
+series_order: 2
 tags:
 - Darts
 - Analytics

@@ -17,7 +17,7 @@ class BuildTests(unittest.TestCase):
             path = folder / "new-article.md"
             path.write_text(
                 '---\ntitle: A new title\nslug: stable-address\ndate: 2026-10-10\n'
-                'tags: [Python]\nexcerpt: A summary.\nimage: /assets/preview.png\n---\n\n## Article\nBody.',
+                'topic: Technology\ntags: [Python]\nexcerpt: A summary.\nimage: /assets/preview.png\n---\n\n## Article\nBody.',
                 encoding="utf-8",
             )
             with patch.object(build, "ROOT", root):
@@ -131,6 +131,7 @@ price = "$x_i$"
 
 ![Chart](assets/images/chart.png)
 [Old article](https://atredshaw.com/post.html?id=old#results)
+[Old listing](https://atredshaw.com/blog.html#writing)
 [External article](https://example.com/post.html?id=old)
 """
         html = build.render_markdown(text, {"old": "/blog/new/"}, "atredshaw.com")
@@ -141,6 +142,7 @@ price = "$x_i$"
         self.assertIn('<div class="prose-table-scroll"><table>', html)
         self.assertIn('src="/assets/images/chart.png"', html)
         self.assertIn('href="/blog/new/#results"', html)
+        self.assertIn('href="/journal.html#writing"', html)
         self.assertIn('href="https://example.com/post.html?id=old"', html)
 
     def test_duplicate_or_unsafe_slugs_fail_the_build(self):
@@ -163,11 +165,12 @@ price = "$x_i$"
     def test_invalid_article_metadata_reports_the_file_and_field(self):
         valid = {
             "source": "content/blog/example.md", "title": "Example", "slug": "example",
-            "date": "2026-10-10", "tags": ["Python"], "excerpt": "Summary",
+            "date": "2026-10-10", "topic": "Technology", "tags": ["Python"], "excerpt": "Summary",
             "image": "/assets/preview.png", "markdown_text": "## Body\nArticle.",
         }
         for field, value in (
             ("title", None), ("slug", 123), ("image", ""), ("excerpt", False),
+            ("topic", None), ("series", ""), ("series_order", 0), ("series_order", True),
             ("date", "2026-02-30"), ("date", "10/10/2026"), ("date", None),
             ("tags", "Python"), ("tags", [123]), ("tags", []),
             ("updated", "2025-01-01"), ("featured", "yes"), ("markdown_text", ""),
@@ -177,10 +180,80 @@ price = "$x_i$"
                     build.prepare_entries([{**valid, field: value}], "blog")
                 self.assertIn("Markdown body" if field == "markdown_text" else field, str(error.exception))
 
+    def test_topic_archives_and_series_order_come_from_article_metadata(self):
+        entries = [
+            {"title": "Second", "slug": "second", "source": "second.md", "date": "2025-01-01", "topic": "Theme Parks", "series": "Park Reviews", "series_order": 2, "url": "/blog/second/"},
+            {"title": "First", "slug": "first", "source": "first.md", "date": "2026-01-01", "topic": "Theme Parks", "series": "Park Reviews", "series_order": 1, "url": "/blog/first/"},
+            {"title": "Standalone", "slug": "standalone", "source": "standalone.md", "date": "2026-02-01", "topic": "Theme Parks", "url": "/blog/standalone/"},
+        ]
+        topics = build.group_posts(entries, "topic")
+        series = build.group_posts(entries, "series")
+        self.assertEqual(topics[0]["url"], "/journal/topics/theme-parks/")
+        self.assertEqual(len(topics[0]["posts"]), 3)
+        self.assertEqual(series[0]["url"], "/journal/series/park-reviews/")
+        self.assertEqual([post["slug"] for post in series[0]["posts"]], ["first", "second"])
+        self.assertEqual(entries[1]["series_next"]["url"], "/blog/second/")
+        self.assertIsNone(entries[1]["series_previous"])
+        self.assertEqual(entries[0]["series_previous"]["url"], "/blog/first/")
+        self.assertNotIn("series_url", entries[2])
+
+    def test_series_without_explicit_order_use_publication_order(self):
+        entries = [
+            {"title": "Newer", "slug": "newer", "source": "newer.md", "date": "2026-01-01", "topic": "Darts", "series": "Darts Analysis", "url": "/blog/newer/"},
+            {"title": "Older", "slug": "older", "source": "older.md", "date": "2025-01-01", "topic": "Darts", "series": "Darts Analysis", "url": "/blog/older/"},
+        ]
+        group = build.group_posts(entries, "series")[0]
+        self.assertEqual([post["slug"] for post in group["posts"]], ["older", "newer"])
+
+    def test_conflicting_group_names_and_series_orders_report_the_source(self):
+        entry = {"title": "First", "slug": "first", "source": "first.md", "date": "2026-01-01", "topic": "FPL", "series": "Example", "series_order": 1, "url": "/blog/first/"}
+        with self.assertRaisesRegex(ValueError, "second.md: topic.*shares a URL"):
+            build.group_posts([entry, {**entry, "source": "second.md", "topic": "fpl"}], "topic")
+        with self.assertRaisesRegex(ValueError, "second.md: duplicate series_order"):
+            build.group_posts([entry, {**entry, "source": "second.md"}], "series")
+
+    def test_journal_group_pages_are_static_and_linked_from_articles(self):
+        posts = build.load_posts()
+        for field in ("topic", "series"):
+            for group in build.group_posts(posts, field):
+                path = build.OUTPUT / group["url"].strip("/") / "index.html"
+                html = path.read_text(encoding="utf-8")
+                for post in group["posts"]:
+                    self.assertIn(f'href="{post["url"]}"', html)
+                    article = (build.OUTPUT / post["url"].strip("/") / "index.html").read_text(encoding="utf-8")
+                    self.assertIn(f'href="{group["url"]}"', article)
+                if field == "series":
+                    positions = [html.index(f'data-legacy-id="{post["slug"]}"') for post in group["posts"]]
+                    self.assertEqual(positions, sorted(positions))
+
+    def test_new_topics_and_optional_series_generate_without_a_separate_registry(self):
+        posts = build.prepare_entries([
+            {
+                "source": "content/blog/park-review.md", "title": "A park review", "slug": "park-review",
+                "date": "2026-10-10", "topic": "Theme Parks", "series": "Theme Park Reviews", "series_order": 1,
+                "tags": ["Reviews"], "excerpt": "A day at the park.", "image": "/assets/web/icon-512.png",
+                "markdown_text": "## My visit\nA review.",
+            },
+            {
+                "source": "content/blog/park-notes.md", "title": "Some park notes", "slug": "park-notes",
+                "date": "2026-10-09", "topic": "Theme Parks", "tags": ["Travel"], "excerpt": "Some notes.",
+                "image": "/assets/web/icon-512.png", "markdown_text": "## Notes\nSome notes.",
+            },
+        ], "blog")
+        with TemporaryDirectory() as directory:
+            output = Path(directory)
+            with patch.object(build, "OUTPUT", output), patch.object(build, "load_posts", return_value=posts):
+                build.build()
+            for route in ("journal/topics/theme-parks", "journal/series/theme-park-reviews"):
+                self.assertTrue((output / route / "index.html").is_file())
+                self.assertIn(f"/{route}/</loc>", (output / "sitemap.xml").read_text(encoding="utf-8"))
+            standalone = (output / "blog/park-notes/index.html").read_text(encoding="utf-8")
+            self.assertNotIn('aria-label="Series navigation"', standalone)
+
     def test_duplicate_article_slugs_identify_both_sources(self):
         entry = {
             "source": "content/blog/first.md", "title": "Example", "slug": "same",
-            "date": "2026-10-10", "tags": ["Python"], "excerpt": "Summary",
+            "date": "2026-10-10", "topic": "Technology", "tags": ["Python"], "excerpt": "Summary",
             "image": "/assets/preview.png", "markdown_text": "Article.",
         }
         with self.assertRaisesRegex(ValueError, "content/blog/second.md: duplicate slug 'same', also used by content/blog/first.md"):

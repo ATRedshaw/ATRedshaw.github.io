@@ -12,6 +12,10 @@
             <a href="{{ '/projects.html' if section == 'projects' else '/journal.html' }}" class="text-xs font-mono uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-colors duration-300 inline-flex items-center gap-2">
                 <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to {{ 'Projects' if section == 'projects' else 'Journal' }}
             </a>
+            {% if section == 'blog' %}
+            <span class="text-white/20 mx-3" aria-hidden="true">/</span>
+            <a href="{{ entry.topic_url }}" class="text-xs font-mono uppercase tracking-widest text-terracotta hover:text-porcelain">{{ entry.topic }}</a>
+            {% endif %}
         </div>
         <article>
             {% if section == 'projects' and entry.thumbnail %}
@@ -25,7 +29,7 @@
                 <span class="block text-terracotta text-xs font-mono mb-4 uppercase tracking-widest">Case Study</span>
                 {% endif %}
                 <div class="flex flex-wrap gap-3 mb-6">
-                    {% for tag in entry.tags %}
+                    {% for tag in entry.tags if section != 'blog' or tag != entry.topic %}
                     <span class="px-3 py-1 border border-terracotta/30 text-terracotta text-xs font-mono uppercase tracking-widest">{{ tag }}</span>
                     {% endfor %}
                 </div>
@@ -37,6 +41,9 @@
                     {% endif %}
                     <span>{{ entry.reading_time }} read</span>
                 </div>
+                {% if section == 'blog' and entry.get('series') %}
+                <a href="{{ entry.series_url }}" class="inline-block mt-6 text-sm text-terracotta hover:text-porcelain">{{ entry.series }} &middot; Article {{ entry.series_position }} of {{ entry.series_count }} &rarr;</a>
+                {% endif %}
                 {% if section == 'projects' %}
                 <div class="flex flex-wrap gap-4 mt-8">
                     {% for link in entry.get('links', []) %}
@@ -49,6 +56,25 @@
                 {% endif %}
             </header>
             <div class="prose prose-invert prose-lg max-w-none font-light fade-in-section" data-article-body>{{ entry.html | safe }}</div>
+            {% if section == 'blog' and entry.get('series') %}
+            <nav aria-label="Series navigation" class="mt-16 pt-8 border-t border-white/10">
+                <a href="{{ entry.series_url }}" class="text-terracotta font-mono text-xs uppercase tracking-widest hover:text-porcelain">{{ entry.series }} &rarr;</a>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+                    {% if entry.series_previous %}
+                    <a href="{{ entry.series_previous.url }}" rel="prev" class="border border-white/10 p-5 hover:border-terracotta/50 transition-colors">
+                        <span class="block text-xs font-mono text-fern uppercase tracking-widest mb-3">&larr; Previous article</span>
+                        <span class="font-serif text-lg text-porcelain">{{ entry.series_previous.title }}</span>
+                    </a>
+                    {% endif %}
+                    {% if entry.series_next %}
+                    <a href="{{ entry.series_next.url }}" rel="next" class="border border-white/10 p-5 hover:border-terracotta/50 transition-colors sm:col-start-2">
+                        <span class="block text-xs font-mono text-fern uppercase tracking-widest mb-3">Next article &rarr;</span>
+                        <span class="font-serif text-lg text-porcelain">{{ entry.series_next.title }}</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </nav>
+            {% endif %}
         </article>
     </div>
 </main>

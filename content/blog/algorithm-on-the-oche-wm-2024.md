@@ -3,6 +3,9 @@ title: 'Algorithm on the Oche: Darts World Matchplay 2024'
 slug: algorithm-on-the-oche-wm-2024
 image: assets/images/blogs/algorithm-on-the-oche-mp-2024/model_differences_favourite_win_comparison.png
 date: '2024-07-22'
+topic: Darts
+series: Algorithm on the Oche
+series_order: 1
 tags:
 - Darts
 - Analytics

@@ -3,6 +3,9 @@ title: The Lazy Manager's Guide to FPL Success Part 2 (2024/25)
 slug: lazy-manager-fpl-202425
 image: assets/images/blogs/lazy-manager-fpl-202425/cummulative_points_own_vs_optimised.png
 date: '2025-07-19'
+topic: FPL
+series: The Lazy Manager
+series_order: 2
 tags:
 - FPL
 - Python

@@ -47,11 +47,20 @@ def require_text(data, field, source):
 
 def validate_entry(entry, section):
     source = entry["source"]
-    fields = ("title", "slug", "excerpt", "image") if section == "blog" else (
+    fields = ("title", "slug", "excerpt", "image", "topic") if section == "blog" else (
         "title", "slug", "description", "thumbnail", "markdown", "legacy_slug"
     )
     for field in fields:
         require_text(entry, field, source)
+    if section == "blog":
+        for field in ("topic", "series"):
+            if field in entry:
+                require_text(entry, field, source)
+                entry[field] = entry[field].strip()
+        if "series_order" in entry:
+            order = entry["series_order"]
+            if "series" not in entry or type(order) is not int or order < 1:
+                raise ValueError(f"{source}: series_order must be a positive integer with a series name")
     tags = entry.get("tags")
     if not isinstance(tags, list) or not tags or any(not isinstance(tag, str) or not tag.strip() for tag in tags):
         raise ValueError(f"{source}: tags must be a non-empty list of strings, such as [Python, Analytics]")
@@ -149,6 +158,50 @@ def prepare_entries(entries, section):
     return entries
 
 
+def group_posts(posts, field):
+    groups = {}
+    for post in posts:
+        name = post.get(field)
+        if not name:
+            continue
+        slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+        if not slug:
+            raise ValueError(f"{post['source']}: {field} needs letters or numbers for its URL")
+        if slug in groups and groups[slug]["name"] != name:
+            raise ValueError(
+                f"{post['source']}: {field} '{name}' shares a URL with '{groups[slug]['name']}'; "
+                "use one consistent name"
+            )
+        url = f"/journal/{'topics' if field == 'topic' else 'series'}/{slug}/"
+        group = groups.setdefault(slug, {"name": name, "url": url, "posts": []})
+        group["posts"].append(post)
+        post[f"{field}_url"] = url
+    for group in groups.values():
+        group["topics"] = sorted({post["topic"] for post in group["posts"]})
+        if field != "series":
+            continue
+        orders = {}
+        for post in group["posts"]:
+            if "series_order" in post:
+                order = post["series_order"]
+                if order in orders:
+                    raise ValueError(
+                        f"{post['source']}: duplicate series_order {order} in '{group['name']}', "
+                        f"also used by {orders[order]}"
+                    )
+                orders[order] = post["source"]
+        group["posts"].sort(key=lambda post: (post.get("series_order", math.inf), post["date"], post["slug"]))
+        for index, post in enumerate(group["posts"]):
+            post["series_position"] = index + 1
+            post["series_count"] = len(group["posts"])
+            for direction, neighbour in (("previous", index - 1), ("next", index + 1)):
+                post[f"series_{direction}"] = None
+                if 0 <= neighbour < len(group["posts"]):
+                    related = group["posts"][neighbour]
+                    post[f"series_{direction}"] = {"title": related["title"], "url": related["url"]}
+    return sorted(groups.values(), key=lambda group: group["name"].casefold())
+
+
 def render_markdown(text, legacy_urls, domain):
     html = markdown.markdown(
         text,
@@ -200,6 +253,8 @@ def build():
     projects = load_entries("projects.yaml", "projects", "projects")
     posts = load_posts()
     posts.sort(key=lambda post: post["date"], reverse=True)
+    topics = group_posts(posts, "topic")
+    series = group_posts(posts, "series")
     legacy_urls = {post["slug"]: post["url"] for post in posts}
     legacy_urls.update({project["legacy_slug"]: project["url"] for project in projects})
     for entry in projects + posts:
@@ -211,6 +266,8 @@ def build():
         "year": date.today().year,
         "projects": projects,
         "posts": posts,
+        "topics": topics,
+        "series": series,
     }
     person = {
         "@type": "Person",
@@ -272,11 +329,6 @@ def build():
             False,
         ),
         (
-            'journal.html', 'journal.html', f"Journal | {site['name']}", 'journal',
-            f"Articles by {site['name']} on sports analytics, Fantasy Premier League optimisation, probabilistic modelling and practical data science.",
-            False,
-        ),
-        (
             'blog.html', 'legacy-blog.html', f"Journal | {site['name']}", 'journal',
             f"Visit {site['name']}'s journal at its new address.",
             True,
@@ -293,6 +345,30 @@ def build():
         ),
     ):
         write_page(filename, template, title, active, description, noindex=noindex)
+    write_page(
+        "journal.html", "journal.html", f"Journal | {site['name']}", "journal",
+        f"Articles by {site['name']} on sports analytics, projects, technology and more. Browse by topic or follow a series.",
+        archive_kind="all", archive_name="Journal", archive_posts=posts,
+        selected_topic=None, archive_series=series,
+    )
+    for field, groups in (("topic", topics), ("series", series)):
+        for group in groups:
+            name = group["name"]
+            if field == "topic":
+                selected_topic = name
+                archive_series = [item for item in series if name in item["topics"]]
+                title = f"{name} | Journal | {site['name']}"
+                description = f"Browse {name} articles by {site['name']}."
+            else:
+                selected_topic = group["topics"][0] if len(group["topics"]) == 1 else None
+                archive_series = []
+                title = f"{name} series | Journal | {site['name']}"
+                description = f"Read the {name} series by {site['name']}."
+            write_page(
+                group["url"].lstrip("/") + "index.html", "journal.html", title, "journal", description,
+                archive_kind=field, archive_name=name, archive_posts=group["posts"],
+                selected_topic=selected_topic, archive_series=archive_series,
+            )
     for section, entries in (("projects", projects), ("blog", posts)):
         for entry in entries:
             image = entry.get("image", entry.get("thumbnail", site["headshot"]))
