@@ -1,0 +1,22 @@
+<article class="group bg-transparent border border-white/5 hover:border-terracotta/50 transition-all duration-500 fade-in-section project-card relative overflow-hidden" data-tags="{{ project.tags | tojson | forceescape }}" data-legacy-slug="{{ project.legacy_slug }}">
+    <a href="{{ project.url }}" class="block h-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta">
+        <div class="h-64 overflow-hidden bg-charcoal relative">
+            {% if project.thumbnail %}
+            <img src="/{{ project.thumbnail }}" alt="{{ project.title }}" loading="lazy" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100 grayscale group-hover:grayscale-0 mix-blend-luminosity group-hover:mix-blend-normal">
+            <div class="absolute inset-0 bg-midnight/20 group-hover:bg-transparent transition-colors duration-500"></div>
+            {% endif %}
+            <div class="absolute bottom-0 left-0 p-6 w-full z-10">
+                <div class="flex flex-wrap gap-2 mb-3">
+                    {% for tag in project.tags[:3] %}
+                    <span class="text-[10px] font-mono uppercase tracking-widest px-2 py-1 border border-white/10 text-porcelain/60 bg-midnight/80 backdrop-blur-sm">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="p-8 border-t border-white/5 bg-midnight relative group-hover:bg-charcoal/30 transition-colors duration-500">
+            <h3 class="text-2xl font-serif text-porcelain mb-4 group-hover:text-terracotta transition-colors duration-300">{{ project.title }}</h3>
+            <p class="text-fern text-sm font-light leading-relaxed line-clamp-3">{{ project.description }}</p>
+            <div class="mt-6 flex items-center text-terracotta text-xs uppercase tracking-widest font-mono group-hover:translate-x-2 transition-transform duration-300">View Case Study <span class="ml-2">&rarr;</span></div>
+        </div>
+    </a>
+</article>

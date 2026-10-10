@@ -1,0 +1,9 @@
+<div class="flex flex-wrap gap-4 mb-16 fade-in-section" data-filter-controls hidden>
+    <label for="content-filter" class="sr-only">Filter by topic</label>
+    <select id="content-filter" class="tag-filter bg-midnight text-porcelain border border-white/10 px-6 py-3 font-mono text-xs uppercase tracking-widest focus:border-terracotta transition-colors cursor-pointer appearance-none pr-10 relative z-10">
+        <option value="all">{{ filter_label }}</option>
+        {% for tag in filter_tags %}
+        <option value="{{ tag }}">{{ tag }}</option>
+        {% endfor %}
+    </select>
+</div>

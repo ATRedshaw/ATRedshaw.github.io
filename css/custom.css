@@ -11,6 +11,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+[hidden] {
+  display: none !important;
+}
+
+.tag-filter {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23F4F1EA' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
 /* Custom Scrollbar - Minimalist & Dark */
 ::-webkit-scrollbar {
   width: 6px;
@@ -308,6 +318,15 @@ a, button {
     visibility: hidden;
     transition: opacity 0.2s ease, visibility 0.2s ease;
     cursor: zoom-out;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+#img-lightbox:not([open]) {
+    display: none;
 }
 
 #img-lightbox.img-lightbox--active {
@@ -338,7 +357,8 @@ a, button {
     border: 1px solid rgba(255, 255, 255, 0.15);
     background: rgba(13, 27, 42, 0.7);
     cursor: pointer;
-    line-height: 0;
+    font-size: 1.5rem;
+    line-height: 1;
     transition: color 0.2s ease, border-color 0.2s ease;
 }
 

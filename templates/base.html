@@ -54,6 +54,16 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/custom.css">
+    <noscript>
+        <style>
+            @media (max-width: 767px) {
+                nav { position: static !important; }
+                #mobile-menu { display: block !important; position: static; }
+                #mobile-menu-btn { display: none; }
+                main { padding-top: 2rem !important; }
+            }
+        </style>
+    </noscript>
     
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     {% block head %}{% endblock %}
@@ -76,10 +86,9 @@
                 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-12">
-                    <a href="/" class="nav-link text-xs font-mono font-medium uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-all duration-300">Home</a>
-                    <a href="/experience.html" class="nav-link text-xs font-mono font-medium uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-all duration-300">Experience</a>
-                    <a href="/projects.html" class="nav-link text-xs font-mono font-medium uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-all duration-300">Projects</a>
-                    <a href="/blog.html" class="nav-link text-xs font-mono font-medium uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-all duration-300">Blog</a>
+                    {% for key, url, label in [('home', '/', 'Home'), ('experience', '/experience.html', 'Experience'), ('projects', '/projects.html', 'Projects'), ('blog', '/blog.html', 'Blog')] %}
+                    <a href="{{ url }}" {% if active == key %}aria-current="page"{% endif %} class="nav-link text-xs font-mono font-medium uppercase tracking-widest {{ 'text-terracotta' if active == key else 'text-porcelain/60' }} hover:text-terracotta transition-all duration-300">{{ label }}</a>
+                    {% endfor %}
                 </div>
                 
                 <!-- Mobile Menu Button -->
@@ -94,10 +103,9 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-midnight border-t border-white/5 absolute w-full">
             <div class="px-6 py-6 space-y-4">
-                <a href="/" class="block text-sm font-mono uppercase tracking-widest text-terracotta">Home</a>
-                <a href="/experience.html" class="block text-sm font-mono uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-colors">Experience</a>
-                <a href="/projects.html" class="block text-sm font-mono uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-colors">Projects</a>
-                <a href="/blog.html" class="block text-sm font-mono uppercase tracking-widest text-porcelain/60 hover:text-terracotta transition-colors">Blog</a>
+                {% for key, url, label in [('home', '/', 'Home'), ('experience', '/experience.html', 'Experience'), ('projects', '/projects.html', 'Projects'), ('blog', '/blog.html', 'Blog')] %}
+                <a href="{{ url }}" {% if active == key %}aria-current="page"{% endif %} class="block text-sm font-mono uppercase tracking-widest {{ 'text-terracotta' if active == key else 'text-porcelain/60' }} hover:text-terracotta transition-colors">{{ label }}</a>
+                {% endfor %}
             </div>
         </div>
     </nav>

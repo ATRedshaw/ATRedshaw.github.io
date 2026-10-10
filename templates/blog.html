@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<main class="flex-grow pt-32 pb-24">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+        <header class="mb-20 fade-in-section">
+            <span class="block text-terracotta text-xs font-mono mb-4 uppercase tracking-[0.2em]">Writing</span>
+            <h1 class="text-5xl md:text-7xl font-serif text-porcelain mb-6 tracking-tight">Journal</h1>
+            <p class="text-fern max-w-2xl text-lg font-light leading-relaxed border-l border-white/10 pl-6">Observations on engineering, data science, the evolving landscape of technology or just random thoughts.</p>
+        </header>
+        {% set filter_label = 'All Topics' %}
+        {% set filter_tags = posts | map(attribute='tags') | sum(start=[]) | unique | sort %}
+        {% include "filter.html" %}
+        <div id="blog-grid" class="grid grid-cols-1 gap-4" data-filter-grid>
+            {% for post in posts %}
+            <article class="group relative border-t border-white/5 py-12 md:py-16 transition-colors duration-500 hover:bg-white/[0.02] blog-card fade-in-section" data-tags="{{ post.tags | tojson | forceescape }}">
+                <a href="{{ post.url }}" data-legacy-id="{{ post.markdown.split('/')[-1].removesuffix('.md') }}" class="flex flex-col md:flex-row md:items-baseline gap-6 md:gap-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-terracotta">
+                    <div class="md:w-1/6 flex flex-col md:items-end flex-shrink-0">
+                        <time datetime="{{ post.date }}" class="font-mono text-terracotta text-sm tracking-widest uppercase mb-2">{{ post.date | short_date }}</time>
+                        <span class="font-mono text-[10px] text-fern/60 uppercase tracking-widest border border-white/5 px-2 py-0.5 inline-block md:hidden w-fit">{{ post.reading_time }} read</span>
+                    </div>
+                    <div class="md:w-4/6">
+                        <h2 class="text-3xl font-serif text-porcelain mb-4 group-hover:text-terracotta transition-colors duration-300">{{ post.title }}</h2>
+                        <p class="text-fern font-light leading-relaxed mb-6 max-w-2xl">{{ post.excerpt }}</p>
+                        <div class="flex flex-wrap gap-2 text-fern text-xs uppercase tracking-widest font-medium mt-4">
+                            {% for tag in post.tags %}
+                            <span>{{ tag }}</span>{% if not loop.last %}<span class="text-white/20 px-1">&bull;</span>{% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="hidden md:flex md:w-1/6 flex-col items-end gap-3 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+                        <span class="font-mono text-xs text-fern uppercase tracking-widest">{{ post.reading_time }} read</span>
+                    </div>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}
