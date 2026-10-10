@@ -17,41 +17,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Montserrat', 'sans-serif'],
-                        serif: ['Fraunces', 'serif'],
-                        mono: ['Space Mono', 'monospace'],
-                    },
-                    colors: {
-                        matcha: '#E0E1DD',     // Off-white/platinum
-                        midnight: '#0D1B2A',   // Very Deep Teal/Navy base
-                        charcoal: '#1B263B',   // Lighter Navy/Charcoal
-                        fern: '#415A77',       // Muted Blue-Grey
-                        cream: '#F4F1EA',      // Muted Cream
-                        porcelain: '#E0E1DD',  // Light Grey
-                        terracotta: '#E07A5F', // Soft Terracotta
-                        
-                        // Semantic mapping
-                        surface: '#0D1B2A',    // Main dark background
-                        'surface-light': '#1B263B', // Card background
-                        text: '#F4F1EA',       // Main text
-                        muted: '#778DA9',      // Secondary text
-                        accent: '#E07A5F',     // Highlights
-                    },
-                    backgroundImage: {
-                        'grain': "url('data:image/svg+xml,%3Csvg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cfilter id=\"noiseFilter\"%3E%3CfeTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"3\" stitchTiles=\"stitch\"/%3E%3C/filter%3E%3Crect width=\"100%25\" height=\"100%25\" filter=\"url(%23noiseFilter)\" opacity=\"0.05\"/%3E%3C/svg%3E')",
-                    }
-                }
-            }
-        }
-    </script>
-    
+    <link rel="stylesheet" href="/css/tailwind.css">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/custom.css">
     <noscript>
@@ -78,7 +45,7 @@
         <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
             <div class="flex justify-between items-center h-24">
                 <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center">
+                <div class="shrink-0 flex items-center">
                     <a href="/" class="text-2xl font-serif font-semibold text-porcelain tracking-tight hover:text-terracotta transition-colors duration-300">
                         AR<span class="text-terracotta">.</span>
                     </a>
@@ -93,7 +60,7 @@
                 
                 <!-- Mobile Menu Button -->
                 <div class="flex items-center md:hidden">
-                    <button id="mobile-menu-btn" aria-label="Open navigation" aria-controls="mobile-menu" aria-expanded="false" class="text-porcelain hover:text-terracotta focus:outline-none transition-colors">
+                    <button id="mobile-menu-btn" aria-label="Open navigation" aria-controls="mobile-menu" aria-expanded="false" class="text-porcelain hover:text-terracotta focus:outline-hidden transition-colors">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
                 </div>

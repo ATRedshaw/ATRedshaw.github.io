@@ -2,3 +2,5 @@ local-docs/
 .venv/
 dist/
 __pycache__/
+node_modules/
+.npm-cache/
