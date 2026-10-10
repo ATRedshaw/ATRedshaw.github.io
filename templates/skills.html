@@ -1,0 +1,10 @@
+{% for category in skills %}
+<div class="bg-charcoal/20 p-8 border border-white/5 fade-in-section hover:border-terracotta/30 transition-colors duration-500">
+    <h3 class="text-xl font-serif text-terracotta mb-6 flex items-center gap-2">{{ category.name }}</h3>
+    <div class="flex flex-wrap gap-2">
+        {% for skill in category.skills %}
+        <span class="px-3 py-1.5 border border-white/10 text-porcelain/70 text-xs font-mono tracking-wide hover:border-terracotta hover:text-terracotta transition-colors duration-300">{{ skill }}</span>
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}

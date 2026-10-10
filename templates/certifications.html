@@ -1,0 +1,12 @@
+{% for entry in experience if entry.type == 'certification' %}
+<div class="bg-transparent p-6 border border-white/5 flex items-start gap-4 hover:border-terracotta/30 transition-colors duration-300">
+    <div class="shrink-0 w-10 h-10 border border-white/10 text-terracotta flex items-center justify-center rounded-none">
+        <i data-lucide="award" class="w-5 h-5"></i>
+    </div>
+    <div>
+        <h3 class="font-serif text-porcelain text-lg mb-1">{{ entry.title }}</h3>
+        <p class="text-xs font-mono text-fern uppercase tracking-widest mb-3">{{ entry.organization }} <span class="mx-1 text-terracotta">•</span> {{ entry.date }}</p>
+        <p class="text-sm text-porcelain/60 font-light leading-relaxed">{{ entry.description }}</p>
+    </div>
+</div>
+{% endfor %}

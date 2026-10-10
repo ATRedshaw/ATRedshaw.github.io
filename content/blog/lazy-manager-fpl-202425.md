@@ -1,3 +1,19 @@
+---
+title: The Lazy Manager's Guide to FPL Success Part 2 (2024/25)
+slug: lazy-manager-fpl-202425
+image: assets/images/blogs/lazy-manager-fpl-202425/cummulative_points_own_vs_optimised.png
+date: '2025-07-19'
+topic: FPL
+series: The Lazy Manager
+series_order: 2
+tags:
+- FPL
+- Python
+- Data Science
+- Optimisation
+excerpt: Using hindsight, a Python optimiser found the best set-and-forget FPL team for 24/25. With no transfers or chips, it humiliated my actual team for the second year running.
+---
+
 
 
 Last year I tried a weird little experiment for the 2023/24 Fantasy Premier League season. I wanted to see what happens if you pick fifteen players before the first game, never touch the team again, and let perfect hindsight take the wheel. The answer was 2,656 points. That was enough for a top 250 global finish out of eleven million players.

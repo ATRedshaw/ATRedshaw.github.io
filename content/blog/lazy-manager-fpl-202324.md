@@ -1,3 +1,19 @@
+---
+title: The Lazy Manager's Guide to FPL Success (2023/24)
+slug: lazy-manager-fpl-202324
+image: assets/images/blogs/lazy-manager-fpl-202324/cummulative_points_own_vs_optimised.png
+date: '2024-08-16'
+topic: FPL
+series: The Lazy Manager
+series_order: 1
+tags:
+- FPL
+- Python
+- Data Science
+- Optimisation
+excerpt: What was the best FPL team you could have picked in August and left alone? I used hindsight and a Python optimiser to find out.
+---
+
 Every August, millions of us convince ourselves that *this* is our year in Fantasy Premier League. We build elaborate spreadsheets, agonise over £4.0m backup defenders, and set alarms for the Friday night deadline. Then Gameweek 3 rolls around, Pep Guardiola benches our star captain, someone tears a hamstring, and we are left questioning all of our life choices.
 
 I wanted to know if there was a lazier way to win. What if you built a squad before the first whistle of Gameweek 1 and literally never looked at it again? No frantic transfers. No captaincy stress. Just pure, unadulterated neglect.

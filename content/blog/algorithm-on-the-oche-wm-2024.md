@@ -1,3 +1,19 @@
+---
+title: 'Algorithm on the Oche: Darts World Matchplay 2024'
+slug: algorithm-on-the-oche-wm-2024
+image: assets/images/blogs/algorithm-on-the-oche-mp-2024/model_differences_favourite_win_comparison.png
+date: '2024-07-22'
+topic: Darts
+series: Algorithm on the Oche
+series_order: 1
+tags:
+- Darts
+- Analytics
+- Machine Learning
+- Python
+excerpt: Can an algorithm predict the chaos of the World Matchplay? I put my data science skills to the test in Blackpool.
+---
+
 Let's talk darts. The 31st World Matchplay turned Blackpool's Winter Gardens into an absolute sweatbox last week. Nine days of elite arrows ended with Luke Humphries hoisting his first Matchplay trophy after an 18-15 thriller against Michael van Gerwen. Humphries was basically unplayable. He kicked things off with a massive 108.76 average in round one and casually averaged over 100 against all five of his opponents.
 
 We also saw five new faces on the Blackpool stage. Teenage sensation Luke Littler arrived fresh from beating Humphries in the Premier League Final. He walked in unseeded but was heavily backed by the fans. Sadly for him, Van Gerwen had other ideas and brutally cut his debut short. That win set MVG on a collision course for the final.

@@ -20,7 +20,8 @@ The flow looks like this:
 ### Forcing Structured Output
 First comes the prompt engineering. I treat the LLM strictly as a data generation function rather than a chatbot. The system prompt gives it a persona ("MovieSage") but more importantly it strictly enforces a JSON-only output format:
 
-```json[
+```json
+[
   {"Name": "<Title 1>", "Type": "Movie" | "TV"}
 ]
 ```
@@ -52,6 +53,7 @@ To solve this I completely decoupled media membership from user ratings.
 _Figure: The entity relationship diagram. Decoupling UserMediaRating from MediaInList prevents data duplication while allowing for complex group aggregations._
 
 The core entities are:
+
 *   **Media:** The canonical record (just a TMDB ID and media type).
 *   **MediaList & SharedList:** Who owns what and who has access.
 *   **UserMediaRating:** A user's personal watch status and rating for a specific film which is entirely independent of any list.

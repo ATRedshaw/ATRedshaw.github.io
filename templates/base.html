@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="author" content="{{ site.name }}">
+    {% if noindex %}
+    <meta name="robots" content="noindex, follow">
+    {% else %}
+    <link rel="canonical" href="{{ canonical }}">
+    {% endif %}
+    <meta property="og:site_name" content="{{ site.name }}">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ canonical }}">
+    <meta property="og:type" content="{{ 'article' if active in ['journal', 'projects'] and structured_data else 'website' }}">
+    <meta property="og:image" content="{{ image_url }}">
+    <meta property="og:image:alt" content="{{ image_alt }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ description }}">
+    <meta name="twitter:image" content="{{ image_url }}">
+    <meta name="twitter:image:alt" content="{{ image_alt }}">
+    {% if structured_data %}
+    <script type="application/ld+json">{{ structured_data | tojson }}</script>
+    {% endif %}
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/web/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/web/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/web/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/web/icon-512.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/tailwind.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/custom.css">
+    <noscript>
+        <style>
+            @media (max-width: 767px) {
+                nav { position: static !important; }
+                #mobile-menu { display: block !important; position: static; }
+                #mobile-menu-btn { display: none; }
+                main { padding-top: 2rem !important; }
+            }
+        </style>
+    </noscript>
+    
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-midnight text-porcelain font-sans antialiased selection:bg-terracotta selection:text-white relative overflow-x-hidden flex flex-col min-h-screen">
+
+    <!-- Grain Overlay -->
+    <div class="fixed inset-0 pointer-events-none bg-grain opacity-20 z-[100]"></div>
+
+    <!-- Navigation -->
+    <nav aria-label="Main navigation" class="fixed w-full bg-midnight/90 backdrop-blur-md z-40 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+            <div class="flex justify-between items-center h-24">
+                <!-- Logo -->
+                <div class="shrink-0 flex items-center">
+                    <a href="/" class="text-2xl font-serif font-semibold text-porcelain tracking-tight hover:text-terracotta transition-colors duration-300">
+                        {{ site.name.split() | map('first') | join }}<span class="text-terracotta">.</span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-12">
+                    {% for key, url, label in [('home', '/', 'Home'), ('experience', '/experience.html', 'Experience'), ('projects', '/projects.html', 'Projects'), ('journal', '/journal.html', 'Journal')] %}
+                    <a href="{{ url }}" {% if active == key %}aria-current="page"{% endif %} class="nav-link text-xs font-mono font-medium uppercase tracking-widest {{ 'text-terracotta' if active == key else 'text-porcelain/60' }} hover:text-terracotta transition-all duration-300">{{ label }}</a>
+                    {% endfor %}
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-btn" aria-label="Open navigation" aria-controls="mobile-menu" aria-expanded="false" class="text-porcelain hover:text-terracotta focus:outline-hidden transition-colors">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-midnight border-t border-white/5 absolute w-full">
+            <div class="px-6 py-6 space-y-4">
+                {% for key, url, label in [('home', '/', 'Home'), ('experience', '/experience.html', 'Experience'), ('projects', '/projects.html', 'Projects'), ('journal', '/journal.html', 'Journal')] %}
+                <a href="{{ url }}" {% if active == key %}aria-current="page"{% endif %} class="block text-sm font-mono uppercase tracking-widest {{ 'text-terracotta' if active == key else 'text-porcelain/60' }} hover:text-terracotta transition-colors">{{ label }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12 bg-midnight">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-fern text-xs font-mono uppercase tracking-widest">
+                &copy; <span id="current-year">{{ year }}</span> <a href="/" class="hover:text-terracotta">{{ site.name }}</a>.
+            </div>
+            <div class="flex gap-8" id="footer-socials">
+                {% for platform, url in site.social.items() %}
+                <a href="{{ url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ platform | capitalize }} profile" class="text-porcelain/40 hover:text-terracotta transition-colors duration-300">
+                    {% include "social-icon.html" %}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
