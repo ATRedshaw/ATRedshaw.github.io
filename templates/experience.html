@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+    <main class="flex-grow pt-32 pb-20">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+            
+            <header class="mb-20 fade-in-section">
+                <span class="block text-terracotta text-xs font-mono mb-4 uppercase tracking-[0.2em]">Curriculum Vitae</span>
+                <h1 class="text-5xl md:text-7xl font-serif font-light text-porcelain mb-6">Experience</h1>
+                <p class="text-fern text-lg font-light leading-relaxed max-w-2xl border-l border-white/10 pl-6">
+                    My professional journey through data science, machine learning and computer science challenges.
+                </p>
+            </header>
+
+            <!-- Skills Section -->
+            <section class="mb-24 fade-in-section">
+                <div class="flex items-center gap-4 mb-12 border-b border-white/10 pb-4">
+                   <h2 class="text-2xl font-serif text-porcelain">Technical Proficiency</h2>
+                </div>
+                
+                <div id="skills-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                    {% include "skills.html" %}
+                </div>
+            </section>
+
+            <!-- Certifications -->
+            <section class="mt-8 pt-4 border-t border-white/5 fade-in-section">
+                 <h2 class="text-2xl font-serif text-porcelain mb-8 text-center">Certifications</h2>
+                 <div id="certifications-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-6xl mx-auto">
+                        {% include "certifications.html" %}
+                 </div>
+            </section>
+
+            <!-- Timeline Section -->
+            <section class="max-w-6xl mx-auto mt-12">
+                <div class="flex items-center gap-4 mb-16 border-b border-white/10 pb-4 fade-in-section">
+                    <h2 class="text-2xl font-serif text-porcelain">Chronology</h2>
+                </div>
+                
+                <div class="relative pl-8 md:pl-0">
+                    <div class="timeline-line absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-white/10 hidden md:block"></div>
+                    <div id="timeline-container" class="space-y-16">
+                        {% include "timeline.html" %}
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+{% endblock %}

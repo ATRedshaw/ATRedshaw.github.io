@@ -130,6 +130,8 @@ async function initFooter() {
         currentYearSpan.textContent = new Date().getFullYear();
     }
 
+    if (footerSocials && footerSocials.children.length) return;
+
     // Load social links from site.yaml
     const siteData = await loadYamlData('site.yaml');
     if (siteData && siteData.social) {
@@ -177,6 +179,8 @@ async function initFooter() {
 
 // 3. Scroll Animations
 function initScrollAnimations() {
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     const observerOptions = {
         root: null,
         rootMargin: '0px',
@@ -194,6 +198,7 @@ function initScrollAnimations() {
 
     const sections = document.querySelectorAll('.fade-in-section');
     sections.forEach(section => {
+        section.classList.add('will-animate');
         observer.observe(section);
     });
 }
