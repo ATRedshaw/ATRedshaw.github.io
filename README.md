@@ -1,54 +1,74 @@
-> ⚠️ **Important: Origin and current status**
->
-> This site was initially scaffolded from `cotes2020/chirpy-starter` but has since been fully migrated and extensively customised. The original Chirpy starter is no longer used. This repository is a standalone custom implementation with no Chirpy runtime dependency.
+# Alex Redshaw's portfolio
 
-</br>
+Personal portfolio at [atredshaw.com](https://atredshaw.com/). Python renders YAML and Markdown into complete HTML pages; Tailwind compiles the existing theme into static CSS. JavaScript enhances navigation, tag filters, maths, code highlighting and image enlargement. Core content and links work without it.
 
-# My Portfolio Site
+This repository originally used `cotes2020/chirpy-starter`. It is now a standalone implementation with no Chirpy runtime dependency.
 
-A clean, minimalist, and responsive portfolio website built with pure HTML, CSS (Tailwind via CDN), and vanilla JavaScript. No build steps required.
+## Build and preview
 
-## Features
+Requires Python 3.10+ and Node.js 20+. GitHub Actions builds with Python 3.13 and Node.js 24. The compiled Tailwind 4 styles target modern browsers (Safari 16.4+, Chrome 111+, Firefox 128+).
 
-- **YAML-driven Content**: Update your site info, skills, projects, and blog posts by simply editing `.yaml` files.
-- **Markdown Support**: Write detailed project descriptions and blog posts in Markdown, rendered dynamically with syntax highlighting.
-- **Filtering**: Tag-based filtering for Projects and Blog posts.
-- **Responsive Design**: Fully responsive layout using Tailwind CSS.
-- **Zero Build Step**: Just host the static files. Works perfectly with GitHub Pages.
+In PowerShell:
 
-## Directory Structure
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+npm ci --ignore-scripts
+npm run build
+python -m unittest discover -s tests -v
+python -m http.server 8000 --bind 127.0.0.1 --directory dist
+```
 
-- `data/`: Contains YAML files for all dynamic content structure.
-- `content/`: Contains Markdown files for full text content.
-- `assets/`: Store your images and resume here.
-- `js/`: Application logic.
-- `css/`: Custom styles overriding or extending Tailwind.
+On macOS/Linux, activate the environment with `source .venv/bin/activate`; the remaining commands are the same.
 
-## How to Customize
+Open `http://127.0.0.1:8000/`. Serve `dist/`, not the repository root. Rebuild after editing content, templates, scripts or styles. `npm run build` recreates `dist/`, compiles the stylesheet and checks local links, assets, metadata, sitemap coverage and deployment files. Generated files are not committed.
 
-### 1. Personal Information
-Edit `data/site.yaml` to update your name, title, bio, and social links.
+## Editing content
 
-### 2. Adding Projects
-1. Add a new entry to `data/projects.yaml`.
-2. Create a Markdown file in `content/projects/YOUR-PROJECT.md`.
-3. Link the markdown file in the YAML entry.
+| Location | Purpose |
+| --- | --- |
+| `data/site.yaml` | Name, professional descriptor, introduction, biography, headshot and profile links |
+| `data/experience.yaml`, `data/skills.yaml` | Experience, qualifications and skills |
+| `data/projects.yaml` | Project summaries, stable slugs, thumbnails, demo/code links and homepage selection |
+| `data/blog.yaml` | Article titles, stable slugs, dates, excerpts and social preview images |
+| `content/projects/`, `content/blog/` | Full Markdown write-ups; begin section headings at `##`, since the template supplies the page title |
+| `templates/` | Shared layout and page templates |
+| `css/custom.css`, `tailwind.config.js` | Custom styles and the existing theme |
+| `js/main.js` | Optional browser interactions |
+| `CNAME` | Custom domain; also supplies the hostname for canonicals, structured data and sitemap URLs |
 
-### 3. Adding Blog Posts
-1. Add a new entry to `data/blog.yaml`.
-2. Create a Markdown file in `content/blog/YOUR-POST.md`.
-3. Link the markdown file in the YAML entry.
+To add a project, add its YAML entry and Markdown file. Set a unique lowercase hyphenated `slug`, such as `xlthm`; the page is generated at `/projects/xlthm/`. Set `featured: true` to include it among the homepage selections. Keep the selection small.
 
-### 4. Updating Skills & Experience
-Edit `data/skills.yaml` and `data/experience.yaml`.
+Existing projects retain `legacy_slug`, the old title-derived `?project=` identifier. Preserve those values when changing titles. For a new project, `legacy_slug` can match its `slug`.
 
-## Deployment
+To add an article, add its YAML entry and Markdown file, with a unique `slug`, an ISO publication date (`YYYY-MM-DD`), excerpt, tags and a local `image` path for link previews. Its page is generated at `/blog/<slug>/`. An optional `updated` date is used in article structured data; change it only for a real substantive update. Keep publication dates accurate.
 
-### GitHub Pages
-1. Push this repository to GitHub.
-2. Go to **Settings** > **Pages**.
-3. Select `main` branch as the source.
-4. Your site is live!
+Keep published slugs stable. Existing `post.html?id=<slug>` and `projects.html?project=<legacy_slug>` links route to the generated documents using a small browser redirect. Without JavaScript, the old pages provide normal links to the write-ups. These compatibility redirects are not HTTP 301 redirects; a hosting layer with redirect support would be needed for those.
 
-## Images
-Please place your headshot in `assets/images/headshot.jpg` or update the path in `data/site.yaml`.
+Use root-relative local links and images in Markdown, such as `/assets/images/projects/xlthm/pipeline.png`. Existing `assets/...` references and recognised old article/project links are normalised during the build. Tables, fenced code and `$...$` / `$$...$$` maths are supported; without JavaScript, maths remains readable as TeX.
+
+Jinja escapes YAML text; Markdown is trusted, repository-authored content and may contain HTML. Assets, CSS, JavaScript, `CNAME`, `.nojekyll`, crawler files and `.well-known/assetlinks.json` are included in the deployment. Source YAML, Markdown, build scripts, tests and `local-docs/` are excluded. Python files and `.DS_Store` files inside assets are excluded too.
+
+## Publishing
+
+`.github/workflows/pages.yml` builds and checks pull requests targeting `main`. Pushes to `main` also deploy the verified `dist/` artifact to GitHub Pages. A manual workflow run on another branch builds without deploying it. Hidden deployment files are included so `.well-known/assetlinks.json` survives packaging.
+
+For the first deployment:
+
+1. Push this branch and open a pull request to `main`; review the build and regression checks.
+2. Coordinate switching **Settings → Pages → Build and deployment → Source** to **GitHub Actions** with merging the pull request. The new source layout requires the build workflow; publishing the raw branch will not produce the site.
+3. Keep the custom domain set to `atredshaw.com` and HTTPS enabled. Merge once checks pass, then watch the build and deploy jobs finish.
+4. Check the homepage, a project and an article directly, plus `/sitemap.xml`, `/robots.txt` and `/.well-known/assetlinks.json`. Test an old shared link too. Confirm `www` and the GitHub hostname resolve or redirect to the intended domain.
+
+The workflow has been prepared for GitHub Pages; local checks do not verify account settings, DNS or the first hosted deployment. [GitHub's Pages workflow documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+
+## After deployment
+
+1. Verify a Search Console Domain property for `atredshaw.com`, then submit `https://atredshaw.com/sitemap.xml`.
+2. Inspect the homepage, `/projects/xlthm/` and a blog article. Check Google's rendered text and selected canonical, then request indexing for the key pages after the migration. Validate the profile/article markup with Google's Rich Results Test.
+3. Align GitHub and LinkedIn with the same name, headshot and professional descriptor. Link both to the homepage, and feature the selected case studies. Add a short author link from public project READMEs and project apps where useful.
+4. Share useful write-ups with relevant communities, keep demos and results current, and seek relevant independent references to the work.
+5. Review name-search impressions, clicks and average position monthly. Search Console covers this domain, so separately sample which first-page results identify you across the website, LinkedIn and GitHub.
+
+Titles, descriptions, canonical URLs, person/author structured data and social previews are rendered into each page. The sitemap includes the 15 current indexable pages; the compatibility post shell and 404 page are excluded and marked `noindex`. No modification dates are invented for the sitemap. These changes improve access and identity signals, but cannot guarantee indexing, rich results or first place for a name search.
