@@ -16,6 +16,14 @@ ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "dist"
 
 
+class ContentLoader(yaml.SafeLoader):
+    pass
+
+
+# Keep dates as text so validation can report their source file and field.
+ContentLoader.add_constructor("tag:yaml.org,2002:timestamp", lambda loader, node: loader.construct_scalar(node))
+
+
 def load_data(filename):
     path = ROOT / "data" / filename
     return parse_yaml(path.read_text(encoding="utf-8"), f"data/{filename}")
@@ -23,7 +31,7 @@ def load_data(filename):
 
 def parse_yaml(text, source):
     try:
-        data = yaml.safe_load(text)
+        data = yaml.load(text, Loader=ContentLoader)
     except yaml.YAMLError as error:
         raise ValueError(f"{source}: invalid YAML: {error}") from error
     if not isinstance(data, dict):

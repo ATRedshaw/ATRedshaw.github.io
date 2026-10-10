@@ -26,6 +26,9 @@ class BuildTests(unittest.TestCase):
             self.assertEqual(posts[0]["url"], "/blog/stable-address/")
             self.assertEqual(posts[0]["date"], "2026-10-10")
             self.assertEqual(posts[0]["markdown_text"], "## Article\nBody.")
+            path.write_text(path.read_text(encoding="utf-8").replace("2026-10-10", "2026-02-30"), encoding="utf-8")
+            with patch.object(build, "ROOT", root), self.assertRaisesRegex(ValueError, "content/blog/new-article.md: date must be a valid date"):
+                build.load_posts()
 
     def test_article_without_front_matter_identifies_its_source(self):
         with TemporaryDirectory() as directory:
@@ -64,6 +67,7 @@ class BuildTests(unittest.TestCase):
             ):
                 build.build()
             home = (output / "index.html").read_text(encoding="utf-8")
+            self.assertIn('SP<span class="text-terracotta">.</span>', home)
             profile = Page(home).structured_data[0]["mainEntity"]
             self.assertEqual(profile["alternateName"], "SampleHandle")
             self.assertTrue(profile["@id"].endswith("/#stable-person"))
@@ -94,7 +98,7 @@ class BuildTests(unittest.TestCase):
                     self.assertIn('data-article-body', page)
                     self.assertIn('rel="author"', page)
                     self.assertNotIn('fetch(', page)
-                    self.assertEqual(Page(page).structured_data[0]["author"]["name"], "Alex Redshaw")
+                    self.assertEqual(Page(page).structured_data[0]["author"]["name"], build.load_data("site.yaml")["name"])
 
     def test_markdown_keeps_math_code_tables_and_normalises_local_urls(self):
         text = r"""Inline $x_i$ and a display equation:
