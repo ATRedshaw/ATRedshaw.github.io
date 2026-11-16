@@ -38,7 +38,7 @@ Downstream training uses out-of-fold forecasts from the earlier components. Othe
 
 ## Turning football events into FPL points
 
-The component forecasts feed a joint fixture simulation. The current setting runs 10,000 outcomes per fixture. Each run draws a scoreline and player minutes states, allocates goals and assists among players who appear, samples the other events, and applies the scoring rules stored in YAML.
+The component forecasts feed a joint fixture simulation. The current setting runs 25,000 outcomes per fixture. Each run draws a scoreline and player minutes states, allocates goals and assists among players who appear, samples the other events, and applies the scoring rules stored in YAML.
 
 This handles the thresholds in the game directly. A goalkeeper gets save points in groups of three. Defensive-contribution points require reaching a count threshold. Dividing an expected count by the threshold would give the wrong answer, so each sampled outcome is scored before the results are averaged.
 
